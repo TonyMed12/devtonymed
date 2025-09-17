@@ -41,7 +41,7 @@ function App() {
         id="hero"
         className="relative min-h-screen flex items-center justify-center text-center text-white"
         style={{
-          backgroundImage: "url('/src/assets/fondo.jpeg')",
+          backgroundImage: "url('/fondo.jpeg')",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
@@ -75,7 +75,7 @@ function App() {
           {" "}
           {/* esta linea es la que cambia el borde de la imagen a amarillo, estan con madre los comentarios del copilot jeje */}
           <img
-            src="/src/assets/profesionaltony.jpg"
+            src="/profesionaltony.jpg"
             alt="Tony"
             className="w-full h-full object-cover"
           />
@@ -121,7 +121,7 @@ function App() {
               </div>
               <div>
                 <img
-                  src="/src/assets/tech/css.png"
+                  src="/tech/css.png"
                   alt="CSS"
                   className="w-16 h-16 mx-auto"
                 />
@@ -129,7 +129,7 @@ function App() {
               </div>
               <div>
                 <img
-                  src="/src/assets/tech/js.webp"
+                  src="/tech/js.webp"
                   alt="JavaScript"
                   className="w-16 h-16 mx-auto"
                 />
@@ -137,7 +137,7 @@ function App() {
               </div>
               <div>
                 <img
-                  src="/src/assets/tech/tw.png"
+                  src="/tech/tw.png"
                   alt="Tailwind"
                   className="w-16 h-16 mx-auto"
                 />
@@ -145,7 +145,7 @@ function App() {
               </div>
               <div>
                 <img
-                  src="/src/assets/tech/react.png"
+                  src="/tech/react.png"
                   alt="React"
                   className="w-16 h-16 mx-auto"
                 />
@@ -153,7 +153,7 @@ function App() {
               </div>
               <div>
                 <img
-                  src="/src/assets/tech/figma.png"
+                  src="/tech/figma.png"
                   alt="Figma"
                   className="w-16 h-16 mx-auto"
                 />
@@ -170,7 +170,7 @@ function App() {
             <div className="grid grid-cols-2 gap-6 justify-items-center">
               <div>
                 <img
-                  src="/src/assets/tech/node.png"
+                  src="/tech/node.png"
                   alt="Node.js"
                   className="w-16 h-16 mx-auto"
                 />
@@ -178,7 +178,7 @@ function App() {
               </div>
               <div>
                 <img
-                  src="/src/assets/tech/java.png"
+                  src="/tech/java.png"
                   alt="Java"
                   className="w-16 h-16 mx-auto"
                 />
@@ -195,7 +195,7 @@ function App() {
             <div className="grid grid-cols-2 gap-6 justify-items-center">
               <div>
                 <img
-                  src="/src/assets/tech/github.png"
+                  src="/tech/github.png"
                   alt="GitHub"
                   className="w-16 h-16 mx-auto"
                 />
@@ -203,7 +203,7 @@ function App() {
               </div>
               <div>
                 <img
-                  src="/src/assets/tech/ji.svg"
+                  src="/tech/ji.svg"
                   alt="Jira"
                   className="w-16 h-16 mx-auto"
                 />
@@ -226,7 +226,7 @@ function App() {
           <div className="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
             <div className="h-48 bg-gray-700 flex items-center justify-center">
               <img
-                src="/src/assets/projexus2.png"
+                src="/projexus2.png"
                 alt="Projexus"
                 className="w-full h-full object-cover"
               />{" "}
@@ -247,7 +247,7 @@ function App() {
           <div className="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
             <div className="h-48 bg-gray-700 flex items-center justify-center">
               <img
-                src="/src/assets/aquama.png"
+                src="/aquama.png"
                 alt="Aquamarine"
                 className="w-full h-full object-cover"
               />{" "}
@@ -272,7 +272,7 @@ function App() {
           <div className="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
             <div className="h-48 bg-gray-700 flex items-center justify-center">
               <img
-                src="/src/assets/velto.png"
+                src="/velto.png"
                 alt="Velto Store"
                 className="w-full h-full object-cover"
               />
@@ -297,7 +297,7 @@ function App() {
           <div className="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
             <div className="h-48 bg-gray-700 flex items-center justify-center">
               <img
-                src="/src/assets/biblio.jpg"
+                src="/biblio.jpg"
                 alt="Biblioteca Digital"
                 className="w-full h-full object-cover"
               />{" "}
@@ -337,7 +337,7 @@ function App() {
             className="flex items-center justify-center gap-3 hover:text-pink-400 transition"
           >
             <img
-              src="/src/assets/instagram.png"
+              src="/instagram.png"
               alt="Instagram"
               className="w-6 h-6"
             />
@@ -350,7 +350,7 @@ function App() {
             className="flex items-center justify-center gap-3 hover:text-blue-400 transition"
           >
             <img
-              src="/src/assets/linkedin.png"
+              src="/linkedin.png"
               alt="LinkedIn"
               className="w-6 h-6"
             />
@@ -365,7 +365,7 @@ function App() {
             className="flex items-center justify-center gap-3 hover:text-gray-400 transition"
           >
             <img
-              src="/src/assets/tech/github.png"
+              src="/tech/github.png"
               alt="GitHub"
               className="w-6 h-6"
             />
@@ -376,7 +376,7 @@ function App() {
             href="mailto:tonymed2022@gmail.com"
             className="flex items-center justify-center gap-3 hover:text-green-400 transition"
           >
-            <img src="/src/assets/gmail.png" alt="Email" className="w-6 h-6" />
+            <img src="/gmail.png" alt="Email" className="w-6 h-6" />
             tonymed2022@gmail.com
           </a>
         </div>
