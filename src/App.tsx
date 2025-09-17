@@ -113,7 +113,7 @@ function App() {
             <div className="grid grid-cols-2 gap-6 justify-items-center">
               <div>
                 <img
-                  src="/src/assets/tech/html.png"
+                  src="/tech/html.png"
                   alt="HTML"
                   className="w-16 h-16 mx-auto"
                 />
@@ -235,7 +235,8 @@ function App() {
               <h3 className="text-xl font-semibold mb-2">ProjeXus</h3>
               <p className="text-gray-400 mb-3">
                 A platform to manage academic and collaborative projects. Built
-                with <span className="text-blue-400 font-medium">Next.js</span> for ICTI Michoacán.
+                with <span className="text-blue-400 font-medium">Next.js</span>{" "}
+                for ICTI Michoacán.
               </p>
               <span className="text-sm text-gray-500">
                 Next.js • Tailwind • TypeScript
@@ -336,11 +337,7 @@ function App() {
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-3 hover:text-pink-400 transition"
           >
-            <img
-              src="/instagram.png"
-              alt="Instagram"
-              className="w-6 h-6"
-            />
+            <img src="/instagram.png" alt="Instagram" className="w-6 h-6" />
             @tonymed._
           </a>
           <a
@@ -349,11 +346,7 @@ function App() {
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-3 hover:text-blue-400 transition"
           >
-            <img
-              src="/linkedin.png"
-              alt="LinkedIn"
-              className="w-6 h-6"
-            />
+            <img src="/linkedin.png" alt="LinkedIn" className="w-6 h-6" />
             My LinkedIn Profile
           </a>
 
@@ -364,11 +357,7 @@ function App() {
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-3 hover:text-gray-400 transition"
           >
-            <img
-              src="/tech/github.png"
-              alt="GitHub"
-              className="w-6 h-6"
-            />
+            <img src="/tech/github.png" alt="GitHub" className="w-6 h-6" />
             github.com/TonyMed12
           </a>
 
