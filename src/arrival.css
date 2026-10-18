@@ -1,0 +1,391 @@
+/* Iteration 09: coordinated arrival and open, professional contact. */
+.brand-welcome > div {
+  gap: 8px;
+}
+.brand-welcome .welcome-domain {
+  font-size: clamp(25px, 4vw, 36px);
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -1.4px;
+}
+.brand-welcome .welcome-greeting {
+  font-size: 13px;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+.intro-navigation {
+  --intro-delay: 0s;
+}
+.intro-name {
+  --intro-delay: 0.08s;
+}
+.intro-role {
+  --intro-delay: 0.16s;
+}
+.intro-type {
+  --intro-delay: 0.24s;
+}
+.intro-description {
+  --intro-delay: 0.32s;
+}
+.intro-actions {
+  --intro-delay: 0.4s;
+}
+.intro-portrait {
+  --intro-delay: 0.1s;
+}
+.site-shell[data-intro="ready"] .intro-block {
+  animation: arrive-descending 0.4s var(--intro-delay, 0s) both
+    cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes arrive-descending {
+  from {
+    opacity: 0.3;
+    translate: 0 -12px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+.dither-word {
+  white-space: nowrap;
+}
+.hero h1 .dither-name,
+.hero h1 .dither-name > span {
+  display: inline;
+}
+.hero h1 .dither-word {
+  display: inline-block;
+}
+.dither-letter {
+  position: relative;
+  display: inline-block;
+}
+.dither-glyph {
+  position: absolute;
+  inset: 0;
+  font-style: normal;
+  pointer-events: none;
+}
+.dither-glyph::after {
+  content: attr(data-glyph);
+  color: var(--accent);
+  opacity: 0.22;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(26px, 4vw, 48px);
+}
+.hero .hero-side {
+  max-width: none;
+}
+.hero-degree {
+  margin-block: 0 22px;
+}
+.hero .hero-typewriter {
+  margin-block: 22px;
+}
+.hero .hero-signature {
+  margin-bottom: 10px;
+}
+.portrait-static-crop > img {
+  transform: scale(2.1);
+}
+.degree-specialty {
+  margin-top: 16px;
+  border-left: 2px solid var(--accent);
+  padding-left: 14px;
+}
+.degree-specialty > p {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  line-height: 1.6;
+  font-weight: 600;
+}
+.degree-average {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  background: var(--choice-bg);
+  border-radius: 5px;
+  font:
+    11px/1.5 Consolas,
+    monospace;
+  color: var(--muted);
+}
+.professional-contact {
+  padding-block: 75px;
+}
+.contact-composition {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(230px, 0.8fr);
+  gap: clamp(30px, 4vw, 65px);
+  align-items: center;
+  padding-block: 45px;
+  border-top: 1px solid var(--accent);
+  border-bottom: 1px solid var(--line);
+}
+.contact-editorial {
+  min-width: 0;
+}
+.contact-editorial > .availability {
+  margin-top: 20px;
+  color: var(--accent);
+}
+.contact-invitation {
+  font-size: clamp(38px, 4.4vw, 61px);
+  line-height: 1.1;
+  letter-spacing: -0.055em;
+  margin-block: 24px;
+  min-height: 2.2em;
+}
+.contact-invitation > span,
+.contact-invitation > em {
+  display: block;
+}
+.kinetic-word {
+  display: inline-block;
+  transform-origin: center bottom;
+}
+.contact-support {
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--muted);
+  max-width: 53ch;
+  margin-bottom: 28px;
+}
+.contact-address {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 17px;
+}
+.professional-contact .contact-email {
+  color: var(--accent);
+  font-size: clamp(18px, 2.3vw, 29px);
+  letter-spacing: -0.7px;
+  gap: 12px;
+}
+.professional-contact :is(.social-link, .copy-email) {
+  color: var(--ink);
+  border-color: var(--line);
+  background: var(--surface);
+  transform: none;
+}
+.professional-contact :is(.social-link, .copy-email):hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--choice-bg);
+  transform: none;
+}
+.professional-contact .contact-channels {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 15px;
+  margin: 22px -15px 0;
+  border-radius: 10px;
+}
+.contact-channels::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  z-index: -1;
+  background: var(--choice-bg);
+  opacity: 0.2;
+  transform: scaleY(0.35);
+  transform-origin: top;
+  transition:
+    transform 0.28s ease,
+    opacity 0.28s ease;
+  pointer-events: none;
+}
+.contact-composition[data-open="true"] .contact-channels::before {
+  transform: scaleY(1);
+  opacity: 1;
+}
+.professional-contact .copy-status {
+  color: var(--accent);
+  font-size: 12px;
+  min-height: 3em;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+.contact-location {
+  min-width: 0;
+  text-align: center;
+  align-self: center;
+}
+.location-globe {
+  margin: 0;
+}
+.globe-reserved {
+  width: 320px;
+  height: 320px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  margin-inline: auto;
+}
+.location-globe-canvas,
+.globe-fallback {
+  width: 100%;
+  height: 100%;
+  display: block;
+  color: var(--accent);
+}
+.location-globe figcaption {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+.contact-location-note {
+  color: var(--muted);
+  max-width: 28ch;
+  margin: 15px auto;
+  font-size: 12px;
+  line-height: 1.7;
+}
+.contact-location-signature {
+  color: var(--accent);
+  font:
+    10px/1.5 Consolas,
+    monospace;
+  letter-spacing: 0.7px;
+}
+@media (max-width: 1050px) and (min-width: 761px) {
+  .contact-composition {
+    grid-template-columns: minmax(0, 1.5fr) minmax(220px, 0.8fr);
+    gap: 25px;
+  }
+  .contact-invitation {
+    font-size: 43px;
+  }
+  .globe-reserved {
+    width: 250px;
+    height: 250px;
+  }
+}
+@media (max-width: 760px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+    padding-block: 28px 35px;
+  }
+  .hero h1.hero-name {
+    font-size: clamp(37px, 8.8vw, 54px);
+    margin-block: 12px;
+  }
+  .hero .hero-typewriter {
+    margin-block: 16px;
+  }
+  .hero .hero-degree {
+    margin-bottom: 18px;
+  }
+  .hero .hero-actions {
+    margin-top: 0;
+  }
+  .hero .hero-github {
+    margin-top: 13px;
+  }
+  .hero .hero-meta {
+    margin-top: 14px;
+  }
+  .hero .hero-meta > span + span {
+    display: none;
+  }
+  .hero .hero-side {
+    width: 100%;
+    max-width: 450px;
+  }
+  .professional-contact {
+    padding-block: 45px;
+  }
+  .contact-composition {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+    padding-block: 30px;
+  }
+  .contact-invitation {
+    font-size: clamp(32px, 7.8vw, 46px);
+    min-height: 3.3em;
+    margin-block: 22px;
+  }
+  .contact-support {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  .professional-contact .contact-email {
+    font-size: clamp(17px, 4.5vw, 23px);
+    gap: 8px;
+    letter-spacing: -0.4px;
+  }
+  .professional-contact .contact-email > .icon {
+    width: 16px;
+  }
+  .contact-address {
+    gap: 14px;
+  }
+  .professional-contact .contact-channels {
+    padding: 12px;
+    margin-inline: -12px;
+    gap: 8px;
+  }
+  .professional-contact .contact-channels .social-link {
+    font-size: 11px;
+    padding-inline: 10px;
+  }
+  .globe-reserved {
+    width: 210px;
+    height: 210px;
+  }
+  .contact-location-note {
+    margin-top: 10px;
+  }
+  .brand-welcome {
+    gap: 18px;
+  }
+  .brand-welcome > div {
+    padding-left: 20px;
+  }
+  .brand-welcome .welcome-domain {
+    font-size: 25px;
+  }
+  .brand-welcome .welcome-greeting {
+    font-size: 11px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-shell[data-intro="ready"] .intro-block {
+    animation: arrive-static 0.15s both;
+  }
+  @keyframes arrive-static {
+    from {
+      opacity: 0.7;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  .dither-glyph {
+    display: none;
+  }
+  .contact-channels::before {
+    transition: none;
+  }
+}

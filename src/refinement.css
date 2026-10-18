@@ -1,0 +1,430 @@
+/* Iteration 08: one shared atmosphere, clearer sections, featured work. */
+.site-shell {
+  position: relative;
+  isolation: isolate;
+}
+.dot-grid-backdrop[data-shared="true"] {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: -1;
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 30%,
+    #000 85%,
+    transparent
+  );
+  opacity: 0.7;
+  transition: opacity 0.5s ease;
+}
+.site-shell[data-active-section="inicio"] > .dot-grid-backdrop {
+  opacity: 1;
+}
+.site-shell:is(
+    [data-active-section="sobre-mi"],
+    [data-active-section="formacion"],
+    [data-active-section="tecnologias"]
+  )
+  > .dot-grid-backdrop {
+  opacity: 0.32;
+}
+.site-shell[data-active-section="contacto"] > .dot-grid-backdrop {
+  opacity: 0.75;
+}
+.projects-section,
+.journey-section,
+.tech-section {
+  background: transparent;
+}
+.reading-progress {
+  position: fixed;
+  inset: 0 0 auto;
+  height: 2px;
+  background: var(--accent);
+  z-index: 110;
+  transform-origin: left;
+  pointer-events: none;
+}
+.main-nav a {
+  position: relative;
+}
+.main-nav a[aria-current]::after {
+  display: none;
+}
+.nav-current-marker {
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--accent);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.main-nav {
+  gap: clamp(14px, 1.9vw, 25px);
+}
+.brand-welcome {
+  animation: welcome-sequence 1.45s both;
+  pointer-events: auto;
+}
+.brand-welcome > div,
+.brand-welcome > .brand-mark {
+  animation: welcome-brand 1.45s both;
+}
+@keyframes welcome-sequence {
+  0%,
+  66% {
+    opacity: 1;
+    visibility: visible;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+@keyframes welcome-brand {
+  0% {
+    transform: translateY(8px);
+    opacity: 0.75;
+  }
+  25%,
+  66% {
+    transform: none;
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-6px);
+    opacity: 0;
+  }
+}
+.about-section {
+  padding-block: 65px;
+  border-top: 1px solid var(--line);
+}
+.about-heading {
+  margin-bottom: 30px;
+}
+.about-heading h2 {
+  font-size: clamp(35px, 4.3vw, 54px);
+  letter-spacing: -2px;
+  margin-top: 10px;
+}
+.about-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(30px, 5vw, 70px);
+  align-items: start;
+}
+.about-copy > p {
+  font-size: 14px;
+  line-height: 1.75;
+  max-width: 60ch;
+}
+.about-copy .profile-terminal {
+  margin: 25px 0 0;
+  transform: none;
+}
+.about-layout > .principles {
+  margin-top: 0;
+}
+.tech-layout.tech-only {
+  display: block;
+}
+.tech-only .tech-browser {
+  padding: 25px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+}
+.tech-only .tech-picker {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+.hero {
+  min-height: 650px;
+}
+.hero-side {
+  align-self: center;
+}
+.carousel-track {
+  --slide-size: 100%;
+  --slide-inset: 11%;
+  padding: 18px var(--slide-inset) 24px;
+  scroll-padding-inline: var(--slide-inset);
+  gap: 22px;
+}
+.carousel-track::after {
+  display: none;
+}
+.carousel-track .compact-project {
+  flex-basis: var(--slide-size);
+  grid-template-columns: 47% minmax(0, 1fr);
+  scroll-snap-align: center;
+  transform-origin: center;
+  box-shadow: 0 12px 35px #0f172a0a;
+}
+.compact-project[data-active="true"] {
+  box-shadow: 0 18px 42px #2563eb18;
+}
+.compact-project .project-media {
+  margin: 12px 0 12px 12px;
+  aspect-ratio: 4/3;
+  border-radius: 10px;
+}
+.compact-project .project-media > img {
+  padding: 3px;
+}
+.compact-project .project-body {
+  padding: 22px;
+  gap: 9px;
+}
+.compact-project .project-description {
+  font-size: 13px;
+}
+.compact-project .project-context {
+  display: none;
+}
+.compact-project .project-body h3 {
+  font-size: clamp(22px, 2.35vw, 29px);
+}
+.carousel-toolbar {
+  margin-bottom: 0;
+  padding: 12px 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+}
+.carousel-toolbar p {
+  font-size: 17px;
+}
+.carousel-toolbar button {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+}
+.carousel-dots {
+  margin-top: 0;
+}
+.carousel-dots button[aria-pressed="true"] span {
+  width: 26px;
+  border-radius: 8px;
+}
+.contact-flip {
+  display: grid;
+  perspective: 1200px;
+  position: relative;
+}
+.contact-flip .flip-face {
+  grid-area: 1 / 1;
+  min-width: 0;
+  min-height: 470px;
+  height: auto;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  padding: 36px 42px;
+}
+.flip-face[data-active="false"] {
+  pointer-events: none;
+}
+.flip-front {
+  cursor: pointer;
+}
+.flip-front .contact-brand {
+  padding-bottom: 17px;
+  margin-bottom: 18px;
+}
+.flip-front .contact-brand > .brand-mark {
+  font-size: 43px;
+}
+.flip-front h2 {
+  font-size: clamp(40px, 4.8vw, 64px);
+  margin-top: 22px;
+}
+.flip-front > p:not(.availability) {
+  margin-top: 18px;
+}
+.flip-open {
+  margin-top: 25px;
+}
+.flip-back {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 22px;
+}
+.flip-back-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.flip-back-heading h3 {
+  font-size: clamp(30px, 4vw, 48px);
+  letter-spacing: -1.5px;
+}
+.flip-back-heading h3:focus {
+  outline: none;
+}
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  width: fit-content;
+  max-width: 100%;
+  font-size: clamp(18px, 3vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.8px;
+  overflow-wrap: anywhere;
+  color: #93c5fd;
+}
+.contact-email .icon {
+  flex-shrink: 0;
+}
+.flip-back .contact-links {
+  display: flex;
+  flex-wrap: wrap;
+}
+.flip-back .copy-status {
+  margin: 0;
+  min-height: 3em;
+}
+.flip-back .contact-signature {
+  margin-top: auto;
+}
+.flip-back:after {
+  display: none;
+}
+.contact-flip[data-reduced="true"] {
+  perspective: none;
+}
+.contact-flip[data-reduced="true"] .flip-face[data-active="false"] {
+  visibility: hidden;
+}
+@media (hover: hover) and (pointer: fine) {
+  .text-link:hover {
+    color: var(--accent);
+  }
+  .tech-choice:hover {
+    border-color: var(--accent);
+  }
+  .flip-open:hover {
+    box-shadow: 0 4px 18px #60a5fa20;
+  }
+}
+@media (max-width: 1050px) and (min-width: 761px) {
+  .carousel-track {
+    --slide-size: 100%;
+    --slide-inset: 7%;
+  }
+  .main-nav {
+    gap: 12px;
+  }
+  .main-nav a {
+    font-size: 11px;
+  }
+  .site-header {
+    gap: 20px;
+  }
+}
+@media (max-width: 760px) {
+  .hero {
+    min-height: 0;
+  }
+  .about-section {
+    padding-block: 45px;
+  }
+  .about-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .about-copy > p {
+    font-size: 13px;
+  }
+  .tech-only .tech-browser {
+    padding: 16px;
+  }
+  .tech-only .tech-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .carousel-track {
+    --slide-size: 100%;
+    --slide-inset: 4%;
+    gap: 12px;
+    padding-block: 12px 18px;
+  }
+  .carousel-track .compact-project {
+    display: flex;
+    flex-direction: column;
+  }
+  .compact-project .project-media {
+    margin: 10px 10px 0;
+    height: 175px;
+    min-height: 0;
+    aspect-ratio: auto;
+  }
+  .compact-project .project-body {
+    padding: 18px;
+  }
+  .compact-project .project-body h3 {
+    font-size: 23px;
+  }
+  .compact-project .project-description,
+  .compact-project .compact-role {
+    font-size: 12px;
+  }
+  .contact-flip .flip-face {
+    padding: 25px 22px;
+    min-height: 500px;
+  }
+  .flip-front h2 {
+    font-size: clamp(34px, 8.6vw, 50px);
+  }
+  .flip-front .contact-brand {
+    gap: 12px;
+  }
+  .flip-front .contact-brand > span:last-child {
+    font-size: 9px;
+    letter-spacing: 1px;
+  }
+  .flip-front .availability {
+    font-size: 9px;
+  }
+  .contact-email {
+    font-size: clamp(17px, 4.6vw, 23px);
+    letter-spacing: -0.4px;
+    gap: 8px;
+  }
+  .flip-back-heading {
+    gap: 10px;
+  }
+  .flip-back .contact-links {
+    gap: 10px;
+  }
+  .flip-back .contact-links > * {
+    flex: 1 1 calc(50% - 10px);
+    justify-content: center;
+    padding-inline: 7px;
+    font-size: 11px;
+  }
+  .nav-current-marker {
+    left: auto;
+    right: 0;
+    bottom: 50%;
+    width: 5px;
+    height: 5px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-welcome {
+    animation: welcome-sequence 1.45s both !important;
+  }
+  .brand-welcome > div,
+  .brand-welcome > .brand-mark {
+    animation: none;
+  }
+  .dot-grid-backdrop {
+    transition: none;
+  }
+}

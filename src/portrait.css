@@ -1,0 +1,63 @@
+.portrait-stage {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  isolation: isolate;
+  border-radius: 14px;
+  background: radial-gradient(
+    ellipse at 50% 58%,
+    color-mix(in srgb, var(--accent) 12%, var(--paper)),
+    var(--paper) 72%
+  );
+}
+.portrait-engine {
+  position: absolute;
+  inset: 0;
+}
+.portrait-loading {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.portrait-static {
+  height: 100%;
+  padding: 12px 20px;
+}
+.hero-side .portrait-static .portrait-frame {
+  height: 100%;
+  padding: 12px 12px 38px;
+  box-shadow: none;
+}
+.hero-side .portrait-static .portrait-frame > img {
+  height: calc(100% - 2px);
+  object-fit: cover;
+  object-position: center 26%;
+}
+.portrait-stage[data-state="loading"] .portrait-engine {
+  opacity: 0;
+}
+.portrait-stage[data-state="ready"] .portrait-engine {
+  opacity: 1;
+  transition: opacity 180ms;
+}
+.portrait-stage [data-lanyard-stage] {
+  outline: none;
+}
+.hero-side:has(.portrait-stage) {
+  align-self: center;
+}
+@media (max-width: 760px) {
+  .portrait-stage {
+    width: min(400px, 100%);
+    margin-inline: auto;
+  }
+  .portrait-static {
+    padding: 8px 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portrait-stage * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

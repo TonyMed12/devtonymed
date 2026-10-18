@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-17T05:47:58.8314873Z",
+  "title": "Design System: TonyMed / TM",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Azul de enlace y énfasis"
+      },
+      "blue": {
+        "role": "primary",
+        "displayName": "Azul de acción"
+      },
+      "lime": {
+        "role": "primary",
+        "displayName": "Azul claro de selección; nombre heredado"
+      },
+      "paper": {
+        "role": "neutral",
+        "displayName": "Papel frío"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Superficie"
+      },
+      "surface-alt": {
+        "role": "neutral",
+        "displayName": "Superficie azulada"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Tinta"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Texto secundario"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Línea"
+      },
+      "dark-paper": {
+        "role": "neutral",
+        "displayName": "Papel nocturno"
+      },
+      "dark-surface": {
+        "role": "neutral",
+        "displayName": "Superficie nocturna"
+      },
+      "dark-surface-alt": {
+        "role": "neutral",
+        "displayName": "Superficie azulada nocturna"
+      },
+      "dark-ink": {
+        "role": "neutral",
+        "displayName": "Tinta clara"
+      },
+      "dark-muted": {
+        "role": "neutral",
+        "displayName": "Texto secundario nocturno"
+      },
+      "dark-accent": {
+        "role": "primary",
+        "displayName": "Azul de énfasis nocturno"
+      },
+      "dark-line": {
+        "role": "neutral",
+        "displayName": "Línea nocturna"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Nombre del hero; valores base de escritorio."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Encabezados de sección."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Títulos de contenido con ajustes locales por componente."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Texto general."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Navegación y etiquetas; los metadatos también usan 13px."
+      },
+      "terminal": {
+        "displayName": "Terminal",
+        "purpose": "Representación ampliable del perfil técnico."
+      }
+    },
+    "shadows": [
+      {
+        "name": "modal",
+        "value": "0 24px 80px #0005",
+        "purpose": "Única sombra de superficie documentada: diálogo modal."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease",
+        "value": "cubic-bezier(0.23, 1, 0.32, 1)",
+        "purpose": "Curva compartida de cambios de estado."
+      },
+      {
+        "name": "feedback",
+        "value": "160ms",
+        "purpose": "Respuesta breve; coincide con motionSystem.feedback."
+      },
+      {
+        "name": "state",
+        "value": "240ms",
+        "purpose": "Cambio de estado; coincide con motionSystem.state."
+      },
+      {
+        "name": "entrance",
+        "value": "400ms",
+        "purpose": "Entrada de contenido tras bienvenida."
+      },
+      {
+        "name": "travel",
+        "value": "450ms",
+        "purpose": "Traslado de carrusel declarado en motionSystem."
+      },
+      {
+        "name": "welcome",
+        "value": "1450ms",
+        "purpose": "Duración de bienvenida descartable."
+      },
+      {
+        "name": "technology-band",
+        "value": "100s linear infinite",
+        "purpose": "Ciclo continuo; pausado por interacción o visibilidad y estático con movimiento reducido."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "compact-desktop",
+        "value": "1050px"
+      },
+      {
+        "name": "menu",
+        "value": "900px"
+      },
+      {
+        "name": "single-column",
+        "value": "760px"
+      },
+      {
+        "name": "small-phone",
+        "value": "380px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Acción principal con azul y blanco explícitos. Fragmento visual extraído del CSS, sin lógica React.",
+      "html": "<button class=\"ds-button-primary\" type=\"button\">Hablemos</button>",
+      "css": ".ds-button-primary{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 20px;border:0;border-radius:6px;font-family:\"Portfolio Sans\",Arial,sans-serif;font-size:15px;font-weight:700;background:#2563eb;color:#ffffff;cursor:pointer;transition:color 160ms ease,background-color 160ms ease,transform 160ms cubic-bezier(0.23,1,0.32,1)}@media(hover:hover) and (pointer:fine){.ds-button-primary:hover{background:#1d4ed8}}.ds-button-primary:focus-visible{outline:3px solid var(--accent,#1d4ed8);outline-offset:5px}.ds-button-primary:active{transform:scale(.98)}@media(prefers-reduced-motion:reduce){.ds-button-primary:active{transform:none}}"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Acción secundaria que sigue el tema de la página.",
+      "html": "<button class=\"ds-button-secondary\" type=\"button\">Ver currículum</button>",
+      "css": ".ds-button-secondary{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:48px;padding:12px 20px;border:0;border-radius:6px;font-family:\"Portfolio Sans\",Arial,sans-serif;font-size:15px;font-weight:700;background:var(--surface-alt,#eaf1fb);color:var(--ink,#0f172a);cursor:pointer;transition:color 160ms ease,background-color 160ms ease,transform 160ms cubic-bezier(0.23,1,0.32,1)}@media(hover:hover) and (pointer:fine){.ds-button-secondary:hover{background:var(--surface,#ffffff);color:var(--accent,#1d4ed8)}}.ds-button-secondary:focus-visible{outline:3px solid var(--accent,#1d4ed8);outline-offset:5px}.ds-button-secondary:active{transform:scale(.98)}@media(prefers-reduced-motion:reduce){.ds-button-secondary:active{transform:none}}"
+    },
+    {
+      "name": "Section Navigation",
+      "kind": "nav",
+      "description": "Enlaces de sección con marcador actual. El fragmento reproduce estilos; el menú y observador de sección pertenecen a App.tsx.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Navegación de ejemplo\"><a href=\"#inicio\" aria-current=\"location\">Inicio<span class=\"ds-marker\"></span></a><a href=\"#proyectos\">Proyectos</a><a href=\"#contacto\">Contacto</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;gap:clamp(14px,1.8vw,26px);font-family:\"Portfolio Sans\",Arial,sans-serif;font-size:14px}.ds-nav a{position:relative;padding:12px 0;color:var(--muted,#475569);text-decoration:none;text-underline-offset:.25em;transition:color 160ms ease}.ds-nav a[aria-current]{color:var(--ink,#0f172a)}.ds-marker{position:absolute;bottom:5px;left:0;right:0;height:2px;background:var(--accent,#1d4ed8)}@media(hover:hover) and (pointer:fine){.ds-nav a:hover{color:var(--accent,#1d4ed8);text-decoration:underline}}.ds-nav a:focus-visible{outline:3px solid var(--accent,#1d4ed8);outline-offset:5px;border-radius:3px}"
+    },
+    {
+      "name": "Technology Choice",
+      "kind": "chip",
+      "refersTo": "technology-choice",
+      "description": "Selector de tecnología con estado aria-pressed; icono omitido para mantener el fragmento sin assets externos.",
+      "html": "<button class=\"ds-tech-choice\" aria-pressed=\"true\" type=\"button\">TypeScript</button>",
+      "css": ".ds-tech-choice{position:relative;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 12px;border:0;border-radius:6px;background:none;color:var(--ink,#0f172a);font-family:\"Portfolio Sans\",Arial,sans-serif;font-size:14px;cursor:pointer;transition:color 160ms ease,background-color 160ms ease}.ds-tech-choice[aria-pressed=true]{background:var(--surface,#ffffff);color:var(--accent,#1d4ed8)}.ds-tech-choice:focus-visible{outline:3px solid var(--accent,#1d4ed8);outline-offset:5px;border-radius:3px}"
+    },
+    {
+      "name": "Project Card",
+      "kind": "card",
+      "refersTo": "project-card",
+      "description": "Superficie de proyecto sin sombra. Fragmento mínimo del contenido textual; imagen y comportamiento de carrusel permanecen en sus componentes activos.",
+      "html": "<article class=\"ds-project-card\"><div class=\"ds-project-body\"><h3>ProjeXus</h3><p>Coordinación y planificación de software.</p><button type=\"button\">Ver proyecto</button></div></article>",
+      "css": ".ds-project-card{background:var(--surface,#ffffff);color:var(--ink,#0f172a);border-radius:12px;overflow:hidden;font-family:\"Portfolio Sans\",Arial,sans-serif}.ds-project-body{padding:clamp(22px,3vw,38px);display:flex;flex-direction:column;align-items:start;min-width:0}.ds-project-body h3{font-size:clamp(24px,2.5vw,34px);line-height:1.12;font-weight:700;letter-spacing:-.025em;margin:12px 0}.ds-project-body p{font-size:16px;line-height:1.55;margin:0}.ds-project-body button{display:inline-flex;align-items:center;min-height:44px;padding:8px 0;margin-top:16px;border:0;background:none;color:var(--accent,#1d4ed8);font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}@media(hover:hover) and (pointer:fine){.ds-project-body button:hover{text-decoration:underline}}.ds-project-body button:focus-visible{outline:3px solid var(--accent,#1d4ed8);outline-offset:5px;border-radius:3px}"
+    },
+    {
+      "name": "Detail Surface",
+      "kind": "custom",
+      "refersTo": "detail-dialog",
+      "description": "Muestra de la superficie y cierre modal. El fragmento no abre un modal: foco, Escape y restauración se implementan en DetailDialog.tsx.",
+      "html": "<section class=\"ds-dialog\" aria-label=\"Muestra de ficha\"><div class=\"ds-dialog-content\"><div class=\"ds-toolbar\"><button type=\"button\">Cerrar ficha <span aria-hidden=\"true\">×</span></button></div><h2>Detalle del proyecto</h2><p>Contribución, contexto y evidencia.</p></div></section>",
+      "css": ".ds-dialog{width:min(720px,calc(100% - 32px));max-height:88dvh;margin:auto;border:0;border-radius:var(--radius,12px);background:var(--surface,#ffffff);color:var(--ink,#0f172a);overflow:auto;box-shadow:0 24px 80px #0005;font-family:\"Portfolio Sans\",Arial,sans-serif}.ds-dialog-content{padding:24px 32px 32px}.ds-toolbar{display:flex;justify-content:flex-end;align-items:center;gap:16px;margin-bottom:24px}.ds-toolbar button{display:inline-flex;align-items:center;gap:15px;min-height:44px;border:0;background:none;color:inherit;font-family:inherit;font-size:14px;cursor:pointer}.ds-toolbar button span{font-size:24px}.ds-toolbar button:focus-visible{outline:3px solid var(--accent,#1d4ed8);outline-offset:5px;border-radius:3px}.ds-dialog h2{margin:0;font-size:clamp(25px,3vw,34px);line-height:1.15;letter-spacing:-.025em}.ds-dialog p{margin:16px 0 0;font-size:16px;line-height:1.65}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Identidad técnica cercana",
+    "overview": "Esta frase es una lectura descriptiva del código y del brief confirmado, no un nombre creativo aprobado por el usuario. La identidad se apoya en el nombre propio, fotografía real, marca TM y acentos azules. La tipografía y las superficies amplias organizan la información; los detalles se abren cuando hacen falta.\n\nLa bienvenida, escritura progresiva y gafete interactivo concentran el movimiento de presentación. En el resto del sistema, la animación acompaña cambios de estado y lectura. La documentación registra código existente; no equivale a una aprobación visual. No hubo capturas válidas ni inspección de estilos computados en navegador, por lo que no se afirman resultados de contraste, ausencia de recortes ni fluidez medida.",
+    "keyCharacteristics": [
+      "Identidad personal con fotografía real y firma TM.",
+      "Azul como acento de interacción en dos temas.",
+      "Jerarquía tipográfica fuerte y superficies de baja ornamentación.",
+      "Información ampliable y movimiento con alternativas estáticas."
+    ],
+    "rules": [
+      {
+        "name": "The Theme Role Rule",
+        "body": "Los controles secundarios y superficies siguen las variables del tema. El botón primario conserva su azul y blanco explícitos, conforme al código actual.",
+        "section": "colors"
+      },
+      {
+        "name": "The Modal Elevation Rule",
+        "body": "Reservar la sombra documentada para la capa modal; no convertirla en decoración predeterminada de todas las tarjetas.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** mantener identidad, fotografía real, estados de contenido y enlaces accesibles.",
+      "**Do** reutilizar variables de tema y jerarquía tipográfica antes de añadir estilos locales.",
+      "**Do** preservar foco visible, teclado y alternativas estáticas de movimiento.",
+      "**Do** comprobar en navegador temas, tamaños y contenido expandido antes de afirmar calidad visual."
+    ],
+    "donts": [
+      "**Don't** reincorporar cursor trail, ojos que siguen al cursor ni nombre con dither en esta composición.",
+      "**Don't** añadir sombras decorativas generales a las tarjetas.",
+      "**Don't** ocultar datos esenciales de contacto detrás de hover.",
+      "**Don't** tratar esta extracción de código como una aprobación visual, auditoría WCAG o medición de rendimiento."
+    ]
+  }
+}

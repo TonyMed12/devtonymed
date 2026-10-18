@@ -1,0 +1,99 @@
+/* Every rule is scoped to Projects. Position, drag and float own separate layers. */
+.projects-section .coverflow-carousel { min-width: 0; outline-offset: 6px; }
+.projects-section .coverflow-carousel .carousel-toolbar { margin-bottom: 0; }
+.projects-section .coverflow-carousel .carousel-toolbar p { display: flex; align-items: baseline; gap: 5px; }
+.projects-section .carousel-current-name { margin-left: 16px; font-size: 14px; color: var(--muted); }
+.projects-section .coverflow-carousel .carousel-toolbar button { width: 44px; height: 44px; display: grid; place-items: center; }
+.projects-section .carousel-previous .icon { transform: rotate(-135deg); }
+.projects-section .carousel-next .icon { transform: rotate(45deg); }
+.projects-section .carousel-play .icon { width: 16px; height: 16px; }
+.projects-section .coverflow-stage {
+  position: relative;
+  perspective: 1400px;
+  perspective-origin: center 42%;
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+  user-select: none;
+  cursor: grab;
+}
+.projects-section .coverflow-stage[data-dragging="true"] { cursor: grabbing; }
+.projects-section .coverflow-drag-plane { position: relative; height: 100%; transform-style: preserve-3d; }
+.projects-section .coverflow-slot {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  width: min(620px, 64%);
+  transform-style: preserve-3d;
+}
+.projects-section .coverflow-float { position: relative; }
+.projects-section .coverflow-slot[data-offset="0"] .coverflow-float { transform: none; }
+.projects-section .coverflow-float[data-secondary="true"] { animation: project-secondary-float 8s ease-in-out infinite paused; }
+.projects-section .coverflow-slot[data-offset="-1"] .coverflow-float { animation-delay: -3s; }
+.projects-section .coverflow-carousel[data-floating="true"] .coverflow-float[data-secondary="true"] { animation-play-state: running; }
+@keyframes project-secondary-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.projects-section .coverflow-carousel .project-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 0;
+  border-radius: 14px;
+  background: var(--surface);
+  box-shadow: 0 16px 32px -14px color-mix(in srgb, var(--ink) 25%, transparent); /* taste-skill-ignore: user explicitly requests soft shadows for coverflow depth. */
+}
+.projects-section .coverflow-carousel .project-media {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  min-height: 0;
+  padding: 16px;
+  background: var(--paper);
+}
+.projects-section .coverflow-carousel .project-media > img { width: 100%; height: 100%; min-height: 0; max-height: none; object-fit: contain; }
+.projects-section .coverflow-carousel .project-concept { min-height: 0; width: 100%; height: 100%; padding: 8px; }
+.projects-section .coverflow-carousel .project-concept > span { font-size: 13px; }
+.projects-section .coverflow-carousel .project-wordmark { font-size: clamp(26px, 3vw, 40px); max-width: 16ch; }
+.projects-section .coverflow-carousel .project-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  align-items: start;
+  padding: 22px 24px;
+  gap: 10px;
+}
+.projects-section .coverflow-carousel .project-body h3 { order: 0; font-size: 26px; line-height: 1.15; min-height: 2.3em; max-width: none; margin: 0; }
+.projects-section .coverflow-carousel .project-description {
+  order: 1;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  min-height: 3em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.projects-section .coverflow-carousel .role-badge { order: 2; font-size: 13px; margin: 0; min-height: 22px; }
+.projects-section .coverflow-carousel .tags { order: 3; margin: 0; min-height: 24px; gap: 6px 12px; }
+.projects-section .coverflow-carousel .tags li { font-size: 12px; }
+.projects-section .project-tech-pending { order: 3; min-height: 24px; font-size: 12px; color: var(--muted); }
+.projects-section .coverflow-carousel .project-actions { order: 4; padding: 0; margin: 0; min-height: 44px; }
+.projects-section .coverflow-carousel .project-actions button { font-size: 14px; }
+.projects-section .coverflow-select { position: absolute; inset: 0; width: 100%; border-radius: 14px; cursor: pointer; }
+.projects-section .coverflow-carousel .carousel-dots { padding-top: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .projects-section .coverflow-carousel .project-actions button:hover { color: var(--ink); }
+}
+@media (max-width: 760px) {
+  .projects-section .coverflow-carousel .carousel-current-name { display: none; }
+  .projects-section .coverflow-stage { perspective: 1800px; }
+  .projects-section .coverflow-slot { top: 18px; width: calc(100% - 40px); }
+  .projects-section .coverflow-carousel .project-media { padding: 10px; }
+  .projects-section .coverflow-carousel .project-body { padding: 20px; gap: 10px; }
+  .projects-section .coverflow-carousel .project-body h3 { font-size: 23px; min-height: 2.3em; }
+  .projects-section .coverflow-carousel .project-description { font-size: 14px; }
+  .projects-section .coverflow-carousel .project-wordmark { font-size: 26px; }
+  .projects-section .coverflow-carousel .project-concept > span { font-size: 11px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .projects-section .coverflow-float[data-secondary="true"] { animation: none; transform: none; }
+}

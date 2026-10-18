@@ -1,0 +1,108 @@
+/* Stage 1 is scoped to the header and #inicio; later sections keep their system. */
+.site-header { gap: 28px; }
+.site-header .main-nav { gap: clamp(14px, 1.6vw, 24px); }
+.site-shell[data-intro="ready"] .site-header.intro-navigation {
+  animation: hero-group-arrive .4s var(--motion-ease) both;
+}
+.hero-stage-one.hero {
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(32px, 5vw, 72px);
+  min-height: 0;
+  padding-block: 40px 56px;
+}
+.hero-stage-one .hero-name {
+  font-size: clamp(48px, 5.3vw, 76px);
+  line-height: 1.04;
+  letter-spacing: -.04em;
+  font-weight: 700;
+  max-width: none;
+  margin-bottom: 22px;
+}
+.line-reveal { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.line-reveal > span { display: block; }
+.hero-stage-one .hero-role-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+.hero-stage-one .hero-greeting { font-size: 18px; font-weight: 700; line-height: 1.4; }
+.hero-stage-one .availability { margin: 0; font-size: 13px; gap: 7px; }
+.hero-stage-one .hero-degree { margin-top: 12px; font-size: 14px; font-weight: 400; line-height: 1.5; }
+.hero-stage-one .hero-degree > span { font-size: 13px; margin-top: 2px; }
+.hero-stage-one .hero-typewriter { font-size: clamp(20px, 2vw, 25px); line-height: 1.4; margin: 24px 0 16px; min-height: 2.8em; }
+.hero-stage-one .typewriter-fixed { font-weight: 400; }
+.hero-stage-one .typewriter-dynamic { min-height: 1.4em; }
+.hero-stage-one .hero-description { font-size: 16px; line-height: 1.55; max-width: 50ch; color: var(--muted); }
+.hero-stage-one .hero-actions { margin-top: 24px; gap: 12px; }
+.hero-stage-one .hero-github { margin-top: 12px; }
+.hero-stage-one .hero-meta { margin-top: 24px; font-size: 12px; gap: 12px 24px; }
+.hero-stage-one .hero-side { align-self: center; }
+.hero-stage-one .intro-role { --intro-delay: .16s; }
+.hero-stage-one .intro-type { --intro-delay: .22s; }
+.hero-stage-one .intro-description { --intro-delay: .24s; }
+.hero-stage-one .intro-actions { --intro-delay: .32s; }
+.site-shell[data-intro="ready"] .hero-stage-one .intro-block {
+  animation: hero-group-arrive .4s var(--intro-delay, 0s) var(--motion-ease) both;
+}
+@keyframes hero-group-arrive {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+/* A clipped reveal avoids resizing the bitmap or retaining a composited transform. */
+.hero-stage-one .hero-portrait-composition[data-enabled="true"] .portrait-card-photo {
+  animation: hero-photo-arrive .65s .14s var(--motion-ease) backwards;
+}
+@keyframes hero-photo-arrive {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0); }
+}
+.hero-stage-one .hero-portrait-composition[data-enabled="true"] .profile-terminal {
+  animation: hero-group-arrive .4s .28s var(--motion-ease) both;
+}
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-stage-one .hero-continue .icon {
+      animation: hero-continue-scroll linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0px 240px;
+    }
+    @keyframes hero-continue-scroll {
+      from { transform: translateY(0) rotate(135deg); }
+      to { transform: translateY(5px) rotate(135deg); }
+    }
+  }
+}
+@media (max-width: 1050px) and (min-width: 761px) {
+  .hero-stage-one.hero { gap: 32px; }
+  .hero-stage-one .hero-name { font-size: clamp(44px, 5.2vw, 56px); }
+  .hero-stage-one .hero-greeting { font-size: 16px; }
+}
+@media (max-width: 760px) {
+  .site-header { gap: 12px; }
+  .site-header .main-nav { gap: 0; }
+  .hero-stage-one.hero { display: flex; flex-direction: column; gap: 0; padding-block: 32px 40px; }
+  .hero-stage-one .hero-copy { display: block; }
+  .hero-stage-one .hero-name { font-size: clamp(40px, 10.8vw, 60px); margin-bottom: 18px; }
+  .hero-stage-one .hero-role-row { gap: 8px 16px; }
+  .hero-stage-one .hero-greeting { font-size: 16px; }
+  .hero-stage-one .hero-degree { margin-top: 12px; font-size: 14px; }
+  .hero-stage-one .hero-typewriter { font-size: clamp(19px, 5.3vw, 24px); margin-block: 22px 14px; }
+  .hero-stage-one .hero-description { font-size: 15px; max-width: 45ch; }
+  .hero-stage-one .hero-actions { margin-top: 20px; }
+  .hero-stage-one .hero-meta { margin-top: 18px; }
+  .hero-stage-one .hero-meta > a { display: inline-flex; }
+  .hero-stage-one .hero-side { width: 100%; margin: 32px auto 0; }
+  .hero-stage-one .button { flex: 0 1 auto; padding-inline: 16px; font-size: 14px; }
+}
+@media (max-width: 360px) {
+  .hero-stage-one .hero-name { font-size: 38px; }
+  .hero-stage-one .hero-greeting { font-size: 15px; }
+  .hero-stage-one .hero-actions { gap: 8px; }
+  .hero-stage-one .button { padding-inline: 12px; font-size: 13px; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-shell[data-intro="ready"] .site-header.intro-navigation,
+  .site-shell[data-intro="ready"] .hero-stage-one .intro-block,
+  .hero-stage-one .hero-portrait-composition[data-enabled="true"] :is(.portrait-card-photo,.profile-terminal) {
+    animation: none;
+    transform: none;
+    clip-path: none;
+  }
+}

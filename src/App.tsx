@@ -1,376 +1,392 @@
-import "./App.css";
+import { useReducedMotion } from "./hooks/useReducedMotion";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { LayoutGroup, MotionConfig, motion, useInView } from "motion/react";
+import { site } from "./data/site";
+import { motionSystem } from "./data/motion";
+import { profile, read } from "./data/experience";
+import { copy } from "./data/ui";
+import type { Language } from "./data/i18n";
+import { ProjectCarousel } from "./components/ProjectCarousel";
+import { DotGridBackdrop } from "./components/DotGridBackdrop";
+import { Welcome } from "./components/Welcome";
+import { Typewriter } from "./components/Typewriter";
+import { useSmoothScroll } from "./hooks/useSmoothScroll";
+import { ResumeLink } from "./components/ResumeLink";
+import { Languages } from "./components/Languages";
+import { Reveal } from "./components/Reveal";
+import { ResearchDialog, type ResearchId } from "./components/ResearchDialog";
+import { TechnologySection } from "./components/TechnologySection";
+import { HeroPortrait } from "./components/HeroPortrait";
+import { LineReveal } from "./components/LineReveal";
+import { About } from "./components/About";
+import { ReadingProgress } from "./components/ReadingProgress";
+import { Journey } from "./components/Journey";
+import { CredentialGallery } from "./components/CredentialGallery";
+import { Contact } from "./components/ProfessionalContact";
+import { ResearchSection } from "./components/ResearchSection";
+import { contactLinks } from "./data/contact";
+import { Icon } from "./components/Icons";
+import "./portfolio.css";
+import "./hero-stage-one.css";
+
+type Theme = "light" | "dark";
+const sections = [
+  "inicio",
+  "sobre-mi",
+  "proyectos",
+  "tecnologias",
+  "formacion",
+  "contacto",
+];
+function preference(key: string) {
+  try {
+    return localStorage.getItem(key);
+  } catch {
+    return null;
+  }
+}
 
 function App() {
+  const [language, setLanguage] = useState<Language>(() =>
+    preference("portfolio-language") === "en" ? "en" : "es",
+  );
+  const [theme, setTheme] = useState<Theme>(() => {
+    const saved = preference("portfolio-theme");
+    return saved === "light" || saved === "dark"
+      ? saved
+      : matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+  });
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [introReady, setIntroReady] = useState(false);
+  const [typeReady, setTypeReady] = useState(false);
+  const finishWelcome = useCallback(() => setIntroReady(true), []);
+  const [active, setActive] = useState("inicio");
+  const [researchId, setResearchId] = useState<ResearchId | null>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
+  useSmoothScroll();
+  const [pageVisible, setPageVisible] = useState(true);
+  const heroRef = useRef<HTMLElement>(null);
+  const heroInView = useInView(heroRef, { amount: 0.05 });
+  const reduced = useReducedMotion();
+  useEffect(() => {
+    if (!introReady) return;
+    const timer = window.setTimeout(
+      () => setTypeReady(true),
+      reduced ? 0 : 700,
+    );
+    return () => window.clearTimeout(timer);
+  }, [introReady, reduced]);
+  useEffect(() => {
+    const fallback = window.setTimeout(finishWelcome, 1900);
+    return () => window.clearTimeout(fallback);
+  }, [finishWelcome]);
+  const es = language === "es";
+  const t = copy[language];
+  useEffect(() => {
+    if (menuOpen)
+      document.querySelector<HTMLAnchorElement>("#main-nav a")?.focus();
+  }, [menuOpen]);
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.lang = language;
+    document.title = site.title;
+    document
+      .querySelector('meta[name="description"]')
+      ?.setAttribute("content", read(profile.description, language));
+    document
+      .querySelector('meta[property="og:description"]')
+      ?.setAttribute("content", read(profile.description, language));
+    try {
+      localStorage.setItem("portfolio-theme", theme);
+      localStorage.setItem("portfolio-language", language);
+    } catch {
+      /* Preferences work without persistence. */
+    }
+  }, [theme, language]);
+  useEffect(() => {
+    const update = () => setPageVisible(!document.hidden);
+    document.addEventListener("visibilitychange", update);
+    return () => document.removeEventListener("visibilitychange", update);
+  }, []);
+  useEffect(() => {
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries)
+          if (entry.isIntersecting) setActive(entry.target.id);
+      },
+      { rootMargin: "-15% 0px -55% 0px", threshold: 0 },
+    );
+    sections.forEach((id) => {
+      const section = document.getElementById(id);
+      if (section) observer.observe(section);
+    });
+    return () => observer.disconnect();
+  }, []);
+  const nav = es
+    ? [
+        "Inicio",
+        "Sobre mí",
+        "Proyectos",
+        "Tecnologías",
+        "Formación",
+        "Contacto",
+      ]
+    : ["Home", "About me", "Projects", "Technologies", "Education", "Contact"];
+  useEffect(() => {
+    document.documentElement.dataset.motion = reduced ? "reduced" : "system";
+  }, [reduced]);
+  const running = heroInView && pageVisible && !reduced;
   return (
-    <>
-      <header
-        id="top"
-        role="banner"
-        className="sticky top-0 z-50 w-full backdrop-blur bg-gray-900/90 text-white"
-      >
-        <div className="w-full px-6 py-4 flex items-center justify-between">
-          <nav>
-            <ul className="flex items-right gap-8 text-sm">
-              <li>
-                <a href="#about" className="hover:text-gray-400">
-                  About Me
-                </a>
-              </li>
-              <li>
-                <a href="#skills" className="hover:text-gray-400">
-                  Skills
-                </a>
-              </li>
-              <li>
-                <a href="#projects" className="hover:text-gray-400">
-                  Projects
-                </a>
-              </li>
-              <li>
-                <a href="#contact" className="hover:text-gray-400">
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
-        </div>
-      </header>
-
-      {/* inicio */}
-      <section
-        id="hero"
-        className="relative min-h-screen flex items-center justify-center text-center text-white"
-        style={{
-          backgroundImage: "url('/fondo.jpeg')",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
-        {/* checar si esta madre si jala como un overlay, checamos ahorita  */}
-        <div className="absolute inset-0 bg-black/70"></div>
-
-        <div className="relative z-10 max-w-4xl px-6">
-          <h1 className="text-6xl md:text-7xl font-extrabold leading-tight drop-shadow-lg">
-            Hi! I’m <span className="text-blue-400">Tony Medina</span>
-          </h1>
-          <h2 className="mt-6 text-2xl md:text-3xl font-semibold text-gray-200 drop-shadow-md">
-            Computer Systems Engineer | Web Developer
-          </h2>
-          <p className="mt-6 text-lg md:text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Passionate about building{" "}
-            <span className="text-blue-400 font-medium">modern</span>, and
-            <span className="text-blue-400 font-medium"> minimal </span> web
-            applications
-          </p>
-        </div>
-      </section>
-
-      {/* sobre mi */}
-      <section
-        id="about"
-        className="min-h-screen flex flex-col md:flex-row items-center justify-center gap-20 px-12 bg-gray-900 text-white"
-      >
-        {/* yo */}
-        <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-yellow-400 shadow-lg">
-          {" "}
-          {/* esta linea es la que cambia el borde de la imagen a amarillo, estan con madre los comentarios del copilot jeje */}
-          <img
-            src="/profesionaltony.jpg"
-            alt="Tony"
-            className="w-full h-full object-cover"
+    <MotionConfig
+      reducedMotion={reduced ? "always" : "never"}
+      transition={{ duration: reduced ? 0 : motionSystem.state, ease: motionSystem.ease }}
+    >
+      <LayoutGroup id="portfolio">
+        <div
+          ref={rootRef}
+          className="site-shell"
+          data-active-section={active}
+          data-intro={introReady ? "ready" : "waiting"}
+        >
+          <Welcome onComplete={finishWelcome} />
+          <ReadingProgress />
+          <DotGridBackdrop
+            hostRef={rootRef}
+            running={pageVisible && !reduced && active === "inicio"}
+            shared
           />
-        </div>
-
-        {/* desc */}
-        <div className="max-w-2xl">
-          <h2 className="text-5xl font-bold mb-6">About Me</h2>
-          <p className="text-lg text-gray-300 leading-relaxed">
-            I’m{" "}
-            <span className="text-yellow-400 font-semibold">Tony Medina</span>,
-            a Computer Systems Engineer and web developer passionate about
-            crafting
-            <span className="text-yellow-400 font-semibold"> clean</span>, and
-            <span className="text-yellow-400 font-semibold"> modern </span>
-            digital experiences.
-            <br />
-            <br />
-            My goal is to transform ideas into interactive applications that not
-            only work, but also deliver value and creativity.
-            <br />
-          </p>
-        </div>
-      </section>
-
-      <section id="skills" className="bg-black text-white py-20 px-6">
-        <h2 className="text-4xl font-bold text-center mb-12">Tech</h2>
-
-        <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8 text-center">
-          {/* tecno de front */}
-          <div className="bg-neutral-900 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold text-blue-400 border-b border-blue-500 pb-2 mb-6">
-              FRONTEND
-            </h2>
-            <div className="grid grid-cols-2 gap-6 justify-items-center">
-              <div>
-                <img
-                  src="/tech/html.png"
-                  alt="HTML"
-                  className="w-16 h-16 mx-auto"
-                />
-                <p className="mt-2 font-semibold">HTML</p>
-              </div>
-              <div>
-                <img
-                  src="/tech/css.png"
-                  alt="CSS"
-                  className="w-16 h-16 mx-auto"
-                />
-                <p className="mt-2 font-semibold">CSS</p>
-              </div>
-              <div>
-                <img
-                  src="/tech/js.webp"
-                  alt="JavaScript"
-                  className="w-16 h-16 mx-auto"
-                />
-                <p className="mt-2 font-semibold">JavaScript</p>
-              </div>
-              <div>
-                <img
-                  src="/tech/tw.png"
-                  alt="Tailwind"
-                  className="w-16 h-16 mx-auto"
-                />
-                <p className="mt-2 font-semibold">Tailwind</p>
-              </div>
-              <div>
-                <img
-                  src="/tech/react.png"
-                  alt="React"
-                  className="w-16 h-16 mx-auto"
-                />
-                <p className="mt-2 font-semibold">React</p>
-              </div>
-              <div>
-                <img
-                  src="/tech/figma.png"
-                  alt="Figma"
-                  className="w-16 h-16 mx-auto"
-                />
-                <p className="mt-2 font-semibold">Figma</p>
-              </div>
-            </div>
-          </div>
-
-          {/* de back */}
-          <div className="bg-neutral-900 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold text-blue-400 border-b border-blue-500 pb-2 mb-6">
-              BACKEND
-            </h2>
-            <div className="grid grid-cols-2 gap-6 justify-items-center">
-              <div>
-                <img
-                  src="/tech/node.png"
-                  alt="Node.js"
-                  className="w-16 h-16 mx-auto"
-                />
-                <p className="mt-2 font-semibold">Node.js</p>
-              </div>
-              <div>
-                <img
-                  src="/tech/java.png"
-                  alt="Java"
-                  className="w-16 h-16 mx-auto"
-                />
-                <p className="mt-2 font-semibold">Java</p>
-              </div>
-            </div>
-          </div>
-
-          {/* herramientitas aparte */}
-          <div className="bg-neutral-900 p-6 rounded-lg shadow-lg">
-            <h2 className="text-xl font-bold text-blue-400 border-b border-blue-500 pb-2 mb-6">
-              TOOLS
-            </h2>
-            <div className="grid grid-cols-2 gap-6 justify-items-center">
-              <div>
-                <img
-                  src="/tech/github.png"
-                  alt="GitHub"
-                  className="w-16 h-16 mx-auto"
-                />
-                <p className="mt-2 font-semibold">GitHub</p>
-              </div>
-              <div>
-                <img
-                  src="/tech/ji.svg"
-                  alt="Jira"
-                  className="w-16 h-16 mx-auto"
-                />
-                <p className="mt-2 font-semibold">Jira</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Projects */}
-      <section
-        id="projects"
-        className="min-h-screen bg-[#0f172a] text-white px-8 py-16"
-      >
-        <h2 className="text-4xl font-bold text-center mb-12">Projects</h2>
-
-        <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-          {/* ProjeXus */}
-          <div className="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
-            <div className="h-48 bg-gray-700 flex items-center justify-center">
-              <img
-                src="/projexus2.png"
-                alt="Projexus"
-                className="w-full h-full object-cover"
-              />{" "}
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold mb-2">ProjeXus</h3>
-              <p className="text-gray-400 mb-3">
-                A platform to manage academic and collaborative projects. Built
-                with <span className="text-blue-400 font-medium">Next.js</span>{" "}
-                for ICTI Michoacán.
-              </p>
-              <span className="text-sm text-gray-500">
-                Next.js • Tailwind • TypeScript
-              </span>
-            </div>
-          </div>
-
-          {/* Aquamarine Resort */}
-          <div className="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
-            <div className="h-48 bg-gray-700 flex items-center justify-center">
-              <img
-                src="/aquama.png"
-                alt="Aquamarine"
-                className="w-full h-full object-cover"
-              />{" "}
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold mb-2">Aquamarine Resort</h3>
-              <p className="text-gray-400 mb-3">
-                A school project for a luxury hotel with a booking system and
-                <span className="text-blue-400 font-medium">
-                  {" "}
-                  payment integration
-                </span>
-                .
-              </p>
-              <span className="text-sm text-gray-500">
-                HTML • CSS • JavaScript
-              </span>
-            </div>
-          </div>
-
-          {/* Velto */}
-          <div className="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
-            <div className="h-48 bg-gray-700 flex items-center justify-center">
-              <img
-                src="/velto.png"
-                alt="Velto Store"
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold mb-2">Velto Store</h3>
-              <p className="text-gray-400 mb-3">
-                An e-commerce web app for sneakers with a shopping cart and
-                <span className="text-blue-400 font-medium">
-                  {" "}
-                  payment integration
-                </span>
-                .
-              </p>
-              <span className="text-sm text-gray-500">
-                School project • eCommerce
-              </span>
-            </div>
-          </div>
-
-          {/* Biblio */}
-          <div className="bg-gray-800 rounded-lg overflow-hidden shadow hover:shadow-lg transition">
-            <div className="h-48 bg-gray-700 flex items-center justify-center">
-              <img
-                src="/biblio.jpg"
-                alt="Biblioteca Digital"
-                className="w-full h-full object-cover"
-              />{" "}
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-semibold mb-2">
-                Digital Library CBTis 147
-              </h3>
-              <p className="text-gray-400 mb-3">
-                A system to manage book and equipment for CBTis 147 library.
-              </p>
-              <span className="text-sm text-gray-500">
-                HTML • CSS • Bootstrap • PHP
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contactito */}
-      <section
-        id="contact"
-        className="min-h-screen bg-[#0f172a] text-white px-8 py-20 flex flex-col items-center justify-center text-center"
-      >
-        <h2 className="text-5xl font-bold mb-4">Let’s work together</h2>
-        <p className="text-gray-400 text-lg mb-12 max-w-xl">
-          Feel free to reach out for collaborations, freelance projects or just
-          a chat. I’m always open to new opportunities and connections!
-        </p>
-
-        <div className="space-y-6 text-lg">
-          {/* Instagram */}
-          <a
-            href="https://www.instagram.com/tonymed._"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 hover:text-pink-400 transition"
-          >
-            <img src="/instagram.png" alt="Instagram" className="w-6 h-6" />
-            @tonymed._
+          <a className="skip-link" href="#contenido">
+            {es ? "Saltar al contenido" : "Skip to content"}
           </a>
-          <a
-            href="https://www.linkedin.com/in/jose-antonio-medina-ayala-bb60b12b0/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 hover:text-blue-400 transition"
-          >
-            <img src="/linkedin.png" alt="LinkedIn" className="w-6 h-6" />
-            My LinkedIn Profile
-          </a>
-
-          {/* GitHub */}
-          <a
-            href="https://github.com/TonyMed12"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 hover:text-gray-400 transition"
-          >
-            <img src="/tech/github.png" alt="GitHub" className="w-6 h-6" />
-            github.com/TonyMed12
-          </a>
-
-          <a
-            href="mailto:tonymed2022@gmail.com"
-            className="flex items-center justify-center gap-3 hover:text-green-400 transition"
-          >
-            <img src="/gmail.png" alt="Email" className="w-6 h-6" />
-            tonymed2022@gmail.com
-          </a>
+          <header className="site-header intro-block intro-navigation">
+            <motion.a
+              className="brand"
+              href="#inicio"
+              onClick={() => setMenuOpen(false)}
+              aria-label={
+                es
+                  ? `${site.fullName} · volver al inicio`
+                  : `${site.fullName} · back to home`
+              }
+              initial={false}
+            >
+              <span className="brand-mark">
+                t<span>m</span>.
+              </span>
+            </motion.a>
+            <nav
+              id="main-nav"
+              aria-label={es ? "Navegación principal" : "Main navigation"}
+              className={`main-nav ${menuOpen ? "is-open" : ""}`}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") {
+                  setMenuOpen(false);
+                  document.getElementById("menu-toggle")?.focus();
+                }
+              }}
+            >
+              {nav.map((label, index) => (
+                <a
+                  key={sections[index]}
+                  href={`#${sections[index]}`}
+                  aria-current={
+                    active === sections[index] ? "location" : undefined
+                  }
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {label}
+                  {active === sections[index] && (
+                    <motion.span
+                      className="nav-current-marker"
+                      layoutId={reduced ? undefined : "nav-current-marker"}
+                      aria-hidden="true"
+                    />
+                  )}
+                </a>
+              ))}
+            </nav>
+            <div className="header-controls">
+              <button
+                className="language-toggle"
+                type="button"
+                onClick={() => setLanguage(es ? "en" : "es")}
+                aria-label={
+                  es ? "Cambiar idioma a inglés" : "Switch language to Spanish"
+                }
+              >
+                {es ? "ES" : "EN"} <span aria-hidden="true">⌄</span>
+              </button>
+              <button
+                type="button"
+                className="theme-toggle"
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
+                aria-label={
+                  es
+                    ? `Activar tema ${theme === "light" ? "oscuro" : "claro"}`
+                    : `Use ${theme === "light" ? "dark" : "light"} theme`
+                }
+              >
+                <Icon name={theme === "light" ? "moon" : "sun"} />
+              </button>
+              <button
+                id="menu-toggle"
+                type="button"
+                className="menu-toggle"
+                aria-controls="main-nav"
+                aria-expanded={menuOpen}
+                onClick={() => setMenuOpen(!menuOpen)}
+              >
+                {menuOpen ? t.close : t.menu}
+              </button>
+            </div>
+          </header>
+          <main id="contenido">
+            <section ref={heroRef} id="inicio" className="hero hero-stage-one section-wrap">
+              <div className="hero-copy">
+                <div>
+                  <h1 className="hero-name" aria-label={site.fullName}>
+                    <LineReveal ready={introReady} lines={[
+                      site.fullName.split(" ").slice(0, 2).join(" "),
+                      site.fullName.split(" ").slice(2).join(" "),
+                    ]} />
+                  </h1>
+                  <div className="intro-block intro-role">
+                    <div className="hero-role-row">
+                      <p className="hero-greeting">{read(profile.role, language)}</p>
+                      <p className="availability">
+                      <i />
+                      {read(profile.availability, language)}
+                      </p>
+                    </div>
+                    <p className="hero-degree">
+                      {read(profile.degree, language)} <span>{t.school}</span>
+                    </p>
+                  </div>
+                </div>
+                <div
+                  className="intro-block intro-type"
+                  data-ready={typeReady}
+                  data-visible={heroInView}
+                >
+                  <Typewriter
+                    language={language}
+                    running={Boolean(running) && typeReady}
+                  />
+                </div>
+                <p className="hero-description intro-block intro-description">
+                  {es
+                    ? "Desarrollo soluciones web con tecnologías frontend y backend, modelado de datos y planificación clara."
+                    : "I develop web solutions with frontend and backend technologies, data modeling and clear planning."}
+                </p>
+                <div className="intro-block intro-actions">
+                  <div className="hero-actions">
+                    <ResumeLink
+                      language={language}
+                      className="button button-primary"
+                    />
+                    <a className="button button-secondary" href="#contacto">
+                      {es ? "Hablemos" : "Let’s talk"} <Icon name="arrow" />
+                    </a>
+                  </div>
+                  <a
+                    className="hero-github text-link"
+                    href={contactLinks.github}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Icon name="github" />
+                    GitHub <Icon name="arrow" />
+                  </a>
+                </div>
+                <div className="hero-meta intro-block intro-actions">
+                  <span><Icon name="location" /> {t.location}</span>
+                  <a className="hero-continue" href="#proyectos">{es ? "Explorar proyectos" : "Explore projects"} <Icon name="arrow" /></a>
+                </div>
+              </div>
+              <div className="hero-side">
+                <HeroPortrait language={language} enabled={introReady} />
+              </div>
+            </section>
+            <About language={language} />
+            <section id="proyectos" className="projects-section">
+              <div className="section-wrap">
+                <Reveal className="section-heading">
+                  <div>
+                    <h2>{es ? "Proyectos seleccionados." : "Selected projects."}</h2>
+                  </div>
+                  <p>
+                    {es
+                      ? "Desarrollo, coordinación e investigación. Explora el contexto y mi contribución en cada proyecto."
+                      : "Development, coordination and research. Explore the context and my contribution to each project."}
+                  </p>
+                </Reveal>
+                <ProjectCarousel
+                  language={language}
+                  onLanguageChange={() =>
+                    setLanguage((current) => (current === "es" ? "en" : "es"))
+                  }
+                />
+              </div>
+            </section>
+            <TechnologySection language={language} />
+            <section id="formacion" className="journey-section">
+              <div className="section-wrap">
+                <Reveal className="section-heading">
+                  <div>
+                    <h2>{es ? "Formación y trayectoria." : "Education & journey."}</h2>
+                  </div>
+                  <p>
+                    {es
+                      ? "De Técnico en Programación a Ingeniería en Sistemas Computacionales. Egreso previsto en 2027."
+                      : "From Programming Technician to Computer Systems Engineering. Expected completion in 2027."}
+                  </p>
+                </Reveal>
+                <Journey language={language} />
+                <ResearchSection language={language} onOpen={setResearchId} />
+                <div className="courses">
+                  <Reveal className="subsection-heading">
+                    
+                    <h3>
+                      {es
+                        ? "Credenciales e idiomas."
+                        : "Credentials & languages."}
+                    </h3>
+                  </Reveal>
+                  <CredentialGallery
+                    language={language}
+                    onLanguageChange={() =>
+                      setLanguage((current) => (current === "es" ? "en" : "es"))
+                    }
+                  />
+                  <Languages language={language} />
+                </div>
+              </div>
+            </section>
+            <Contact language={language} />
+          </main>
+          <footer className="site-footer">
+            <span>
+              © {new Date().getFullYear()} {site.fullName}
+            </span>
+            <span>{site.signature} · Morelia, MX</span>
+            <a href="#inicio">{es ? "Volver arriba" : "Back to top"} ↑</a>
+          </footer>
+          {researchId && (
+            <ResearchDialog
+              id={researchId}
+              language={language}
+              onClose={() => setResearchId(null)}
+              onLanguageChange={() =>
+                setLanguage((current) => (current === "es" ? "en" : "es"))
+              }
+            />
+          )}
         </div>
-      </section>
-    </>
+      </LayoutGroup>
+    </MotionConfig>
   );
 }
 

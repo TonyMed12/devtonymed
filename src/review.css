@@ -1,0 +1,696 @@
+/* Fourth iteration: manual exploration and an open, scroll-linked route. */
+
+.site-header .brand {
+  flex-shrink: 0;
+}
+.hero-actions {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.resume-link {
+  white-space: nowrap;
+}
+.carousel-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+.carousel-toolbar p {
+  font-family: monospace;
+  font-size: 22px;
+}
+.carousel-toolbar p span {
+  color: var(--muted);
+  font-size: 14px;
+}
+.carousel-toolbar > div {
+  display: flex;
+  gap: 8px;
+}
+.carousel-toolbar button {
+  width: 46px;
+  height: 46px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 22px;
+  background: var(--surface);
+}
+.carousel-toolbar button:disabled {
+  opacity: 0.35;
+}
+.carousel-toolbar button:not(:disabled):hover {
+  background: var(--lime);
+  color: var(--dark);
+  transform: translateY(-2px);
+}
+.carousel-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  padding: 8px 5px 22px;
+  scroll-padding-inline: 5px;
+}
+.carousel-track::after {
+  content: "";
+  flex: 0 0 15%;
+}
+.carousel-track .compact-project {
+  flex: 0 0 83%;
+  min-width: 0;
+  height: auto;
+  display: grid;
+  grid-template-columns: 31% 1fr;
+  scroll-snap-align: start;
+  align-self: stretch;
+  position: relative;
+  margin: 0;
+  transform: none;
+}
+.compact-project .project-media {
+  height: auto;
+  min-height: 360px;
+}
+.compact-project .project-media > img {
+  height: 100%;
+  object-fit: cover;
+}
+.compact-project .project-body {
+  padding: 25px;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.compact-project .project-body h3 {
+  font-size: clamp(21px, 2.4vw, 30px);
+  line-height: 1.15;
+  margin: 0;
+}
+.compact-project .project-context {
+  font-size: 12px;
+  color: var(--muted);
+  margin: 0;
+}
+.compact-project .project-description {
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0;
+}
+.compact-project .compact-role {
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.compact-project .tags {
+  gap: 6px;
+  margin: 4px 0;
+}
+.compact-project .tags li {
+  font-size: 10px;
+  padding: 4px 6px;
+}
+.compact-project .project-actions {
+  margin-top: auto;
+  padding-top: 10px;
+  gap: 16px;
+}
+.compact-project .project-concept {
+  height: 100%;
+  min-height: 0;
+  padding: 20px;
+}
+.compact-project .project-concept > b {
+  font-size: clamp(26px, 4vw, 46px);
+  overflow-wrap: anywhere;
+}
+.compact-project .project-concept > span {
+  font-size: 9px;
+}
+.carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+  margin-top: 12px;
+}
+.carousel-dots button {
+  padding: 14px 8px;
+}
+.carousel-dots span {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: width 180ms;
+}
+.carousel-dots [aria-pressed="true"] span {
+  width: 28px;
+  background: var(--accent);
+  border-radius: 10px;
+}
+.dialog-work {
+  padding-left: 22px;
+}
+.dialog-work li {
+  margin-bottom: 10px;
+}
+.education-route {
+  position: relative;
+  margin-top: 50px;
+}
+.education-route > ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 42px;
+}
+.route-line {
+  position: absolute;
+  left: 106px;
+  top: 24px;
+  width: 60px;
+  height: calc(100% - 48px);
+  overflow: visible;
+  pointer-events: none;
+}
+.route-rail {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 2;
+}
+.route-progress {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+.route-marker {
+  fill: var(--lime);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+.route-station {
+  display: grid;
+  grid-template-columns: 106px 60px minmax(0, 1fr);
+  align-items: start;
+  position: relative;
+}
+.station-date {
+  padding-top: 25px;
+  font-weight: 700;
+  font-size: 14px;
+}
+.station-date small {
+  display: block;
+  color: var(--muted);
+  font-family: monospace;
+  margin-top: 10px;
+  font-weight: 400;
+}
+.station-node {
+  width: 15px;
+  height: 15px;
+  justify-self: center;
+  margin-top: 29px;
+  border: 3px solid var(--muted);
+  border-radius: 50%;
+  background: var(--paper);
+  position: relative;
+  z-index: 1;
+  transition:
+    background 250ms,
+    box-shadow 250ms;
+}
+.route-station[data-active="true"] .station-node {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 7px var(--paper);
+}
+.station-card {
+  position: relative;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--surface);
+  padding: 30px;
+}
+.station-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+.institution-logo {
+  display: block;
+  width: 180px;
+  height: 64px;
+  object-fit: contain;
+  border-radius: 5px;
+  background: white;
+  padding: 8px;
+}
+.logo-technical {
+  width: 70px;
+  height: 70px;
+}
+.status-pill {
+  color: var(--accent);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 5px 12px;
+  font-size: 11px;
+}
+.station-card h3 {
+  font-size: clamp(21px, 2.7vw, 32px);
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+.station-card > p {
+  color: var(--muted);
+  font-size: 15px;
+  max-width: 68ch;
+}
+.station-card .station-institution {
+  font-size: 12px;
+  margin-bottom: 18px;
+}
+.station-current .station-card {
+  border-color: var(--accent);
+  box-shadow: 0 12px 38px #0f172a0a;
+}
+.station-future .station-card {
+  border-style: dashed;
+}
+.license-block {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 20px;
+  margin-top: 24px;
+  border-radius: 12px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+.license-block > svg {
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+}
+.license-block > div {
+  display: grid;
+}
+.license-block span,
+.license-block small {
+  font-size: 11px;
+  color: var(--muted);
+}
+.license-block strong {
+  font-size: 26px;
+  letter-spacing: 0.05em;
+}
+.license-block a {
+  margin-left: auto;
+  font-size: 12px;
+  color: var(--accent);
+}
+.degree-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 22px;
+  margin-top: 22px;
+}
+.research-institution-logo {
+  width: 180px;
+  height: 74px;
+  object-fit: contain;
+  background: white;
+  padding: 8px;
+  border-radius: 6px;
+  position: relative;
+  z-index: 1;
+}
+.research-visual {
+  gap: 18px;
+  min-height: 210px;
+}
+.research-network {
+  display: none;
+}
+.research-body h4 {
+  font-size: 21px;
+  line-height: 1.3;
+}
+.research-dialog-logo {
+  display: block;
+  width: 200px;
+  max-height: 90px;
+  object-fit: contain;
+  padding: 10px;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+.credential-top .issuer-mark {
+  width: 110px;
+  height: 52px;
+  background: white;
+  border-radius: 5px;
+  padding: 7px;
+}
+.credential-top .issuer-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.credential-top {
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.credential-summary {
+  display: block;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin-top: 12px;
+}
+.credential-card {
+  height: auto;
+  min-height: 295px;
+}
+.credential-detail-logo {
+  width: 170px;
+  height: 66px;
+  object-fit: contain;
+  background: white;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  display: block;
+}
+.gci-calendar {
+  grid-column: 1 / -1;
+  color: var(--ink);
+  background: var(--paper);
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.gci-calendar h5 {
+  color: var(--ink);
+}
+.calendar-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  align-items: center;
+}
+.calendar-heading h5 {
+  font-size: 17px;
+}
+.calendar-heading > span {
+  font-size: 11px;
+  color: var(--accent);
+}
+.gci-calendar > p,
+.gci-calendar > small {
+  color: var(--muted);
+  font-size: 12px;
+}
+.gci-calendar ol {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 0;
+  list-style: none;
+  margin: 28px 0 20px;
+}
+.gci-calendar li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  font-size: 12px;
+  gap: 9px;
+}
+.gci-calendar li::before {
+  content: "";
+  position: absolute;
+  height: 1px;
+  background: var(--line);
+  top: 6px;
+  left: -50%;
+  width: 100%;
+}
+.gci-calendar li:first-child::before {
+  display: none;
+}
+.calendar-dot {
+  width: 13px;
+  height: 13px;
+  border: 2px solid var(--muted);
+  border-radius: 50%;
+  background: var(--paper);
+  z-index: 1;
+}
+.calendar-current .calendar-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 5px var(--surface);
+}
+.calendar-current strong {
+  color: var(--accent);
+  font-size: 10px;
+}
+.languages-section {
+  margin-top: 80px;
+}
+.language-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.language-cards article {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  border: 1px solid var(--line);
+  border-radius: 15px;
+  padding: 28px;
+  background: var(--surface);
+}
+.language-code {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.05em;
+}
+.language-code > span {
+  color: var(--accent);
+}
+.language-cards h4 {
+  margin-bottom: 7px;
+  font-size: 21px;
+}
+.language-cards strong,
+.language-cards p {
+  font-size: 12px;
+}
+.language-cards p {
+  color: var(--muted);
+  margin-top: 4px;
+}
+.cefr-scale {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+  margin: 18px 0 0;
+}
+.cefr-scale li {
+  font: 10px monospace;
+  border-top: 3px solid var(--line);
+  padding-top: 7px;
+  min-width: 23px;
+}
+.cefr-scale .level-reported {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: bold;
+}
+.text-link {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0 1px;
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition:
+    background-size 200ms,
+    color 200ms;
+}
+.text-link:hover,
+.text-link:focus-visible {
+  background-size: 100% 1px;
+}
+.station-card:focus-within,
+.compact-project:focus-within {
+  border-color: var(--accent);
+}
+@media (hover: hover) and (pointer: fine) {
+  .station-card[data-pointer="true"],
+  .compact-project[data-pointer="true"] {
+    border-color: var(--accent);
+    background-image: radial-gradient(
+      250px circle at var(--card-x) var(--card-y),
+      color-mix(in srgb, var(--accent) 6%, transparent),
+      transparent
+    );
+  }
+  h2 em:hover,
+  h1 em:hover {
+    color: var(--muted);
+    transition: color 250ms;
+  }
+  .resume-link:hover svg,
+  .degree-links a:hover {
+    transform: translateY(-2px);
+  }
+}
+:root[data-motion="reduced"] {
+  scroll-behavior: auto;
+}
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation: none !important;
+  transition-duration: 0s !important;
+}
+@media (max-width: 900px) {
+  .carousel-track .compact-project {
+    flex-basis: 88%;
+    grid-template-columns: 25% 1fr;
+  }
+  .route-station {
+    grid-template-columns: 80px 40px minmax(0, 1fr);
+  }
+  .route-line {
+    left: 80px;
+    width: 40px;
+  }
+  .station-card {
+    padding: 24px;
+  }
+}
+@media (max-width: 600px) {
+  .site-header {
+    gap: 10px;
+  }
+  .header-controls {
+    gap: 7px;
+  }
+
+  .hero-actions .resume-link {
+    width: auto;
+  }
+  .carousel-track {
+    gap: 14px;
+  }
+  .carousel-track .compact-project {
+    flex-basis: 92%;
+    display: flex;
+    flex-direction: column;
+  }
+  .compact-project .project-media {
+    min-height: 0;
+    height: 115px;
+    flex-shrink: 0;
+  }
+  .compact-project .project-media > img {
+    object-position: center 35%;
+  }
+  .compact-project .project-body {
+    padding: 20px;
+    flex: 1;
+  }
+  .compact-project .project-body h3 {
+    font-size: 23px;
+  }
+  .compact-project .project-description {
+    font-size: 13px;
+  }
+  .compact-project .project-concept {
+    padding: 15px;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+  .compact-project .project-concept > b {
+    font-size: 27px;
+  }
+  .route-station {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+  .route-line {
+    left: 0;
+    width: 28px;
+    top: 18px;
+  }
+  .station-date {
+    grid-column: 2;
+    padding: 0 0 12px 10px;
+  }
+  .station-date small {
+    display: none;
+  }
+  .station-node {
+    position: absolute;
+    top: 0;
+    left: 7px;
+    margin-top: 4px;
+  }
+  .station-card {
+    grid-column: 2;
+    padding: 22px;
+  }
+  .station-card > p {
+    font-size: 14px;
+  }
+  .station-top {
+    gap: 12px;
+  }
+  .institution-logo {
+    max-width: 100%;
+    width: 150px;
+    height: 55px;
+  }
+  .logo-technical {
+    width: 65px;
+    height: 65px;
+  }
+  .license-block {
+    padding: 14px;
+    gap: 12px;
+  }
+  .license-block a {
+    margin-left: 0;
+    width: 100%;
+  }
+  .language-cards {
+    grid-template-columns: 1fr;
+  }
+  .language-cards article {
+    padding: 24px;
+  }
+  .gci-calendar {
+    padding: 18px;
+  }
+  .calendar-heading {
+    align-items: flex-start;
+  }
+  .calendar-heading h5 {
+    font-size: 15px;
+  }
+}

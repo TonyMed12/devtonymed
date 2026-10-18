@@ -1,0 +1,414 @@
+/* Automatic motion with explicit interaction pauses and compact modal details. */
+.site-shell,
+main,
+.section-wrap,
+.project-carousel,
+.technology-band {
+  min-width: 0;
+}
+.band-viewport {
+  overflow: hidden;
+  scrollbar-width: none;
+}
+.band-viewport::-webkit-scrollbar,
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+.band-track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+  animation: technology-loop 100s linear infinite;
+}
+.technology-sequence {
+  display: flex;
+  flex: 0 0 auto;
+  min-inline-size: 0;
+  width: max-content;
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 16px 12px 16px 0;
+}
+.band-copy {
+  display: flex;
+}
+.band-item {
+  font-size: 13px;
+}
+.band-item .technology-icon {
+  flex: 0 0 32px;
+}
+.technology-band[data-paused="true"] .band-track,
+.technology-band:focus-within .band-track {
+  animation-play-state: paused;
+}
+.technology-band[data-static="true"] .band-track {
+  animation: none;
+  transform: none;
+  width: 100%;
+  display: block;
+}
+.technology-band[data-static="true"] .technology-sequence {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.technology-band[data-static="true"] .band-copy {
+  display: none;
+}
+.carousel-track {
+  scrollbar-width: none;
+  position: relative;
+  scroll-snap-type: x proximity;
+}
+.carousel-track::after {
+  display: block;
+  content: "";
+  flex: 0 0 15%;
+}
+.carousel-track[data-dragging="true"] {
+  scroll-snap-type: none;
+  user-select: none;
+  cursor: grabbing;
+}
+.carousel-track[data-dragging="true"] img {
+  pointer-events: none;
+}
+.carousel-track [data-clone="true"] {
+  pointer-events: none;
+}
+.compact-project .project-media img {
+  object-fit: contain;
+}
+.station-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: visible;
+  gap: 12px;
+  padding: 0;
+}
+.station-tabs button {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 7px;
+  position: relative;
+  isolation: isolate;
+  padding: 17px 20px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 10px;
+  text-align: left;
+  min-width: 0;
+}
+.station-tabs button::before,
+.station-tabs button::after {
+  display: none;
+}
+.station-tabs button:hover {
+  background: var(--choice-bg);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.station-tabs button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 4px;
+}
+.station-tabs button[aria-selected="true"] {
+  border-color: var(--accent);
+}
+.education-selection {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--accent) 9%, var(--surface));
+  box-shadow: inset 0 -3px 0 var(--accent);
+}
+.station-tab-name {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+.station-tab-year {
+  color: var(--muted);
+  margin: 0;
+  font-size: 11px;
+}
+.station-tabs .tab-future .station-tab-name {
+  font-weight: 600;
+}
+.journey-panel {
+  margin-top: 18px;
+  padding: 25px;
+}
+.journey-panel-content {
+  gap: 25px;
+  grid-template-columns: 185px minmax(0, 1fr);
+}
+.journey-text h3 {
+  font-size: clamp(22px, 2.4vw, 30px);
+}
+.journey-text > p {
+  font-size: 13px;
+}
+.credential-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 15px;
+}
+.credential-card {
+  min-height: 0;
+  height: auto;
+  padding: 18px;
+  border-radius: 12px;
+  gap: 0;
+  background: #17233b;
+}
+.credential-top {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 8px;
+}
+.credential-card .issuer-mark,
+.credential-gci .issuer-mark {
+  width: 100%;
+  height: 46px;
+  max-width: 190px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.credential-card .issuer-mark img {
+  width: 100%;
+  height: 100%;
+  max-height: 38px;
+  object-fit: contain;
+}
+.credential-card .course-status {
+  font-size: 10px;
+  text-align: left;
+  color: #93c5fd;
+  max-width: none;
+}
+.credential-card > strong {
+  margin-top: 12px;
+  font-size: 17px;
+  line-height: 1.3;
+}
+.credential-issuer {
+  margin-top: 9px;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.credential-credits {
+  margin-top: 10px;
+  font-size: 12px;
+}
+.credential-open {
+  padding-top: 18px;
+  margin-top: auto;
+  font-size: 11px;
+  color: #93c5fd;
+  gap: 15px;
+}
+.credential-open svg {
+  width: 15px;
+  height: 15px;
+}
+.gci-period-preview {
+  display: grid;
+  gap: 5px;
+  margin-top: 10px;
+}
+.gci-period-dates {
+  font-size: 10px;
+  color: #cbd5e1;
+}
+.gci-period-label {
+  font: 10px/1.5 monospace;
+  color: #93c5fd;
+}
+.gci-period-bar {
+  display: block;
+  height: 5px;
+  background: #3c5274;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.gci-period-bar > span {
+  display: block;
+  height: 100%;
+  background: #60a5fa;
+  border-radius: inherit;
+}
+.credential-dialog {
+  width: min(650px, calc(100% - 30px));
+  max-height: min(88dvh, 850px);
+  overscroll-behavior: contain;
+}
+.credential-dialog .dialog-content {
+  padding: 25px 30px 30px;
+}
+.credential-dialog .dialog-toolbar {
+  margin-bottom: 15px;
+}
+.credential-dialog-logo {
+  display: block;
+  width: 210px;
+  max-width: 100%;
+  height: 70px;
+  padding: 10px 14px;
+  background: white;
+  object-fit: contain;
+  border-radius: 7px;
+  margin-bottom: 18px;
+}
+.credential-dialog h2 {
+  font-size: 27px;
+  line-height: 1.2;
+}
+.credential-dialog .dialog-kicker {
+  font-size: 11px;
+  margin-top: 10px;
+}
+.credential-dialog-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 15px;
+  margin-top: 10px;
+  color: var(--panel-accent);
+  font-size: 11px;
+}
+.credential-dialog-meta .credential-format {
+  margin: 0;
+  color: var(--panel-muted);
+  font-size: 11px;
+}
+.credential-dialog .secure-topics {
+  margin-top: 20px;
+  gap: 8px;
+}
+.credential-dialog .secure-topics li {
+  padding: 11px;
+  font-size: 11px;
+  color: var(--panel-ink);
+  border-color: var(--panel-line);
+}
+.credential-dialog .secure-topics li > span {
+  color: var(--panel-accent);
+  font-size: 14px;
+}
+.credential-dialog .credential-evidence {
+  border-top: 1px solid var(--panel-line);
+  padding-top: 14px;
+  font-size: 11px;
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.credential-evidence > span {
+  font-family: monospace;
+  color: var(--panel-ink);
+}
+.credential-source {
+  font-size: 12px;
+  margin-top: 16px;
+  color: var(--panel-accent);
+}
+.credential-dialog .gci-calendar {
+  margin-top: 20px;
+  background: var(--panel-bg);
+  border-color: var(--panel-line);
+  color: var(--panel-ink);
+  padding: 18px;
+}
+.credential-dialog .gci-calendar .calendar-heading h5 {
+  color: var(--panel-ink);
+  font-size: 15px;
+}
+.credential-dialog .gci-calendar .calendar-heading > span {
+  color: var(--panel-accent);
+}
+.gci-calendar .gci-period-bar {
+  margin-top: 14px;
+  height: 6px;
+}
+.credential-dialog .gci-calendar p {
+  margin-top: 10px;
+  font-size: 11px;
+}
+.credential-dialog .gci-calendar small {
+  display: block;
+  font-size: 10px;
+  color: var(--panel-muted);
+  margin-top: 8px;
+}
+@media (max-width: 1050px) {
+  .credential-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 760px) {
+  .station-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .station-tabs button {
+    padding: 14px;
+  }
+  .station-tab-name {
+    font-size: 12px;
+  }
+  .station-tab-year {
+    font-size: 10px;
+  }
+  .journey-panel-content {
+    grid-template-columns: 1fr;
+    gap: 17px;
+  }
+  .journey-panel {
+    padding: 20px;
+  }
+  .credential-card {
+    padding: 16px;
+  }
+  .credential-card > strong {
+    font-size: 16px;
+  }
+  .credential-card .issuer-mark {
+    padding: 10px;
+    height: 52px;
+  }
+  .credential-dialog {
+    max-height: 90dvh;
+  }
+  .credential-dialog .dialog-content {
+    padding: 22px;
+  }
+  .credential-dialog h2 {
+    font-size: 24px;
+  }
+}
+@media (max-width: 430px) {
+  .credential-grid {
+    grid-template-columns: 1fr;
+  }
+  .credential-top {
+    flex-direction: row;
+    align-items: center;
+  }
+  .credential-card .issuer-mark {
+    width: 155px;
+    flex-shrink: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .band-track {
+    animation: none;
+    transform: none;
+  }
+}

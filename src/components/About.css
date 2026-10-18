@@ -1,0 +1,34 @@
+/* Editorial About only. No sticky panels, reserved scroll space or global tokens. */
+#sobre-mi.about-editorial { padding-block: 88px; }
+#sobre-mi .about-intro-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.55fr); gap: clamp(40px, 6vw, 88px); align-items: start; }
+#sobre-mi .about-heading { margin: 0; }
+#sobre-mi .about-section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 14px; color: var(--accent); }
+#sobre-mi .about-section-label .about-symbol { width: 20px; height: 20px; }
+#sobre-mi .about-symbol { display: block; width: 34px; height: 34px; color: var(--accent); flex-shrink: 0; }
+#sobre-mi .about-title-mask { overflow: hidden; padding-bottom: .12em; margin-bottom: -.12em; font-size: clamp(42px, 4vw, 56px); line-height: 1.1; }
+#sobre-mi .about-title-mask > span { display: block; }
+#sobre-mi .about-editorial-copy { min-width: 0; }
+#sobre-mi .about-lead { font-size: clamp(27px, 2.5vw, 34px); line-height: 1.42; font-weight: 400; letter-spacing: -.025em; max-width: 36ch; margin: 0; color: var(--ink); }
+#sobre-mi .about-emphasis { display: inline-block; white-space: nowrap; font-weight: 700; }
+#sobre-mi .about-supporting-copy { font-size: 16px; line-height: 1.7; max-width: 62ch; margin: 24px 0 0; color: var(--muted); }
+#sobre-mi .about-principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 60px); margin-top: 64px; }
+#sobre-mi .about-principle { min-width: 0; }
+#sobre-mi .about-principle-icon { margin-bottom: 20px; width: fit-content; }
+#sobre-mi .about-principle h3 { font-size: 24px; line-height: 1.2; letter-spacing: -.025em; margin: 0 0 12px; }
+#sobre-mi .about-principle p { font-size: 16px; line-height: 1.65; max-width: 36ch; margin: 0; color: var(--muted); }
+@media (max-width: 760px) {
+  #sobre-mi.about-editorial { padding-block: 56px 64px; }
+  #sobre-mi .about-intro-grid { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  #sobre-mi .about-section-label { margin-bottom: 14px; font-size: 13px; }
+  #sobre-mi .about-title-mask { font-size: 42px; }
+  #sobre-mi .about-lead { font-size: clamp(25px, 6.7vw, 30px); line-height: 1.45; }
+  #sobre-mi .about-supporting-copy { margin-top: 20px; font-size: 15px; }
+  #sobre-mi .about-principles { grid-template-columns: minmax(0, 1fr); gap: 34px; margin-top: 44px; }
+  #sobre-mi .about-principle-icon { margin-bottom: 14px; }
+  #sobre-mi .about-principle h3 { font-size: 23px; margin-bottom: 10px; }
+  #sobre-mi .about-principle p { font-size: 15px; max-width: 48ch; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #sobre-mi :is(.about-title-mask > span,.about-emphasis,.about-principle-icon,.about-principle h3,.about-principle p) { transform: none !important; opacity: 1 !important; }
+  #sobre-mi .about-lead { color: var(--ink); }
+}

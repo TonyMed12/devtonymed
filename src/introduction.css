@@ -1,0 +1,357 @@
+/* Iteration 07: name-first introduction and compatible Framer adaptations. */
+.brand-welcome {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  background: var(--paper);
+  color: var(--ink);
+  pointer-events: none;
+  animation: welcome-exit 1.05s both;
+}
+.brand-welcome .brand-mark {
+  font-size: 76px;
+  line-height: 1;
+  letter-spacing: -7px;
+}
+.brand-welcome .brand-mark > span {
+  color: var(--accent);
+}
+.brand-welcome > div {
+  display: grid;
+  gap: 5px;
+  border-left: 1px solid var(--line);
+  padding-left: 26px;
+}
+.brand-welcome > div > span:first-child {
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: -0.8px;
+}
+.brand-welcome > div > span:last-child {
+  font-size: 14px;
+  color: var(--muted);
+}
+@keyframes welcome-exit {
+  0%,
+  55% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.hero {
+  grid-template-columns: minmax(0, 1.16fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 65px);
+  padding-block: 50px;
+  min-height: 720px;
+}
+.hero-copy {
+  min-width: 0;
+}
+.hero-signature {
+  color: var(--accent);
+  font:
+    11px/1.5 Consolas,
+    monospace;
+  letter-spacing: 1.1px;
+}
+.hero h1.hero-name {
+  font-size: clamp(43px, 4.65vw, 66px);
+  line-height: 1.04;
+  letter-spacing: -0.055em;
+  margin: 18px 0;
+  max-width: 12ch;
+  text-wrap: balance;
+}
+.hero .hero-greeting {
+  margin-top: 0;
+  font-size: clamp(16px, 1.7vw, 20px);
+  color: var(--accent);
+}
+.hero-degree {
+  max-width: 43ch;
+  margin-top: 13px;
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.hero-degree > span {
+  display: block;
+  font-size: 11px;
+}
+.hero .availability {
+  margin-top: 18px;
+}
+.hero-typewriter {
+  font-size: clamp(20px, 2.05vw, 27px);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.6px;
+  margin-block: 24px;
+  min-height: 2.8em;
+}
+.typewriter-fixed,
+.typewriter-dynamic {
+  display: block;
+}
+.typewriter-fixed {
+  color: var(--ink);
+}
+.typewriter-dynamic {
+  color: var(--accent);
+  min-height: 1.4em;
+  white-space: nowrap;
+}
+.typing-cursor {
+  display: inline-block;
+  width: 1.5px;
+  height: 0.85em;
+  background: currentColor;
+  margin-left: 4px;
+  vertical-align: -0.02em;
+  opacity: 0.6;
+}
+.hero .hero-github {
+  margin-top: 18px;
+}
+.hero .hero-meta {
+  margin-top: 22px;
+  font-size: 10px;
+}
+.hero-side {
+  width: 100%;
+  padding-bottom: 0;
+}
+.portrait-stage {
+  background: radial-gradient(
+    ellipse at 50% 58%,
+    color-mix(in srgb, var(--accent) 8%, transparent),
+    transparent 72%
+  );
+}
+.dot-grid-backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  mask-image: linear-gradient(90deg, transparent 28%, #000 65%, transparent);
+}
+.hero-actions .eye-follow-link {
+  background: var(--choice-bg);
+  color: var(--accent);
+  border-color: var(--accent);
+  gap: 18px;
+  transform: none;
+}
+.hero-actions .eye-follow-link:hover {
+  background: var(--accent);
+  color: var(--paper);
+  transform: none;
+}
+.eye-follow-link:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 5px;
+}
+.follow-eyes {
+  display: inline-flex;
+  flex: 0 0 auto;
+  gap: 3px;
+  pointer-events: none;
+}
+.follow-eye {
+  display: inline-flex;
+  width: 20px;
+  height: 22px;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border: 1px solid #2563eb;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.follow-eye > i {
+  display: block;
+  width: 7px;
+  height: 9px;
+  border-radius: 50%;
+  background: #1d4ed8;
+}
+.journey-path {
+  display: block;
+  width: 100%;
+  height: 36px;
+  overflow: visible;
+  pointer-events: none;
+}
+.journey-path path {
+  fill: none;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-width: 1.5px;
+}
+.journey-path-base {
+  stroke: var(--line);
+  stroke-dasharray: 4 5;
+}
+.journey-path-progress {
+  stroke: var(--accent);
+}
+.path-node {
+  fill: var(--surface);
+  stroke: var(--line);
+  stroke-width: 1px;
+  vector-effect: non-scaling-stroke;
+}
+.path-node.active {
+  fill: var(--accent);
+  stroke: var(--accent);
+}
+.compact-journey .journey-panel {
+  margin-top: 0;
+}
+.scroll-reveal-text {
+  color: var(--muted);
+}
+.portrait-static {
+  padding: 8px 12px;
+}
+.portrait-static-frame {
+  height: 100%;
+  margin: 0;
+  padding: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 35px;
+}
+.portrait-static-crop {
+  overflow: hidden;
+  border-radius: 6px;
+}
+.portrait-static-crop > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 55% 34%;
+  transform: scale(1.55);
+  transform-origin: 55% 36%;
+}
+.portrait-static-frame figcaption {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 6px 8px 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+.portrait-static-frame strong {
+  color: var(--accent);
+  font-size: 16px;
+}
+@media (max-width: 1000px) and (min-width: 761px) {
+  .hero {
+    gap: 25px;
+  }
+  .hero h1.hero-name {
+    font-size: 46px;
+  }
+  .hero-typewriter {
+    font-size: 21px;
+  }
+}
+@media (max-width: 760px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 25px;
+    padding-block: 35px 45px;
+    min-height: 0;
+  }
+  .hero h1.hero-name {
+    max-width: 12ch;
+    font-size: clamp(41px, 9vw, 60px);
+    margin-block: 15px;
+  }
+  .hero .hero-greeting {
+    font-size: 17px;
+  }
+  .hero-degree {
+    margin-top: 10px;
+    font-size: 12px;
+  }
+  .hero .availability {
+    margin-top: 14px;
+  }
+  .hero-typewriter {
+    font-size: clamp(19px, 4.6vw, 25px);
+    margin-block: 21px;
+  }
+  .hero-actions {
+    gap: 10px;
+  }
+  .hero-actions .button {
+    min-width: 0;
+    flex: 1;
+    padding-inline: 12px;
+    font-size: 12px;
+  }
+  .hero-actions .eye-follow-link {
+    gap: 10px;
+  }
+  .hero-meta {
+    flex-wrap: wrap;
+  }
+  .hero-side {
+    max-width: 450px;
+    margin-inline: auto;
+  }
+  .dot-grid-backdrop {
+    mask-image: linear-gradient(180deg, transparent 30%, #000 65%, transparent);
+  }
+  .station-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+  }
+  .station-tabs button {
+    padding: 11px 9px;
+    min-height: 85px;
+    justify-content: center;
+  }
+  .station-tab-name {
+    font-size: 11px;
+    line-height: 1.4;
+  }
+  .station-tab-year {
+    font-size: 9px;
+  }
+  .journey-path {
+    height: 28px;
+  }
+  .brand-welcome {
+    gap: 22px;
+  }
+  .brand-welcome .brand-mark {
+    font-size: 60px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-welcome {
+    animation: welcome-exit 1.05s both;
+  }
+  .typing-cursor {
+    display: none;
+  }
+  .eye-follow-link,
+  .follow-eye > i {
+    transition: none;
+  }
+}
