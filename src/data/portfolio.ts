@@ -70,6 +70,7 @@ export const projects: Project[] = [
     id: "caam",
     title: "Centro de Atención Animal de Morelia",
     featured: true,
+    image: "/projects/caam.svg",
     caseStudy: {
       architecture: [
         ["Ejemplo: aplicación frontend", "Example: frontend application"],
@@ -135,6 +136,7 @@ export const projects: Project[] = [
     id: "fraud-detection",
     title: "Detección de fraude con aprendizaje automático",
     featured: true,
+    image: "/projects/fraud.svg",
     caseStudy: {
       architecture: [
         ["Ejemplo: datos transaccionales", "Example: transactional data"],
@@ -254,6 +256,7 @@ export type Technology = {
   logo?: string;
   personal: boolean;
   projectId?: string;
+  learning?: boolean;
 };
 
 export const technologies: Technology[] = [
@@ -459,6 +462,112 @@ export const technologies: Technology[] = [
     category: "tools",
     application: "Seguimiento y coordinación de tareas.",
     logo: "/tech/ji.svg",
+    personal: true,
+  },
+  {
+    id: "randomforest",
+    name: "Random Forest",
+    category: "data",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "isolationforest",
+    name: "Isolation Forest",
+    category: "data",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "supabase",
+    name: "Supabase",
+    category: "backend",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "twilio",
+    name: "Twilio",
+    category: "backend",
+    application: "",
+    personal: true,
+    learning: true,
+  },
+  {
+    id: "reactquery",
+    name: "React Query",
+    category: "web",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "mvc",
+    name: "MVC",
+    category: "backend",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "oop",
+    name: "OOP",
+    category: "backend",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "n8n",
+    name: "n8n",
+    category: "tools",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "vitest",
+    name: "Vitest",
+    category: "tools",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "pytest",
+    name: "Pytest",
+    category: "tools",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "zod",
+    name: "Zod",
+    category: "web",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "eslint",
+    name: "ESLint",
+    category: "tools",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "pwa",
+    name: "PWA",
+    category: "web",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "docker",
+    name: "Docker",
+    category: "tools",
+    application: "",
+    personal: true,
+  },
+  {
+    id: "mysql",
+    name: "MySQL",
+    category: "data",
+    application: "",
     personal: true,
   },
 ];

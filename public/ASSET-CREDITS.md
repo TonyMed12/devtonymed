@@ -46,3 +46,7 @@ La tabla de identificación de marcas en uso está en `docs/ITERATION-05.md`.
 - `tm-pass.svg`: variante propia del monograma TM sobre fondo azul, creada en SVG para esta prueba; no representa una institución. La fotografía es el archivo real `profesionaltony.jpg` existente, sin sustitución ni edición del bitmap.
 
 Compatibilidad, cambios, rendimiento y límites de prueba visual: `docs/LANYARD-REVIEW.md`.
+
+## Ilustraciones genéricas de proyectos
+
+- `projects/caam.svg` y `projects/fraud.svg`: composiciones abstractas originales del proyecto, sin texto, logos ni referencias a una institución o a datos reales. Se usan en los proyectos que no tenían imagen.

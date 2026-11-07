@@ -22,11 +22,13 @@ export function Languages({ language }: { language: Language }) {
           <h5>{es ? "Español" : "Spanish"}</h5>
           <strong className="language-level">{es ? "Nativo" : "Native"}</strong>
           <LevelArc filled={6} />
+          <span className="language-code" aria-hidden="true">ES</span>
         </article>
         <article className="english-language">
           <h5>{es ? "Inglés" : "English"}</h5>
           <strong className="language-level">B2</strong>
           <LevelArc filled={4} />
+          <span className="language-code" aria-hidden="true">EN</span>
           <span className="reported-level">{es ? "Nivel reportado" : "Reported level"}</span>
           <span className="language-certification">{es ? "Certificación pendiente" : "Certification pending"}</span>
         </article>

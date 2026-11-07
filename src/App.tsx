@@ -7,7 +7,6 @@ import { profile, read } from "./data/experience";
 import { copy } from "./data/ui";
 import type { Language } from "./data/i18n";
 import { ProjectShowcase } from "./components/ProjectShowcase";
-import { SectionCounter } from "./components/SectionCounter";
 import { ScrollProgress } from "./components/ScrollProgress";
 import "./projects-showcase.css";
 import { ProjectPresentationHeading } from "./components/ProjectPresentationHeading";
@@ -242,11 +241,12 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
           </header>
           <EntranceReady value={introReady}>
           <main id="contenido">
+            <div className="ambient-bg" aria-hidden="true" />
             <ScrollProgress />
-            <SectionCounter language={language} />
             <section ref={heroRef} id="inicio" className="hero hero-stage-one section-wrap">
               <div className="hero-copy">
                 <div>
+                  <a className="hero-domain" href={site.url} target="_blank" rel="noreferrer">{site.signature} <Icon name="arrow" /></a>
                   <h1 className="hero-name" aria-label={site.fullName}>
                     <LineReveal ready={introReady} lines={[
                       site.fullName.split(" ").slice(0, 2).join(" "),
@@ -265,9 +265,6 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
                       {read(profile.degree, language)} <span>{t.school}</span>
                     </p>
                   </div>
-                </div>
-                <div className="intro-block hero-float">
-                  <HeroTerminal language={language} />
                 </div>
                 <div className="intro-block intro-actions">
                   <div className="hero-actions">
@@ -295,6 +292,9 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
               <div className="hero-side">
                 <span className="hero-orbit" aria-hidden="true" />
                 <HeroPortrait language={language} enabled={introReady} />
+                <div className="intro-block hero-float hero-under-photo">
+                  <HeroTerminal language={language} />
+                </div>
               </div>
             </section>
             <About language={language} />

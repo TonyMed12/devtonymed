@@ -5,7 +5,6 @@ import { portrait, portraitImageStyle } from "../data/portrait";
 import { site } from "../data/site";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { useProjectImageTilt } from "../hooks/useProjectImageTilt";
-import { DeveloperTerminal } from "./DeveloperTerminal";
 import "./HeroPortrait.css";
 
 export function HeroPortrait({ language, enabled = true }: { language: Language; enabled?: boolean }) {
@@ -24,7 +23,6 @@ export function HeroPortrait({ language, enabled = true }: { language: Language;
         <figcaption className="sr-only">{language === "es" ? "Retrato de José Antonio Medina Ayala, desarrollador Full-Stack Junior." : "Portrait of José Antonio Medina Ayala, Junior Full-Stack Developer."}</figcaption>
       </figure>
       </motion.div>
-      <DeveloperTerminal language={language} />
     </div>
   );
 }

@@ -15,6 +15,28 @@ import { useMediaQuery } from "../hooks/useMediaQuery";
 import { usePageVisible } from "../hooks/usePageVisible";
 import { useInView } from "motion/react";
 
+// Places from the author's trajectory: GCI in Tokyo, CUL in Barranquilla, UPV in Valencia.
+const destinations = [
+  { latitude: 35.6762, longitude: 139.6503 },
+  { latitude: 10.9639, longitude: -74.7964 },
+  { latitude: 39.4699, longitude: -0.3763 },
+];
+
+// Great-circle path between two unit vectors, lifted off the sphere so the arc reads in 3D.
+const arcBetween = (from: SpherePoint, to: SpherePoint): SpherePoint[] => {
+  const dot = Math.max(-1, Math.min(1, from[0] * to[0] + from[1] * to[1] + from[2] * to[2]));
+  const omega = Math.acos(dot);
+  const points: SpherePoint[] = [];
+  for (let s = 0; s <= 40; s++) {
+    const t = s / 40;
+    const a = Math.sin((1 - t) * omega) / Math.sin(omega);
+    const b = Math.sin(t * omega) / Math.sin(omega);
+    const lift = 1 + 0.18 * Math.sin(Math.PI * t);
+    points.push([(a * from[0] + b * to[0]) * lift, (a * from[1] + b * to[1]) * lift, (a * from[2] + b * to[2]) * lift]);
+  }
+  return points;
+};
+
 export default function LocationGlobeCanvas() {
   const ref = useRef<HTMLCanvasElement>(null);
   const reduced = useReducedMotion();
@@ -32,13 +54,15 @@ export default function LocationGlobeCanvas() {
     canvas.height = size * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     const runs = engraving(mobile ? 4 : 2.5);
+    // Interactive globe: drag to turn it, slow spin at rest, dashes flow along the arcs.
+    const state = { lng: location.longitude, lat: location.latitude, drag: false, lastX: 0, lastY: 0, time: 0 };
     const paint = (progress: number) => {
       const dark = document.documentElement.dataset.theme === "dark";
       const ink = dark ? "#60a5fa" : "#1d4ed8";
       const grid = dark ? "#334766" : "#cbd5e1";
       const k = camera(
-        location.longitude + (1 - progress) * 14,
-        location.latitude - (1 - progress) * 5,
+        state.lng + (1 - progress) * 14,
+        state.lat - (1 - progress) * 5,
       );
       const r = size * 0.43,
         center = size / 2;
@@ -101,8 +125,62 @@ export default function LocationGlobeCanvas() {
       ctx.beginPath();
       ctx.arc(marker.x, marker.y, 3.5, 0, Math.PI * 2);
       ctx.fill();
+      const origin = onSphere(location.latitude, location.longitude);
+      ctx.save();
+      ctx.strokeStyle = ink;
+      ctx.lineWidth = 1;
+      ctx.setLineDash([4, 6]);
+      ctx.lineDashOffset = -state.time * 0.4;
+      ctx.beginPath();
+      for (const place of destinations) line(arcBetween(origin, onSphere(place.latitude, place.longitude)));
+      ctx.stroke();
+      ctx.restore();
+      for (const place of destinations) {
+        const dot = project(onSphere(place.latitude, place.longitude));
+        if (dot.z <= 0.025) continue;
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
     };
     paint(1);
+
+    // Drag to turn (horizontal) and tilt (vertical); vertical page scroll still works on touch.
+    const onDown = (event: PointerEvent) => {
+      state.drag = true;
+      state.lastX = event.clientX;
+      state.lastY = event.clientY;
+      canvas.setPointerCapture(event.pointerId);
+    };
+    const onMove = (event: PointerEvent) => {
+      if (!state.drag) return;
+      state.lng -= (event.clientX - state.lastX) * 0.35;
+      state.lat = Math.max(-60, Math.min(60, state.lat + (event.clientY - state.lastY) * 0.25));
+      state.lastX = event.clientX;
+      state.lastY = event.clientY;
+      paint(1);
+    };
+    const onUp = () => {
+      state.drag = false;
+    };
+    canvas.addEventListener("pointerdown", onDown);
+    canvas.addEventListener("pointermove", onMove);
+    canvas.addEventListener("pointerup", onUp);
+    canvas.addEventListener("pointercancel", onUp);
+
+    // Slow spin and dash flow only while the globe is on screen and motion is allowed.
+    let frame = 0;
+    let last = performance.now();
+    const tick = (now: number) => {
+      const dt = Math.min(0.05, (now - last) / 1000);
+      last = now;
+      state.time += dt * 60;
+      if (!state.drag) state.lng += dt * 3;
+      paint(1);
+      frame = requestAnimationFrame(tick);
+    };
+    const canAnimate = typeof window.requestAnimationFrame === "function";
+    if (!reduced && visible && inView && canAnimate) frame = requestAnimationFrame(tick);
     const theme = new MutationObserver(() => paint(1));
     theme.observe(document.documentElement, {
       attributes: true,
@@ -123,6 +201,11 @@ export default function LocationGlobeCanvas() {
     return () => {
       animation?.stop();
       theme.disconnect();
+      if (canAnimate) cancelAnimationFrame(frame);
+      canvas.removeEventListener("pointerdown", onDown);
+      canvas.removeEventListener("pointermove", onMove);
+      canvas.removeEventListener("pointerup", onUp);
+      canvas.removeEventListener("pointercancel", onUp);
     };
   }, [mobile, reduced, visible, inView]);
   return (
@@ -130,6 +213,7 @@ export default function LocationGlobeCanvas() {
       ref={ref}
       className="location-globe-canvas"
       aria-hidden="true"
+      style={{ touchAction: "pan-y", cursor: "grab" }}
       data-latitude={location.latitude}
       data-longitude={location.longitude}
     />
