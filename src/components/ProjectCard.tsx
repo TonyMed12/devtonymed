@@ -4,6 +4,10 @@ import type { Language } from "../data/i18n";
 import { projectStories, read } from "../data/experience";
 import { Icon, TechnologyIcon } from "./Icons";
 import { DetailDialog } from "./DetailDialog";
+import { CardSpotlight } from "./CardSpotlight";
+import { useCardSpotlight } from "../hooks/useCardSpotlight";
+import { motion } from "motion/react";
+import { useProjectImageTilt } from "../hooks/useProjectImageTilt";
 
 export function ProjectCard({
   project,
@@ -11,19 +15,24 @@ export function ProjectCard({
   index,
   onLanguageChange,
   active,
+  motionEnabled = true,
 }: {
   project: Project;
   language: Language;
   index: number;
   onLanguageChange: () => void;
   active: boolean;
+  motionEnabled?: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  const lightRef = useCardSpotlight<HTMLElement>(active && !open);
+  const imageTilt = useProjectImageTilt(active && motionEnabled && !open);
   const es = language === "es";
   const story = projectStories[project.id];
   const title = read(story.title, language);
   return (
     <article
+      ref={lightRef}
       id={project.id}
       className={`project-card compact-project project-${project.id}`}
       aria-hidden={!active || undefined}
@@ -32,7 +41,8 @@ export function ProjectCard({
       aria-label={`${index + 1}. ${title}`}
       data-active={active}
     >
-      <div className={`project-media media-${project.id}`}>
+      <div ref={imageTilt.ref} className={`project-media media-${project.id}`}>
+        <div className="project-media-float"><motion.div className="project-image-tilt" style={{ transform: imageTilt.transform }}>
         {project.image ? (
           <img
             src={project.image}
@@ -43,26 +53,21 @@ export function ProjectCard({
         ) : (
           <div className="project-concept" aria-hidden="true">
             <span>
-              {project.id === "caam"
-                ? "MORELIA"
-                : project.id === "todo"
-                  ? "C# / JAVA / SQL"
-                  : "ML / DATA"}
+              {project.id === "caam" ? "MORELIA" : "ML / DATA"}
             </span>
             <b className="project-wordmark">
               {project.id === "caam"
                 ? es
                   ? "Otra oportunidad."
                   : "Another chance."
-                : project.id === "todo"
-                  ? "To Do."
-                  : es
+                : es
                     ? "Fraude / datos"
                     : "Fraud / data"}
             </b>
             <span>{es ? "Captura no disponible" : "Screenshot not available"}</span>
           </div>
         )}
+        </motion.div></div>
       </div>
       <div className="project-body">
         <h3>
@@ -77,13 +82,9 @@ export function ProjectCard({
               ? es
                 ? "Coautoría"
                 : "Co-authorship"
-              : project.id === "todo"
-                ? es
-                  ? "Programación"
-                  : "Programming"
-                : es
-                  ? "Proyecto web"
-                  : "Web project"}
+              : es
+                ? "Proyecto web"
+                : "Web project"}
         </p>
         <p className="project-context">{read(story.context, language)}</p>
         <p className="project-description">
@@ -117,6 +118,7 @@ export function ProjectCard({
           )}
         </div>
       </div>
+      {active && <CardSpotlight />}
       {open && (
         <DetailDialog
           title={title}
@@ -135,6 +137,24 @@ export function ProjectCard({
           <p className="dialog-context">{read(story.context, language)}</p>
           <h3>{es ? "El problema" : "The problem"}</h3>
           <p>{project.description?.[es ? 0 : 1]}</p>
+          {project.caseStudy && (
+            <>
+              <h3>{es ? "Arquitectura" : "Architecture"}</h3>
+              <ul className="dialog-work">
+                {project.caseStudy.architecture.map(([textEs, textEn], index) => (
+                  <li key={index}>{es ? textEs : textEn}</li>
+                ))}
+              </ul>
+              <h3>{es ? "Flujo" : "Flow"}</h3>
+              <ol className="dialog-work">
+                {project.caseStudy.flow.map(([textEs, textEn], index) => (
+                  <li key={index}>{es ? textEs : textEn}</li>
+                ))}
+              </ol>
+              <h3>{es ? "Resultado" : "Result"}</h3>
+              <p>{es ? project.caseStudy.result[0] : project.caseStudy.result[1]}</p>
+            </>
+          )}
           <h3>{es ? "Mi contribución" : "My contribution"}</h3>
           <p>{read(story.contribution, language)}</p>
           <h3>

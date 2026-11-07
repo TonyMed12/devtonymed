@@ -22,7 +22,7 @@ export function DeveloperTerminal({ language }: { language: Language }) {
           <span>{"{"}</span>
           {values.map(([key, value], index) => (
             <span key={key}>
-              {"\n"} "{language === "es" ? ({ role: "rol", focus: "enfoque", approach: "método", availability: "disponibilidad" } as Record<string, string>)[key] : key}": <b>"{read(value, language)}"</b>
+              {"\n"} "<span className="term-key">{language === "es" ? ({ role: "rol", focus: "enfoque", approach: "método", availability: "disponibilidad" } as Record<string, string>)[key] : key}</span>": <b>"{read(value, language)}"</b>
               {index < values.length - 1 ? "," : ""}
             </span>
           ))}

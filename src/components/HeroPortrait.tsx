@@ -1,17 +1,21 @@
 import { useState } from "react";
+import { motion } from "motion/react";
 import type { Language } from "../data/i18n";
 import { portrait, portraitImageStyle } from "../data/portrait";
 import { site } from "../data/site";
 import { useReducedMotion } from "../hooks/useReducedMotion";
+import { useProjectImageTilt } from "../hooks/useProjectImageTilt";
 import { DeveloperTerminal } from "./DeveloperTerminal";
 import "./HeroPortrait.css";
 
 export function HeroPortrait({ language, enabled = true }: { language: Language; enabled?: boolean }) {
   const [failed, setFailed] = useState(false);
   const reduced = useReducedMotion();
+  const tilt = useProjectImageTilt(enabled);
 
   return (
     <div className="hero-portrait-composition" data-enabled={enabled} data-reduced={reduced}>
+      <motion.div ref={tilt.ref} style={{ transform: tilt.transform }} className="portrait-tilt">
       <figure className="editorial-portrait" data-reduced={reduced}>
         <div className="portrait-card-photo">
           <img src={portrait.photo} alt={site.fullName} width={portrait.width} height={portrait.height} style={portraitImageStyle} fetchPriority="high" decoding="async" onError={() => setFailed(true)} />
@@ -19,6 +23,7 @@ export function HeroPortrait({ language, enabled = true }: { language: Language;
         </div>
         <figcaption className="sr-only">{language === "es" ? "Retrato de José Antonio Medina Ayala, desarrollador Full-Stack Junior." : "Portrait of José Antonio Medina Ayala, Junior Full-Stack Developer."}</figcaption>
       </figure>
+      </motion.div>
       <DeveloperTerminal language={language} />
     </div>
   );

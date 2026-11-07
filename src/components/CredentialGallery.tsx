@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { LayoutGroup, motion } from "motion/react";
 import type { Language } from "../data/i18n";
 import { credentialGallery, read } from "../data/experience";
@@ -9,6 +9,20 @@ import { secureSoftwareTopics } from "../data/secureSoftware";
 import { DetailDialog } from "./DetailDialog";
 import { GciCalendar } from "./GciCalendar";
 import { Icon } from "./Icons";
+import { CredentialReveal } from "./CredentialReveal";
+import { CountUp } from "./CountUp";
+import { CardSpotlight } from "./CardSpotlight";
+import { useCardSpotlight } from "../hooks/useCardSpotlight";
+
+
+function CredentialButton({ children, className, selected, dialogId, onClick }: {
+  children: ReactNode; className: string; selected: boolean; dialogId?: string; onClick: () => void;
+}) {
+  const ref = useCardSpotlight<HTMLButtonElement>(!selected);
+  return <motion.button ref={ref} type="button" className={className} aria-haspopup="dialog" aria-expanded={selected} aria-controls={dialogId} onClick={onClick}>
+    {children}<CardSpotlight />
+  </motion.button>;
+}
 
 export function CredentialGallery({
   language,
@@ -27,63 +41,63 @@ export function CredentialGallery({
   return (
     <LayoutGroup id="credentials">
       <div className="credential-grid">
-        {credentialGallery.map((item) => (
-          <motion.button
-            key={item.id}
-            type="button"
-            className={`credential-card credential-${item.id}`}
-            aria-haspopup="dialog"
-            aria-expanded={selectedId === item.id}
-            aria-controls={
-              selectedId === item.id
-                ? `credential-${item.id}-dialog`
-                : undefined
-            }
-            onClick={() => setSelectedId(item.id)}
-          >
-            <span className="credential-top">
-              <span className="issuer-mark" aria-hidden="true">
-                <motion.img
-                  layoutId={reduced ? undefined : `credential-${item.id}-logo`}
-                  src={item.logo}
-                  alt=""
-                  loading="lazy"
-                />
-              </span>
-              <span className="course-status">
-                {read(item.status, language)}
-              </span>
-            </span>
-            <motion.strong
-              layoutId={reduced ? undefined : `credential-${item.id}-title`}
+        {credentialGallery.map((item, index) => (
+          <CredentialReveal key={item.id} index={index}>
+            <CredentialButton
+              className={`credential-card credential-${item.id}`}
+              selected={selectedId === item.id}
+              dialogId={
+                selectedId === item.id
+                  ? `credential-${item.id}-dialog`
+                  : undefined
+              }
+              onClick={() => setSelectedId(item.id)}
             >
-              {read(item.title, language)}
-            </motion.strong>
-            <span className="credential-issuer">
-              {item.format && <>{read(item.format, language)} · </>}
-              {item.issuer}
-            </span>
-            {item.credits && (
-              <span className="credential-credits">{item.credits}</span>
-            )}
-            {item.id === "gci" && (
-              <span className="gci-period-preview">
-                <span className="gci-period-dates">
-                  {es ? "Agosto–diciembre de 2026" : "August–December 2026"}
+              <motion.span className="credential-top">
+                <span className="issuer-mark" aria-hidden="true">
+                  <motion.img
+                    layoutId={reduced ? undefined : `credential-${item.id}-logo`}
+                    src={item.logo}
+                    alt=""
+                    loading="lazy"
+                  />
                 </span>
-                <span className="gci-period-label">
-                  {es ? "Periodo transcurrido" : "Elapsed period"} · {percent} %
+                <span className="course-status">
+                  {read(item.status, language)}
                 </span>
-                <span className="gci-period-bar" aria-hidden="true">
-                  <span style={{ width: `${percent}%` }} />
-                </span>
-              </span>
-            )}
-            <span className="credential-open">
-              {es ? "Ver credencial" : "View credential"}
-              <Icon name="arrow" />
-            </span>
-          </motion.button>
+              </motion.span>
+              <motion.strong
+
+                layoutId={reduced ? undefined : `credential-${item.id}-title`}
+              >
+                {read(item.title, language)}
+              </motion.strong>
+              <motion.span className="credential-issuer">
+                {item.format && <>{read(item.format, language)} · </>}
+                {item.issuer}
+              </motion.span>
+              {item.credits && (
+                <motion.span className="credential-credits">{item.credits}</motion.span>
+              )}
+              {item.id === "gci" && (
+                <motion.span className="gci-period-preview">
+                  <span className="gci-period-dates">
+                    {es ? "Agosto–diciembre de 2026" : "August–December 2026"}
+                  </span>
+                  <span className="gci-period-label">
+                    {es ? "Periodo transcurrido" : "Elapsed period"} · <CountUp to={percent} /> %
+                  </span>
+                  <span className="gci-period-bar" aria-hidden="true">
+                    <span style={{ width: `${percent}%` }} />
+                  </span>
+                </motion.span>
+              )}
+              <motion.span className="credential-open">
+                {es ? "Ver credencial" : "View credential"}
+                <Icon name="arrow" />
+              </motion.span>
+            </CredentialButton>
+          </CredentialReveal>
         ))}
       </div>
       {selected && (

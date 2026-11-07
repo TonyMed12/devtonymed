@@ -17,7 +17,7 @@ export const profile = {
     "I develop web solutions and connect software development with clear planning. My experience combines frontend and backend technologies, data modeling and team coordination.",
   ),
   degree: localized(
-    "Actualmente curso Ingeniería en Sistemas Computacionales.",
+    "Estudiante de Ingeniería en Sistemas Computacionales.",
     "I am currently studying Computer Systems Engineering.",
   ),
   description: site.description,
@@ -114,37 +114,6 @@ export const projectStories: Record<string, ProjectStory> = {
       "This experience connects my coordination work with defining a concrete need and organizing it into requirements and tasks.",
     ),
   },
-  todo: {
-    title: localized("Aplicación To Do", "To Do Application"),
-    context: localized(
-      "Proyecto académico · cuarto semestre",
-      "Academic project · fourth semester",
-    ),
-    kind: "implementation",
-    contribution: localized(
-      "Programación en C# y Java · modelado SQL.",
-      "C# and Java programming · SQL modeling.",
-    ),
-    period: localized("4.º semestre", "4th semester"),
-    work: [
-      localized(
-        "Desarrollo en paralelo en C# y Java.",
-        "Parallel development in C# and Java.",
-      ),
-      localized(
-        "Base de datos SQL con relaciones de muchos a muchos.",
-        "SQL database with many-to-many relationships.",
-      ),
-    ],
-    scope: localized(
-      "Una aplicación académica para gestionar tareas, trabajada en dos lenguajes.",
-      "An academic task management application developed in two languages.",
-    ),
-    learning: localized(
-      "Utilicé dos lenguajes para abordar el mismo problema y practiqué la representación de relaciones de muchos a muchos en una base de datos.",
-      "I used two languages to approach the same problem and practiced representing many-to-many database relationships.",
-    ),
-  },
   aquamarine: {
     title: localized("Aquamarine Resort", "Aquamarine Resort"),
     context: localized(
@@ -191,6 +160,22 @@ export const projectStories: Record<string, ProjectStory> = {
       "Esta experiencia vincula mi interés por los datos con la evaluación experimental y la investigación en equipo.",
       "This experience connects my interest in data with experimental evaluation and team research.",
     ),
+  },
+  velto: {
+    title: localized("Velto Store", "Velto Store"),
+    context: localized("Proyecto académico · comercio electrónico", "Academic project · e-commerce"),
+    kind: "implementation",
+    contribution: localized("Interfaz de catálogo y carrito.", "Catalog interface and cart."),
+    work: [localized("Desarrollo de la tienda web de sneakers.", "Development of the sneaker web store.")],
+    learning: localized("Practiqué la organización de una interfaz de compra.", "I practiced organizing a shopping interface."),
+  },
+  library: {
+    title: localized("Biblioteca Digital CBTis 147", "CBTis 147 Digital Library"),
+    context: localized("Proyecto académico · CBTis 147", "Academic project · CBTis 147"),
+    kind: "implementation",
+    contribution: localized("Esquema MySQL y operaciones CRUD.", "MySQL schema and CRUD operations."),
+    work: [localized("Gestión de libros y equipo de una biblioteca escolar.", "Management of books and equipment for a school library.")],
+    learning: localized("Practiqué el modelado de datos para un sistema de inventario y préstamos.", "I practiced data modeling for an inventory and loans system."),
   },
 };
 

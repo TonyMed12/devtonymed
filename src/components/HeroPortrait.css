@@ -28,25 +28,54 @@
 }
 .hero-portrait-composition .profile-terminal {
   margin: 0;
-  border: 0;
-  border-radius: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
   background: var(--surface);
   color: var(--ink);
+  box-shadow: 0 16px 32px -24px rgb(15 23 42 / .35);
 }
 .hero-portrait-composition .terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-alt);
   color: var(--muted);
-  padding: 12px 16px 8px;
-  font: 12px/1.4 Consolas, monospace;
+  font: 12px/1.4 "Cascadia Code", Consolas, monospace;
+}
+.hero-portrait-composition .terminal-bar::before {
+  content: "";
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-right: 4px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 12px 0 0 var(--line), 24px 0 0 var(--line);
+}
+.hero-portrait-composition .terminal-bar > span {
+  margin-left: auto;
+  padding: 1px 8px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 11px;
 }
 .hero-portrait-composition .profile-terminal pre {
-  padding: 8px 16px 12px;
-  font: 12px/1.75 Consolas, monospace;
+  padding: 16px 18px;
+  font: 13px/1.85 "Cascadia Code", Consolas, monospace;
 }
-.hero-portrait-composition .profile-terminal pre b { color: var(--accent); }
+.hero-portrait-composition .profile-terminal pre .term-key { color: var(--muted); }
+.hero-portrait-composition .profile-terminal pre b { color: var(--accent); font-weight: 500; }
 .hero-portrait-composition .terminal-foot {
-  padding: 10px 16px 12px;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px;
+  border-top: 1px solid var(--line);
   color: var(--muted);
-  font: 11px/1.4 Consolas, monospace;
+  font: 11px/1.4 "Cascadia Code", Consolas, monospace;
 }
 @media (max-width: 760px) {
   .hero-portrait-composition { width: min(100%, 440px); }

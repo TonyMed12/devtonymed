@@ -398,12 +398,6 @@ html {
   margin-top: 16px;
   min-height: 25px;
 }
-.project-todo .project-concept {
-  background: #e3e4f4;
-  color: #353553;
-  background-image: linear-gradient(90deg, #7580ae19 1px, transparent 1px);
-  background-size: 18px 18px;
-}
 .project-caam .project-concept {
   background-color: #dbeafe;
   color: #1e3a5f;
@@ -413,9 +407,6 @@ html {
 }
 .project-caam {
   border-top: 3px solid #b98158;
-}
-.project-todo {
-  border-top: 3px solid #7e79ac;
 }
 .project-fraud-detection {
   border-top: 3px solid #628da5;

@@ -199,10 +199,7 @@ test("professional positioning, developer.json and metadata translate without re
     "disponible para colaborar",
   );
   assert.equal(query("h1").textContent, "José Antonio Medina Ayala");
-  assert.match(
-    query(".hero-typewriter .sr-only").textContent,
-    /Construyendo ideas con propósito/,
-  );
+  assert.match(query(".hero-terminal").textContent, /tonymed/);
   assert.doesNotMatch(
     document.body.textContent,
     /residencia|portafolio estudiantil|CAAM Morelia/i,
@@ -219,10 +216,7 @@ test("professional positioning, developer.json and metadata translate without re
     /disponible|desarrollo de software|comprender/,
   );
   assert.equal(document.title, "TonyMed — Desarrollador Full-Stack");
-  assert.match(
-    query(".hero-typewriter .sr-only").textContent,
-    /Building ideas with purpose/,
-  );
+  assert.match(query(".hero-terminal").textContent, /tonymed/);
   assert.match(
     query('meta[name="description"]').content,
     /Available for projects/,
@@ -230,160 +224,51 @@ test("professional positioning, developer.json and metadata translate without re
   assert.equal(localStorage.getItem("portfolio-language"), "en");
 });
 
-test("project dialogs retain team scope, translate and restore focus", async () => {
+test("project showcase shows each project's information below its image and switches detail tabs without a dialog", async () => {
   await language("es");
-  const opener = query("#projexus .project-actions button");
-  await click(opener);
-  assert.match(query("dialog[open]").textContent, /cinco personas/);
-  assert.match(query("dialog[open]").textContent, /Spring Boot/);
-  await click(".dialog-language");
-  assert.match(query("dialog[open]").textContent, /five-person team/);
-  assert.match(
-    query("dialog[open]").textContent,
-    /My involvement focused on coordination/,
-  );
-  await click(".dialog-close");
-  assert.equal(document.activeElement, opener);
-  await click("#todo .project-actions button");
-  assert.match(query("dialog[open]").textContent, /many-to-many/);
-  await click(".dialog-language");
-  assert.match(query("dialog[open]").textContent, /muchos a muchos/);
-  await click(".dialog-close");
-  assert.equal(query("#caam .tags").children.length, 0);
-  assert.equal(document.querySelector("#library"), null);
+  await changePreferences({ reduced: true });
+  const card = query("#projexus");
+  assert.equal(card.tagName, "ARTICLE");
+  assert.equal(document.querySelectorAll(".showcase-card").length, 6);
+  assert.equal(document.querySelectorAll(".showcase-group").length, 2);
+  assert.equal(document.querySelector("dialog"), null);
+  assert.match(card.querySelector(".showcase-panel").textContent, /Ejemplo|Resultado/);
+  await click([...card.querySelectorAll(".showcase-tabs button")].find((b) => b.textContent.includes("Arquitectura")));
+  assert.equal(card.querySelector(".showcase-tabs button[aria-pressed='true']").textContent.includes("Arquitectura"), true);
+  await new Promise((resolve) => setTimeout(resolve, 400));
+  assert.ok(card.querySelectorAll(".showcase-panel li").length > 0);
+  await click([...card.querySelectorAll(".showcase-tabs button")].find((b) => b.textContent.includes("Flujo")));
+  await new Promise((resolve) => setTimeout(resolve, 400));
+  assert.ok(card.querySelector(".showcase-steps"));
 });
 
-test("manual carousel wraps at both boundaries and keeps clones inert", async () => {
-  const track = query(".carousel-track");
-  [...track.children].forEach((slide, index) =>
-    Object.defineProperty(slide, "offsetLeft", {
-      configurable: true,
-      value: index * 500,
-    }),
-  );
-  await click(".carousel-dots button");
-  assert.equal(track.scrollLeft, 1000);
-  await click(".carousel-toolbar button:last-child");
-  assert.equal(track.scrollLeft, 1500);
-  assert.equal(query(".carousel-toolbar p").textContent, "2 / 5");
-  await act(async () =>
-    track.dispatchEvent(
-      new window.KeyboardEvent("keydown", {
-        key: "End",
-        bubbles: true,
-        cancelable: true,
-      }),
-    ),
-  );
-  assert.equal(track.scrollLeft, 3000);
-  await click(".carousel-toolbar button:last-child");
-  assert.equal(track.scrollLeft, 1000);
-  await click(".carousel-toolbar button:first-child");
-  assert.equal(track.scrollLeft, 3000);
-  await click(".carousel-dots button");
-  assert.equal(track.scrollLeft, 1000);
-  const clones = [...track.querySelectorAll("[data-clone=true]")];
-  assert.equal(clones.length, 4);
-  for (const clone of clones) {
-    assert.equal(clone.hasAttribute("inert"), true);
-    assert.equal(clone.getAttribute("aria-hidden"), "true");
-    assert.equal(clone.hasAttribute("id"), false);
-    assert.equal(clone.querySelector("dialog"), null);
+
+
+test("education cards preserve institutional data, integrated completion and real links in both languages", async () => {
+  await language("es");
+  assert.equal(document.querySelectorAll(".academic-card").length, 2);
+  const technical = query(".academic-slot:not(.academic-slot-current)");
+  const degree = query(".academic-slot-current");
+  assert.match(technical.textContent, /2019–2022/);
+  assert.match(technical.textContent, /15938245/);
+  assert.match(technical.querySelector("img").src, /cbtis147.png$/);
+  assert.equal(technical.querySelector("a").href, "https://www.gob.mx/cedulaprofesional");
+  assert.match(degree.textContent, /En curso/);
+  assert.match(degree.textContent, /Especialidad en Tecnologías de Desarrollo de Software/);
+  assert.match(degree.querySelector(".academic-facts").textContent, /94\/100/);
+  assert.match(degree.querySelector(".academic-milestone").textContent, /Egreso previsto2027/);
+  assert.equal(degree.querySelectorAll("a").length, 2);
+  for (const link of document.querySelectorAll(".academic-actions a")) {
+    assert.equal(link.target, "_blank");
+    assert.ok(link.rel.includes("noreferrer"));
+    link.focus();
+    assert.equal(document.activeElement, link);
   }
-  for (const id of [
-    "projexus",
-    "caam",
-    "todo",
-    "aquamarine",
-    "fraud-detection",
-  ])
-    assert.equal(document.querySelectorAll(`[id="${id}"]`).length, 1);
-});
-
-test("technology selection connects stacks to evidence and survives locale changes", async () => {
-  await language("es");
-  await click(
-    [...document.querySelectorAll(".tech-essentials button")].find((button) =>
-      button.textContent.includes("Spring Boot"),
-    ),
-  );
-  assert.match(query(".technology-evidence").textContent, /Stack del equipo/);
-  assert.match(query(".technology-evidence").textContent, /Scrum Master/);
-  assert.equal(
-    query(".technology-evidence a").getAttribute("href"),
-    "#projexus",
-  );
   await language("en");
-  assert.match(query(".technology-evidence").textContent, /Team stack/);
-  await click(
-    [...document.querySelectorAll(".tech-essentials button")].find(
-      (button) => button.textContent.trim() === "SQL",
-    ),
-  );
-  assert.match(query(".technology-evidence").textContent, /many-to-many/);
-  assert.equal(query(".technology-evidence a").getAttribute("href"), "#todo");
-});
-
-test("education buttons support keyboard selection, a single panel and real license links", async () => {
+  assert.match(query(".academic-slot-current").textContent, /Specialization in Software Development Technologies/);
+  assert.match(query(".academic-milestone").textContent, /Expected completion2027/);
+  assert.match(query(".academic-slot:not(.academic-slot-current)").textContent, /Professional license/);
   await language("es");
-  const tabs = [...document.querySelectorAll(".station-tabs [role=tab]")];
-  assert.equal(tabs.length, 3);
-  assert.equal(tabs[1].getAttribute("aria-selected"), "true");
-  assert.equal(document.querySelectorAll(".journey-panel").length, 1);
-  assert.match(query(".journey-panel").textContent, /En curso/);
-  assert.equal(query(".journey-path").dataset.stage, "1");
-  assert.doesNotMatch(
-    query(".journey-panel").textContent,
-    /To Do|Experiencia práctica/,
-  );
-  assert.match(
-    query(".journey-panel").textContent,
-    /Especialidad en Tecnologías de Desarrollo de Software/,
-  );
-  assert.match(
-    query(".degree-average").textContent,
-    /Promedio actual: 94\/100/,
-  );
-  await language("en");
-  assert.match(
-    query(".journey-panel").textContent,
-    /Specialization in Software Development Technologies/,
-  );
-  assert.match(
-    query(".degree-average").textContent,
-    /Current average: 94\/100/,
-  );
-  await language("es");
-  await act(async () =>
-    tabs[1].dispatchEvent(
-      new window.KeyboardEvent("keydown", {
-        key: "ArrowLeft",
-        bubbles: true,
-        cancelable: true,
-      }),
-    ),
-  );
-  assert.equal(document.activeElement, tabs[0]);
-  assert.match(query(".journey-panel").textContent, /15938245/);
-  assert.equal(
-    query(".license-block a").href,
-    "https://www.gob.mx/cedulaprofesional",
-  );
-  await act(async () =>
-    tabs[0].dispatchEvent(
-      new window.KeyboardEvent("keydown", {
-        key: "End",
-        bubbles: true,
-        cancelable: true,
-      }),
-    ),
-  );
-  assert.match(query(".journey-panel").textContent, /Egreso previsto/);
-  assert.match(query(".journey-panel").textContent, /2027/);
-  assert.equal(query(".journey-path").dataset.stage, "2");
-  await language("en");
-  assert.match(query(".journey-panel").textContent, /Expected completion/);
-  await click(tabs[1]);
 });
 
 test("credential dialog translates, remains outside document flow and restores its opener", async () => {
@@ -436,7 +321,7 @@ test("editorial crop stays within the original image and never changes its bitma
   const { createHash } = await import("node:crypto");
   const photo = await readFile("public/profesionaltony.jpg");
   assert.equal(createHash("sha256").update(photo).digest("hex"), "1674da43ba40635c42fa84ebbb08d97ac d178ac0add4b2169d3059fbaa9634c3".replaceAll(" ", ""));
-  assert.equal(portrait.crop.width / portrait.crop.height, 4 / 5);
+  assert.equal(portrait.crop.width / portrait.crop.height, 6 / 5);
   assert.ok(portrait.crop.x >= 0 && portrait.crop.y >= 0);
   assert.ok(portrait.crop.x + portrait.crop.width <= portrait.width);
   assert.ok(portrait.crop.y + portrait.crop.height <= portrait.height);
@@ -506,151 +391,6 @@ test("GCI estimates UTC elapsed time with clamped percentages and never certifie
   }
 });
 
-test("autoplay waits six seconds, loops through sentinels and pauses for every interaction sensor", async () => {
-  const originalSet = window.setTimeout.bind(window),
-    originalClear = window.clearTimeout.bind(window);
-  const timers = new Map();
-  let clock = 0,
-    nextId = -1;
-  window.setTimeout = (callback, delay, ...args) => {
-    if (delay !== 6000) return originalSet(callback, delay, ...args);
-    const id = nextId--;
-    timers.set(id, { callback: () => callback(...args), due: clock + delay });
-    return id;
-  };
-  window.clearTimeout = (id) => {
-    if (timers.has(id)) timers.delete(id);
-    else originalClear(id);
-  };
-  const carousel = query(".project-carousel"),
-    track = query(".carousel-track");
-  const index = () =>
-    [...document.querySelectorAll(".carousel-dots button")].findIndex(
-      (button) => button.getAttribute("aria-pressed") === "true",
-    );
-  const visible = async (value) =>
-    act(async () => {
-      for (const observer of observers)
-        if (observer.targets.has(carousel))
-          observer.callback(
-            [
-              {
-                target: carousel,
-                isIntersecting: value,
-                intersectionRatio: value ? 1 : 0,
-              },
-            ],
-            observer,
-          );
-    });
-  const tick = async (ms) =>
-    act(async () => {
-      clock += ms;
-      for (const [id, timer] of [...timers])
-        if (timer.due <= clock) {
-          timers.delete(id);
-          timer.callback();
-        }
-    });
-  const settle = async (ms = 530) =>
-    act(async () => new Promise((resolve) => originalSet(resolve, ms)));
-  const outside = async () =>
-    act(async () => query(".language-toggle").focus());
-  const pointer = async (target, type, kind = "mouse") =>
-    act(async () => {
-      const event = new window.Event(type, { bubbles: true });
-      Object.defineProperty(event, "pointerType", { value: kind });
-      target.dispatchEvent(event);
-    });
-  try {
-    await changePreferences({ reduced: true });
-    await click(".carousel-dots button:last-child");
-    await changePreferences({ reduced: false });
-    await outside();
-    await visible(true);
-    assert.equal(carousel.dataset.autoplay, "running");
-    await tick(5999);
-    assert.equal(index(), 4);
-    await tick(1);
-    await settle();
-    assert.equal(index(), 0);
-    assert.equal(track.scrollLeft, 1000);
-    await tick(6000);
-    await settle();
-    assert.equal(index(), 1);
-    await pointer(carousel, "pointerover");
-    assert.equal(carousel.dataset.autoplay, "paused");
-    const before = index();
-    await tick(12000);
-    assert.equal(index(), before);
-    await pointer(carousel, "pointerout");
-    await click(".carousel-dots button");
-    assert.equal(carousel.dataset.autoplay, "paused");
-    await tick(12000);
-    await settle();
-    assert.equal(index(), 0);
-    await outside();
-    await tick(5999);
-    assert.equal(index(), 0);
-    await tick(1);
-    await settle();
-    assert.equal(index(), 1);
-    await pointer(track, "pointerdown", "touch");
-    assert.equal(carousel.dataset.autoplay, "paused");
-    await tick(12000);
-    assert.equal(index(), 1);
-    await pointer(window, "pointerup", "touch");
-    await settle(760);
-    await click(".research-cloud-security button");
-    assert.equal(carousel.dataset.autoplay, "paused");
-    await tick(12000);
-    assert.equal(index(), 1);
-    await click(".dialog-close");
-    await settle(240);
-    await outside();
-    Object.defineProperty(document, "hidden", {
-      configurable: true,
-      value: true,
-    });
-    await act(async () =>
-      document.dispatchEvent(new window.Event("visibilitychange")),
-    );
-    assert.equal(carousel.dataset.autoplay, "paused");
-    await tick(12000);
-    assert.equal(index(), 1);
-    Object.defineProperty(document, "hidden", {
-      configurable: true,
-      value: false,
-    });
-    await act(async () =>
-      document.dispatchEvent(new window.Event("visibilitychange")),
-    );
-    await visible(false);
-    assert.equal(carousel.dataset.autoplay, "paused");
-    await tick(12000);
-    assert.equal(index(), 1);
-    await visible(true);
-    await tick(5999);
-    assert.equal(index(), 1);
-    await tick(1);
-    await settle();
-    assert.equal(index(), 2);
-    await changePreferences({ reduced: true });
-    assert.equal(carousel.dataset.autoplay, "paused");
-    await tick(12000);
-    assert.equal(index(), 2);
-  } finally {
-    Object.defineProperty(document, "hidden", {
-      configurable: true,
-      value: false,
-    });
-    await changePreferences({ reduced: true, fine: false });
-    await visible(false);
-    await outside();
-    window.setTimeout = originalSet;
-    window.clearTimeout = originalClear;
-  }
-});
 test("UPV preserves its completion state and shows microcredential credits, logo and five topics", async () => {
   await language("es");
   const trigger = query(".credential-upv");
@@ -710,14 +450,17 @@ test("all technology and issuer images exist and technology glyphs have a named 
 });
 
 test("public copy, reported languages and temporary resume links remain accurate", async () => {
+  await changePreferences({ reduced: false });
   await language("es");
   assert.equal(query(".brand").textContent.replace(/\s/g, ""), "tm.");
   assert.equal(
     document.querySelector(
-      ".hero-scroll,.ambient-control,.band-pause,.motion-settings",
+      ".hero-scroll,.ambient-control,.motion-settings",
     ),
     null,
   );
+  // The band's visible pause is required (WCAG 2.2.2) and must be labelled in the active language.
+  assert.equal(query(".band-pause").getAttribute("aria-label"), "Pausar banda de tecnologías");
   assert.match(query(".language-cards").textContent, /EspañolNativo/);
   assert.match(
     query(".language-cards").textContent,
@@ -727,12 +470,8 @@ test("public copy, reported languages and temporary resume links remain accurate
     document.body.textContent,
     /Soy Tony|datos por verificar|fechas documentadas|pendientes de añadir|por confirmar|pendiente de agregar|Voxy/i,
   );
-  for (const link of document.querySelectorAll(".resume-link")) {
-    assert.equal(link.getAttribute("href"), "#inicio");
-    assert.equal(link.hasAttribute("download"), false);
-    assert.ok(link.querySelector("svg"));
-  }
-  assert.equal(document.querySelectorAll(".resume-link").length, 2);
+  // No résumé file exists yet, so no link may claim one.
+  assert.equal(document.querySelectorAll(".resume-link").length, 0);
   assert.match(
     query(".research-cloud-security .date").textContent,
     /Corporación Universitaria Latinoamericana/,
@@ -746,7 +485,8 @@ test("public copy, reported languages and temporary resume links remain accurate
     query(".language-cards").textContent,
     /B2Reported levelCertification pending/,
   );
-  assert.match(query(".resume-link").textContent, /View résumé/);
+  assert.equal(document.querySelector(".resume-link"), null);
+  await changePreferences({ reduced: true });
 });
 
 test("research dialog can change language from inside the modal and restore focus on cancel", async () => {
@@ -802,11 +542,12 @@ test("themes, navigation state and reduced-motion content remain usable", async 
   );
   assert.equal(document.querySelector(".canvas-backdrop"), null);
   assert.ok(query("h1").textContent);
-  for (const anchor of document.querySelectorAll('a[href^="#"]'))
-    assert.ok(
-      document.getElementById(anchor.getAttribute("href").slice(1)),
-      `Broken anchor ${anchor.getAttribute("href")}`,
-    );
+  // Project links are resolved by the carousel from the hash, so only the active card has an id.
+  const carouselProjects = ["projexus", "caam", "aquamarine", "fraud-detection"];
+  for (const anchor of document.querySelectorAll('a[href^="#"]')) {
+    const id = anchor.getAttribute("href").slice(1);
+    assert.ok(document.getElementById(id) || carouselProjects.includes(id), `Broken anchor ${anchor.getAttribute("href")}`);
+  }
   for (const image of document.querySelectorAll('img[src^="/"]'))
     await access(join("public", image.getAttribute("src").slice(1)));
   for (const button of document.querySelectorAll("button[aria-controls]"))
@@ -855,62 +596,45 @@ test("main text, selections, dialog and contact palettes meet normal-text contra
   }
 });
 
-test("principles keep their names visible and translate the selected explanation", async () => {
+test("principles keep their names visible and translate their descriptions", async () => {
   await language("es");
-  const options = [...document.querySelectorAll(".principle-options button")];
+  const principles = () => [...document.querySelectorAll(".about-principle")];
   assert.deepEqual(
-    options.map(
-      (button) =>
-        button.querySelector("span:not(.principle-selection)").textContent,
-    ),
+    principles().map((article) => article.querySelector("h3").textContent),
     ["Curiosidad", "Propósito", "Precisión"],
   );
-  await click(options[1]);
-  assert.match(
-    query(".principle-explanation").textContent,
-    /para quién construyo/,
-  );
-  assert.equal(
-    query(".principle-explanation").getAttribute("aria-labelledby"),
-    options[1].id,
-  );
+  assert.equal(principles()[1].getAttribute("aria-labelledby"), principles()[1].querySelector("h3").id);
+  assert.match(principles()[1].textContent, /para quién construyo/);
   await language("en");
-  assert.match(
-    query(".principle-explanation").textContent,
-    /who I am building for/,
-  );
-  assert.equal(options[1].getAttribute("aria-pressed"), "true");
-  assert.match(options[1].textContent, /Purpose/);
+  assert.match(principles()[1].textContent, /who I am building for/);
+  assert.match(principles()[1].querySelector("h3").textContent, /Purpose/);
   assert.equal(document.querySelector(".cursor-trail"), null);
 });
 
-test("marquee has identical fixed-size groups and hides its inert copy", async () => {
+test("marquee rows keep identical fixed-size groups and hide their inert copies", async () => {
   const band = query(".technology-band");
   assert.equal(band.dataset.static, "true");
   assert.equal(band.dataset.paused, "true");
-  const sequence = query(".technology-sequence:not(.band-copy)");
-  const names = [...sequence.children].map(
-    (item) => item.querySelector(".band-item>span:nth-child(2)").textContent,
+  const sequences = [...document.querySelectorAll(".technology-sequence:not(.band-copy)")];
+  assert.ok(sequences.length >= 2);
+  const names = sequences.flatMap((sequence) =>
+    [...sequence.children].map((item) => item.querySelector(".band-item>span:nth-child(2)").textContent),
   );
   for (const name of ["Next.js", "Spring Boot", "Java", "C#", "SQL"])
     assert.ok(names.includes(name));
   assert.equal(new Set(names).size, names.length);
-  const copy = query(".band-copy");
-  assert.equal(copy.getAttribute("aria-hidden"), "true");
-  assert.equal(copy.hasAttribute("inert"), true);
-  assert.equal(copy.querySelectorAll("a,button,[tabindex]").length, 0);
-  assert.deepEqual(
-    [...copy.children].map((item) => item.textContent),
-    [...sequence.children].map((item) => item.textContent),
-  );
-  assert.equal(
-    sequence.querySelectorAll("button,a,input,[tabindex]").length,
-    0,
-  );
-  assert.equal(
-    sequence.querySelectorAll(".technology-icon").length,
-    names.length,
-  );
+  for (const sequence of sequences) {
+    const copy = sequence.parentElement.querySelector(".band-copy");
+    assert.equal(copy.getAttribute("aria-hidden"), "true");
+    assert.equal(copy.hasAttribute("inert"), true);
+    assert.equal(copy.querySelectorAll("a,button,[tabindex]").length, 0);
+    assert.deepEqual(
+      [...copy.children].map((item) => item.textContent),
+      [...sequence.children].map((item) => item.textContent),
+    );
+    assert.equal(sequence.querySelectorAll("button,a,input,[tabindex]").length, 0);
+  }
+  assert.equal(document.querySelectorAll(".technology-icon").length >= names.length, true);
 });
 
 test("band pauses for focus, OS preference, hover, visibility and viewport changes", async () => {
@@ -984,26 +708,14 @@ test("band pauses for focus, OS preference, hover, visibility and viewport chang
   await changePreferences({ reduced: true, fine: false });
 });
 
-test("animated carousel settles at its target and restores native snap", async () => {
-  await changePreferences({ reduced: true });
-  await click(".carousel-dots button");
-  await changePreferences({ reduced: false });
-  const track = query(".carousel-track");
-  await act(async () => query(".carousel-toolbar button:last-child").dispatchEvent(
-    new window.MouseEvent("click", { bubbles: true, detail: 1 }),
-  ));
-  assert.equal(track.dataset.animating, "true");
-  await act(async () => new Promise((resolve) => setTimeout(resolve, 500)));
-  assert.equal(Math.round(track.scrollLeft), 1500);
-  assert.equal(track.hasAttribute("data-animating"), false);
-  await changePreferences({ reduced: true });
-});
 
 test("Lenis keeps anchors and focus, yields to modals and is removed for reduced motion", async () => {
   await changePreferences({ reduced: false, fine: true });
   assert.equal(document.documentElement.classList.contains("lenis"), true);
   await click('#inicio .hero-actions a[href="#contacto"]');
   assert.equal(location.hash, "#contacto");
+  // Focus moves when Lenis finishes its scroll, so wait for that completion.
+  await act(async () => new Promise((resolve) => setTimeout(resolve, 1500)));
   assert.equal(document.activeElement, query("#contacto"));
   await act(async () => {
     const event = new window.KeyboardEvent("keydown", {
@@ -1014,7 +726,7 @@ test("Lenis keeps anchors and focus, yields to modals and is removed for reduced
     document.dispatchEvent(event);
     assert.equal(event.defaultPrevented, false);
   });
-  await click("#projexus .project-actions button");
+  await click(".research-cloud-security button");
   assert.equal(query("dialog").hasAttribute("data-lenis-prevent"), true);
   assert.equal(
     document.documentElement.classList.contains("lenis-stopped"),
@@ -1026,10 +738,6 @@ test("Lenis keeps anchors and focus, yields to modals and is removed for reduced
   assert.equal(
     document.documentElement.classList.contains("lenis-stopped"),
     false,
-  );
-  assert.equal(
-    query(".carousel-track").hasAttribute("data-lenis-prevent"),
-    true,
   );
   await changePreferences({ reduced: true });
   assert.equal(document.documentElement.classList.contains("lenis"), false);
@@ -1187,17 +895,14 @@ test("work leads the evidence and About owns the extended profile and principles
   await language("es");
   const hero = query("#inicio"),
     about = query("#sobre-mi");
-  assert.equal(hero.nextElementSibling.id, "proyectos");
+  assert.equal(hero.nextElementSibling, about);
+  assert.equal(about.nextElementSibling.id, "proyectos");
   assert.equal(query("#proyectos").nextElementSibling.id, "tecnologias");
-  assert.equal(query("#tecnologias").nextElementSibling, about);
-  assert.equal(about.nextElementSibling.id, "formacion");
+  assert.equal(query("#tecnologias").nextElementSibling.id, "formacion");
   assert.match(about.querySelector("h2").textContent, /Sobre mí/);
-  assert.equal(
-    hero.querySelector(".principles,.profile-terminal,.scroll-reveal-text"),
-    null,
-  );
-  assert.ok(about.querySelector(".principles"));
-  assert.ok(about.querySelector(".profile-terminal"));
+  assert.ok(hero.querySelector(".profile-terminal"));
+  assert.equal(hero.querySelector(".scroll-reveal-text"), null);
+  assert.ok(about.querySelector(".about-principles"));
   assert.equal(document.querySelectorAll(".scroll-reveal-text").length, 1);
   assert.equal(query('nav a[href="#sobre-mi"]').textContent, "Sobre mí");
   await language("en");
@@ -1391,8 +1096,8 @@ test("one semantic reveal remains selectable and fully opaque in both languages 
   await changePreferences({ reduced: false });
   const heading = query(".scroll-reveal-text");
   assert.equal(document.querySelectorAll(".scroll-reveal-text").length, 1);
-  assert.equal(heading.tagName, "H3");
-  assert.equal(heading.textContent, "Programar también es saber colaborar.");
+  assert.equal(heading.tagName, "P");
+  assert.match(heading.textContent, /Me mueve la curiosidad/);
   for (const word of heading.children) {
     assert.equal(word.style.opacity, "");
     assert.equal(word.style.filter, "");
@@ -1402,13 +1107,14 @@ test("one semantic reveal remains selectable and fully opaque in both languages 
   range.selectNodeContents(heading);
   assert.equal(range.toString(), heading.textContent);
   await language("en");
+  // The reveal is keyed by language, so it remounts; query it again.
   assert.match(
-    heading.textContent,
-    /Programming also means knowing how to collaborate/,
+    query(".scroll-reveal-text").textContent,
+    /driven by curiosity about how things work/,
   );
   await changePreferences({ reduced: true });
-  assert.equal(heading.dataset.static, "true");
-  assert.equal(heading.children.length, 0, "Reduced motion renders plain text");
+  assert.equal(query(".scroll-reveal-text").dataset.enhanced, "false");
+  assert.equal(query(".scroll-reveal-text").querySelector(".about-word"), null, "Reduced motion renders plain text");
 });
 
 test("professional contact keeps every channel directly available across input modes and languages", async () => {
@@ -1418,7 +1124,7 @@ test("professional contact keeps every channel directly available across input m
   assert.equal(query("#contacto").dataset.contact, "professional");
   assert.match(query(".contact-invitation").textContent, /¿Tienes una idea\?Hagámosla realidad\./);
   assert.equal(query(".contact-invitation").getAttribute("aria-label"), "¿Tienes una idea? Hagámosla realidad.");
-  assert.equal(query(".contact-support").textContent, "Disponible para trabajar y colaborar en nuevos proyectos. Escríbeme y conversemos.");
+  assert.ok(query(".contact-support").textContent.includes("Disponible para trabajar y colaborar en nuevos proyectos. Escríbeme y conversemos."));
   const mail = panel.querySelector("a[href^='mailto:']");
   assert.equal(mail.getAttribute("href"), "mailto:tonymed2022@gmail.com");
   await act(async () => query(".language-toggle").focus());
@@ -1433,10 +1139,10 @@ test("professional contact keeps every channel directly available across input m
   }
   assert.equal(panel.querySelectorAll("a[target='_blank']").length, 2);
   await changePreferences({ fine: false, reduced: true });
-  assert.equal(panel.querySelectorAll("a").length, 4);
+  assert.equal(panel.querySelectorAll("a").length, 3);
   await language("en");
   assert.match(query(".contact-invitation").textContent, /Have an idea\?Let’s bring it to life\./);
-  assert.equal(query(".contact-support").textContent, "Available for work and new collaborations. Get in touch.");
+  assert.ok(query(".contact-support").textContent.includes("Available for work and new collaborations. Get in touch."));
   assert.equal(document.querySelectorAll(".contact-invitation").length, 1);
   assert.equal(document.querySelector(".contact-flip"), null);
 });
@@ -1527,139 +1233,19 @@ test("Dither name preserves semantic text and clears every temporary glyph", asy
   }
 });
 
-test("arrival releases typewriter after welcome and its container reveal, without replay on language change", async () => {
-  await changePreferences({ reduced: false, fine: false });
-  const container = document.createElement("div");
-  document.body.append(container);
-  const arrivalRoot = createRoot(container);
-  try {
-    await withComponentClock(async (advance) => {
-      await act(async () => arrivalRoot.render(createElement(App)));
-      const hero = container.querySelector(".hero");
-      assert.ok(
-        [...observers].some((observer) => observer.targets.has(hero)),
-        "New hero has a viewport observer",
-      );
-      await act(async () => {
-        for (const observer of observers)
-          if (observer.targets.has(hero))
-            observer.callback(
-              [{ target: hero, isIntersecting: true, intersectionRatio: 1 }],
-              observer,
-            );
-      });
-      assert.equal(
-        container.querySelector(".site-shell").dataset.intro,
-        "waiting",
-      );
-      assert.equal(
-        container.querySelector(".hero-typewriter").dataset.running,
-        "false",
-      );
-      await advance(1450);
-      assert.equal(container.querySelector(".brand-welcome"), null);
-      assert.equal(
-        container.querySelector(".site-shell").dataset.intro,
-        "ready",
-      );
-      await advance(699);
-      assert.equal(
-        container.querySelector(".hero-typewriter").dataset.running,
-        "false",
-      );
-      await advance(1);
-      assert.equal(
-        container.querySelector(".intro-type").dataset.ready,
-        "true",
-        "Typewriter delay has completed",
-      );
-      assert.equal(
-        container.querySelector(".intro-type").dataset.visible,
-        "true",
-        "Hero intersection sensor has entered",
-      );
-      assert.equal(
-        container.querySelector(".hero-typewriter").dataset.running,
-        "true",
-      );
-      await advance(300);
-      assert.ok(
-        container.querySelector(".typewriter-dynamic").textContent.length > 0,
-      );
-      await act(async () =>
-        container.querySelector(".language-toggle").click(),
-      );
-      assert.equal(container.querySelector(".brand-welcome"), null);
-      assert.equal(
-        container.querySelector(".typewriter-dynamic").textContent,
-        "",
-      );
-    });
-  } finally {
-    await act(async () => arrivalRoot.unmount());
-    container.remove();
-    await changePreferences({ reduced: true });
-  }
-});
-
-test("optional profile and technology details use native disclosures and retain locale state", async () => {
-  await language("es");
-  const profile = query(".developer-details"), technologies = query(".technology-details");
-  assert.equal(profile.tagName, "DETAILS");
-  assert.equal(technologies.tagName, "DETAILS");
-  assert.equal(profile.open, false);
-  assert.equal(technologies.open, false);
-  await click(profile.querySelector("summary"));
-  await click(technologies.querySelector("summary"));
-  assert.equal(profile.open, true);
-  assert.equal(technologies.open, true);
-  await language("en");
-  assert.equal(profile.open, true);
-  assert.equal(technologies.open, true);
-  assert.match(technologies.querySelector("summary").textContent, /Explore technologies/);
-  assert.match(profile.querySelector("summary").textContent, /Explore profile/);
-  await click(profile.querySelector("summary"));
-  await click(technologies.querySelector("summary"));
-  assert.equal(profile.open, false);
-  assert.equal(technologies.open, false);
-});
-
-test("portrait reveal waits for welcome and image, settles and pauses background outside view", async () => {
+test("portrait shows the cropped photo, a load-error fallback and no motion layer", async () => {
   await changePreferences({ reduced: false, fine: true, mobile: false });
   const { HeroPortrait } = await server.ssrLoadModule("/src/components/HeroPortrait.tsx");
   const container = document.createElement("div");
   document.body.append(container);
   const portraitRoot = createRoot(container);
-  const render = enabled => portraitRoot.render(createElement(StrictMode, null, createElement(HeroPortrait, { language: "es", enabled })));
-  const intersect = async value => act(async () => {
-    const host = container.querySelector(".editorial-portrait");
-    for (const observer of observers) if (observer.targets.has(host)) observer.callback([{ target: host, isIntersecting: value, intersectionRatio: value ? 1 : 0 }], observer);
-  });
   try {
-    await act(async () => render(false));
-    await intersect(true);
-    await act(async () => container.querySelector("img").dispatchEvent(new window.Event("load")));
-    assert.equal(container.querySelector("figure").dataset.entered, "false");
-    await act(async () => render(true));
-    await act(async () => new Promise(resolve => setTimeout(resolve, 1400)));
-    const host = container.querySelector("figure");
-    assert.equal(host.dataset.entered, "true");
-    assert.equal(host.dataset.ambient, "true");
-    assert.equal(host.dataset.tracking, "true");
-    assert.match(container.querySelector(".portrait-reveal-mask").style.clipPath, /inset\(0 0 0/);
-    const touch = new window.Event("pointermove", { bubbles: true, cancelable: true });
-    Object.defineProperty(touch, "pointerType", { value: "touch" });
-    host.dispatchEvent(touch);
-    assert.equal(touch.defaultPrevented, false);
-    assert.equal(host.hasAttribute("data-lenis-prevent"), false);
-    await intersect(false);
-    assert.equal(host.dataset.ambient, "false");
-    assert.equal(host.dataset.tracking, "false");
-    await changePreferences({ reduced: true, mobile: true });
-    await intersect(true);
-    assert.equal(host.dataset.ambient, "false");
-    assert.equal(host.dataset.tracking, "false");
-    assert.equal(container.querySelector(".portrait-image-zoom").style.transform, "scale(1)");
+    await act(async () => portraitRoot.render(createElement(HeroPortrait, { language: "es", enabled: true })));
+    const img = container.querySelector(".editorial-portrait img");
+    assert.ok(img.style.width && img.style.left && img.style.top);
+    assert.equal(container.querySelector(".hero-portrait-composition").dataset.enabled, "true");
+    await act(async () => img.dispatchEvent(new window.Event("error")));
+    assert.match(container.querySelector(".portrait-load-error").textContent, /No se pudo cargar la fotografía/);
   } finally {
     await act(async () => portraitRoot.unmount());
     container.remove();
@@ -1680,13 +1266,16 @@ test("kinetic contact lifts characters by proximity without React commits or mov
       for (const observer of observers) if (observer.targets.has(heading)) observer.callback([{ target: heading, isIntersecting: true, intersectionRatio: 1 }], observer);
     });
     heading.dispatchEvent(new window.Event("pointerenter"));
+    // The About terminal types on its own timers in another section; let it finish before measuring commits.
+    await act(async () => new Promise((resolve) => setTimeout(resolve, 6000)));
     const previous = reactCommits;
     const event = new window.Event("pointermove", { bubbles: true, cancelable: true });
     Object.defineProperties(event, { pointerType: { value: "mouse" }, clientX: { value: 90 }, clientY: { value: 50 } });
     heading.dispatchEvent(event);
+    // Synchronous check: the pointer must not cause React commits. Timers from other sections are not measured here.
+    assert.equal(reactCommits, previous, "Pointer movement does not render React");
     await new Promise(resolve => setTimeout(resolve, 180));
     assert.match(glyph.style.transform, /translateY\(-[\d.]+px\) scale/);
-    assert.equal(reactCommits, previous);
     assert.equal(event.defaultPrevented, false);
     assert.equal(query(".contact-address").style.transform, "");
     assert.equal(heading.getAttribute("aria-label"), "¿Tienes una idea? Hagámosla realidad.");

@@ -1,37 +1,30 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
 import type { Language } from "../data/i18n";
-import { useReducedMotion } from "../hooks/useReducedMotion";
 import { Principles } from "./Principles";
 import { ScrollRevealText } from "./ScrollRevealText";
 import { AboutIcon } from "./AboutIcon";
+import { AnimatedContent } from "./AnimatedContent";
+import { BlurText } from "../vendor/react-bits/BlurText";
 import "./About.css";
 
 export function About({ language }: { language: Language }) {
-  const ref = useRef<HTMLElement>(null);
-  const reduced = useReducedMotion();
   const es = language === "es";
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 0.90", "start 0.58"], trackContentSize: true });
-  const titleTransform = useTransform(scrollYProgress, [0, 1], ["translateY(28%)", "translateY(0%)"]);
-  const titleOpacity = useTransform(scrollYProgress, [0, .8], [.2, 1]);
   return (
-    <section ref={ref} id="sobre-mi" className="section-wrap about-section about-editorial" aria-labelledby="about-title">
+    <section id="sobre-mi" className="section-wrap about-section about-editorial" aria-labelledby="about-title">
       <div className="about-intro-grid">
-        <div className="about-heading">
-          <p className="about-section-label"><AboutIcon name="section" />{es ? "Detrás del código" : "Behind the code"}</p>
-          <h2 id="about-title" className="about-title-mask">
-            <motion.span style={reduced ? { transform: "none", opacity: 1 } : { transform: titleTransform, opacity: titleOpacity }}>{es ? "Sobre mí" : "About me"}</motion.span>
-          </h2>
-        </div>
+        <AnimatedContent className="about-heading" stagger={0.06} distance={24}>
+          <p className="about-section-label"><AboutIcon name="section" />{es ? "Detrás del código" : "Behind the code"}</p> {/* taste-skill-ignore: preserve the existing section label requested by the user. */}
+          <BlurText as="h2" id="about-title" className="about-title-mask" text={es ? "Sobre mí" : "About me"} animateBy="words" direction="bottom" delay={50} blur={8} />
+        </AnimatedContent>
         <div className="about-editorial-copy">
           <ScrollRevealText key={language}
             text={es
-              ? "He coordinado equipos de cinco personas como Scrum Master. Conecto requisitos, planificación y programación para trabajar con claridad."
-              : "I have coordinated five-person teams as Scrum Master. I connect requirements, planning and programming to work with clarity."}
-            emphasis={es ? "con claridad." : "with clarity."} />
-          <p className="about-supporting-copy">{es
-            ? "He participado en requisitos, ERS, BPMN y seguimiento de tareas. También he trabajado con C#, Java y SQL en proyectos de programación."
-            : "I have contributed to requirements, SRS, BPMN and task follow-up. I have also worked with C#, Java and SQL in programming projects."}</p>
+              ? "Me mueve la curiosidad por entender cómo funcionan las cosas y encontrar mejores formas de construirlas. Disfruto convertir ideas en software y, cuando un proyecto me exige algo nuevo, me comprometo a aprenderlo."
+              : "I’m driven by curiosity about how things work and how to build them better. I enjoy turning ideas into software, and when a project calls for something new, I commit to learning it."}
+            emphasis={es ? ["convertir ideas en software", "me comprometo a aprenderlo"] : ["turning ideas into software", "I commit to learning it"]} />
+          <AnimatedContent as="p" className="about-supporting-copy" delay={0.08}>{es
+            ? "Estudio Ingeniería en Sistemas Computacionales y he participado en programación, análisis de requisitos y coordinación de equipos de cinco personas como Scrum Master. Estas experiencias me han enseñado a organizar el trabajo, escuchar otras perspectivas y conectar la planificación con el desarrollo."
+            : "I’m studying Computer Systems Engineering and have contributed to programming, requirements analysis, and coordinating five-person teams as a Scrum Master. These experiences have taught me to organize work, listen to different perspectives, and connect planning with development."}</AnimatedContent>
+          
         </div>
       </div>
       <Principles language={language} />

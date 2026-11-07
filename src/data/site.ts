@@ -7,7 +7,8 @@ export const site = {
     en: "José Antonio Medina Ayala — Junior Full-Stack Developer and Computer Systems Engineering student. Available for projects and professional opportunities.",
   },
   fullName: "José Antonio Medina Ayala",
-  resumeHref: "#inicio",
+  // Empty until a real résumé file exists; ResumeLink hides itself while empty.
+  resumeHref: "",
   licenseNumber: "15938245",
   licenseSearchUrl: "https://www.gob.mx/cedulaprofesional",
   degreeUrl: "https://dsc.morelia.tecnm.mx/oferta_educativa.php",

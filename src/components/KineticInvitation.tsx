@@ -3,10 +3,9 @@
 // Retains per-character cursor proximity lift/scale and cached geometry.
 // Fixed editorial lines replace its repeated marquee; no Framer runtime.
 import { useEffect, useRef } from "react";
-import { motion, useInView } from "motion/react";
+import { useInView } from "motion/react";
 import { frame, cancelFrame } from "motion";
 import type { Language } from "../data/i18n";
-import { motionSystem } from "../data/motion";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { usePageVisible } from "../hooks/usePageVisible";
@@ -79,13 +78,11 @@ export function KineticInvitation({ language }: { language: Language }) {
   return (
     <h2 ref={ref} className="contact-invitation" lang={language} aria-label={lines.join(" ")} data-kinetic="proximity" data-static={reduced}>
       {lines.map((line, index) => (
-        <motion.span className="kinetic-line" key={`${language}-${index}`} aria-hidden="true" initial={false}
-          whileInView={reduced ? undefined : { transform: ["translateY(12px)", "translateY(0)"], opacity: [0.8, 1] }}
-          viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.65, delay: index * 0.12, ease: motionSystem.ease }}>
+        <span className="kinetic-line" key={`${language}-${index}`} aria-hidden="true">
           {line.split(/(\s+)/).map((word, wordIndex) => /\s+/.test(word) ? word : (
             <span className="kinetic-word" key={wordIndex}>{Array.from(word).map((char, charIndex) => <span className="kinetic-character" key={charIndex}>{char}</span>)}</span>
           ))}
-        </motion.span>
+        </span>
       ))}
     </h2>
   );

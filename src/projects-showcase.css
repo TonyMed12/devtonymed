@@ -1,0 +1,244 @@
+/* Project showcase: a grid where each project's information sits below its image. */
+
+/* Desktop: one wide horizontal card per project, image left and information right. */
+.showcase-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 28px;
+}
+@media (min-width: 761px) and (max-width: 1099px) {
+  .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.showcase-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  transition: border-color .3s ease, box-shadow .3s ease;
+}
+.showcase-card:hover { border-color: var(--accent); box-shadow: 0 18px 36px -26px rgb(15 23 42 / .45); }
+
+.showcase-media { aspect-ratio: 16 / 10; overflow: hidden; background: var(--surface-alt); }
+.showcase-media img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform .6s ease; }
+.showcase-card:hover .showcase-media img { transform: scale(1.04); }
+.showcase-placeholder {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  font: 700 56px/1 "Cascadia Code", Consolas, monospace;
+  color: color-mix(in srgb, var(--accent) 35%, transparent);
+  letter-spacing: -.04em;
+}
+
+.showcase-body { display: flex; flex: 1; flex-direction: column; gap: 10px; padding: 22px 24px 24px; }
+.showcase-role { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+.showcase-body h3 { font-size: clamp(22px, 2.2vw, 26px); line-height: 1.15; }
+.showcase-context { font-size: 14px; color: var(--muted); }
+.showcase-tech { display: flex; flex-wrap: wrap; gap: 8px; }
+.showcase-tech li { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; }
+.showcase-tech li svg, .showcase-tech li img { width: 14px; height: 14px; }
+
+.showcase-tabs {
+  position: relative;
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  padding: 4px;
+  border-radius: 10px;
+  background: var(--surface-alt);
+  align-self: flex-start;
+}
+.showcase-tabs button {
+  position: relative;
+  min-height: 36px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+}
+.showcase-tabs button[aria-pressed="true"] { color: var(--ink); }
+.showcase-tabs button > span:last-child { position: relative; }
+.showcase-tab-marker {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: 0 2px 8px -4px rgb(15 23 42 / .4);
+}
+
+
+
+
+
+
+
+
+@media (max-width: 760px) {
+  .showcase-grid { grid-template-columns: 1fr; gap: 20px; }
+  .showcase-body { padding: 18px 18px 20px; }
+}
+
+/* Group headings */
+.showcase-group + .showcase-group { margin-top: 64px; }
+.showcase-group-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.showcase-group-title::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+.showcase-body h4 { font-size: clamp(20px, 2vw, 24px); line-height: 1.2; font-weight: 700; }
+
+/* Detail panel: a framed surface so the content reads as one unit. */
+.showcase-panel {
+  min-height: 176px;
+  margin-top: 6px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface-alt);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.showcase-panel p { margin: 0; }
+.showcase-summary { display: grid; gap: 14px; }
+.showcase-result {
+  display: grid;
+  gap: 4px;
+  padding: 12px 14px;
+  border-left: 3px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  background: var(--surface);
+}
+.showcase-result span { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+
+/* Architecture: numbered nodes joined by a vertical line that draws in. */
+.showcase-nodes { position: relative; display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: node; }
+.showcase-nodes::before {
+  content: "";
+  position: absolute;
+  left: 15px;
+  top: 16px;
+  bottom: 16px;
+  width: 2px;
+  background: var(--line);
+}
+.showcase-nodes li {
+  position: relative;
+  counter-increment: node;
+  padding: 10px 14px 10px 46px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.showcase-nodes li::before {
+  content: counter(node, decimal-leading-zero);
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font: 700 9px/1 "Cascadia Code", Consolas, monospace;
+}
+
+/* Flow: numbered steps with arrows between them. */
+.showcase-steps { display: flex; flex-wrap: wrap; gap: 10px 6px; margin: 0; padding: 0; list-style: none; align-items: stretch; }
+.showcase-steps li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-weight: 700;
+}
+.showcase-steps li > span {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  flex: none;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  font: 700 11px/1 "Cascadia Code", Consolas, monospace;
+}
+.showcase-steps li:not(:last-child)::after { content: "→"; margin-left: 10px; color: var(--muted); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .showcase-nodes li,
+  .showcase-steps li { animation: step-in .45s ease-out both; animation-delay: calc(var(--i) * 90ms); }
+}
+@keyframes step-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* Desktop: horizontal cards (image left, information right); declared last so it overrides the base card. */
+@media (min-width: 1100px) {
+  .showcase-card { flex-direction: row; }
+  .showcase-media { flex: 0 0 42%; aspect-ratio: auto; min-height: 0; }
+  .showcase-body { padding: 28px 32px; }
+}
+
+/* Projects motion: parallax on the capture, card lift with an accent shadow, tech badges lit in their own colour. */
+.showcase-tech li { transition: border-color .25s ease, color .25s ease, box-shadow .25s ease; }
+.showcase-tech li:hover { color: var(--tech, var(--accent)); border-color: var(--tech, var(--accent)); box-shadow: 0 0 0 3px color-mix(in srgb, var(--tech, var(--accent)) 18%, transparent); }
+.showcase-tech li[data-tech="Next.js"] { --tech: #111111; }
+.showcase-tech li[data-tech="Spring Boot"] { --tech: #3f8f2f; }
+.showcase-tech li[data-tech="TypeScript"] { --tech: #3178c6; }
+.showcase-tech li[data-tech="JavaScript"] { --tech: #b8a000; }
+.showcase-tech li[data-tech="HTML"] { --tech: #e34f26; }
+.showcase-tech li[data-tech="CSS"] { --tech: #1572b6; }
+.showcase-tech li[data-tech="PHP"] { --tech: #5b5fa6; }
+.showcase-tech li[data-tech="MySQL"] { --tech: #2f6f9f; }
+.showcase-tech li[data-tech="Python"] { --tech: #3776ab; }
+.showcase-tech li[data-tech="scikit-learn"] { --tech: #e0792a; }
+.showcase-tech li[data-tech="XGBoost"] { --tech: #d9552b; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .showcase-card { transition: transform .35s ease, border-color .3s ease, box-shadow .35s ease; }
+  .showcase-card:hover { transform: translateY(-4px); box-shadow: 0 22px 40px -22px color-mix(in srgb, var(--accent) 55%, transparent); }
+  @supports (animation-timeline: view()) {
+    .showcase-media img { animation: capture-parallax linear both; animation-timeline: view(); animation-range: entry 0% exit 100%; }
+  }
+}
+@keyframes capture-parallax {
+  from { translate: 0 -6%; }
+  to { translate: 0 6%; }
+}
+
+/* Layout: one spotlight project takes the full width; the rest of the featured group sits in two columns;
+   the other projects are compact vertical cards in three columns. */
+.showcase-group-featured .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.showcase-group-featured .showcase-card--spotlight { grid-column: 1 / -1; }
+.showcase-group-others .showcase-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.showcase-group-others .showcase-card { flex-direction: column; }
+.showcase-group-others .showcase-media { flex: none; aspect-ratio: 16 / 10; min-height: 0; }
+@media (max-width: 1100px) {
+  .showcase-group-others .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .showcase-group-featured .showcase-grid, .showcase-group-others .showcase-grid { grid-template-columns: 1fr; }
+}
+
+/* Featured cards in the two-column row are vertical; only the spotlight keeps the horizontal layout. */
+.showcase-group-featured .showcase-card:not(.showcase-card--spotlight) { flex-direction: column; }
+.showcase-group-featured .showcase-card:not(.showcase-card--spotlight) .showcase-media { flex: none; aspect-ratio: 16 / 10; min-height: 0; }
+
+/* Detector triage: flatten the result note (no card inside a card) and keep the placeholder number legible. */
+.showcase-result { background: transparent; }
+.showcase-placeholder { color: color-mix(in srgb, var(--accent) 60%, transparent); }

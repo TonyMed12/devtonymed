@@ -8,6 +8,7 @@ export function ResumeLink({
   language: Language;
   className?: string;
 }) {
+  if (!site.resumeHref) return null;
   return (
     <a className={`${className} resume-link`} href={site.resumeHref}>
       <Icon name="document" />

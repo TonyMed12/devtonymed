@@ -1,0 +1,41 @@
+.experience-reveal { min-width: 0; }
+/* The brief explicitly calls for individual bordered cards and soft elevation. */
+.experience-reveal > .experience-card {
+  position: relative;
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--line); /* taste-skill-ignore: the brief explicitly requires a fine border on every experience card. */
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--paper) 75%, var(--surface-alt));
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--ink) 6%, transparent); /* taste-skill-ignore: soft card shadows are explicitly requested. */
+  transition: transform var(--motion-state) var(--motion-ease), border-color var(--motion-fast) ease, box-shadow var(--motion-state) ease;
+}
+.experience-reveal > .experience-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 28px;
+  width: 56px;
+  height: 2px;
+  background: var(--accent);
+}
+.experience-card-part { min-width: 0; }
+.experience-card :is(h3, h4, p, a, button, span, dd) { overflow-wrap: anywhere; }
+.experience-card:focus-within { border-color: var(--accent); }
+@media (hover: hover) and (pointer: fine) {
+  .experience-reveal > .experience-card:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--accent) 65%, var(--line));
+    box-shadow: 0 12px 28px color-mix(in srgb, var(--ink) 10%, transparent); /* taste-skill-ignore: the brief requires subtle elevation on hover. */
+  }
+}
+@media (max-width: 760px) {
+  .experience-reveal > .experience-card { padding: 24px; }
+}
+@media (max-width: 360px) {
+  .experience-reveal > .experience-card { padding: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .experience-reveal, .experience-card-part { opacity: 1 !important; transform: none !important; }
+  .experience-reveal > .experience-card { transform: none !important; transition: none; }
+}

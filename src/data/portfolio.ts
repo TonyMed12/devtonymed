@@ -17,12 +17,39 @@ export type Project = {
   detailsPending?: boolean;
   authors?: string[];
   documentedStatus?: { es: string; en: string };
+  caseStudy?: CaseStudy;
+  featured?: boolean;
+};
+
+// Texto de ejemplo: se reemplazará por el contenido real del caso de estudio.
+export type CaseStudy = {
+  architecture: [string, string][];
+  flow: [string, string][];
+  result: [string, string];
 };
 
 export const projects: Project[] = [
   {
     id: "projexus",
     title: "ProjeXus",
+    featured: true,
+    caseStudy: {
+      architecture: [
+        ["Ejemplo: cliente Next.js", "Example: Next.js client"],
+        ["Ejemplo: API con Spring Boot", "Example: Spring Boot API"],
+        ["Ejemplo: base de datos PostgreSQL", "Example: PostgreSQL database"],
+      ],
+      flow: [
+        ["Ejemplo: se publica la convocatoria", "Example: the call is published"],
+        ["Ejemplo: se registran participantes", "Example: participants register"],
+        ["Ejemplo: evaluación por etapas", "Example: evaluation by stage"],
+        ["Ejemplo: publicación de resultados", "Example: results are published"],
+      ],
+      result: [
+        "Ejemplo: resultado del proyecto por completar.",
+        "Example: project result to be completed.",
+      ],
+    },
     description: [
       "Convocatorias y concursos para ICTI Michoacán.",
       "Calls and competitions for ICTI Michoacán.",
@@ -42,6 +69,24 @@ export const projects: Project[] = [
   {
     id: "caam",
     title: "Centro de Atención Animal de Morelia",
+    featured: true,
+    caseStudy: {
+      architecture: [
+        ["Ejemplo: aplicación frontend", "Example: frontend application"],
+        ["Ejemplo: API y reglas de negocio", "Example: API and business rules"],
+        ["Ejemplo: modelo de datos de mascotas y citas", "Example: data model for pets and appointments"],
+      ],
+      flow: [
+        ["Ejemplo: solicitud de adopción", "Example: adoption application"],
+        ["Ejemplo: revisión del personal", "Example: staff review"],
+        ["Ejemplo: cita para conocer a la mascota", "Example: appointment to meet the animal"],
+        ["Ejemplo: adopción registrada", "Example: adoption recorded"],
+      ],
+      result: [
+        "Ejemplo: resultado del proyecto por completar.",
+        "Example: project result to be completed.",
+      ],
+    },
     description: [
       "Adopciones, registro y seguimiento de mascotas y horarios veterinarios para el Centro de Atención Animal de Morelia.",
       "Pet adoption, registration, follow-up and veterinary scheduling for Centro de Atención Animal de Morelia.",
@@ -58,21 +103,23 @@ export const projects: Project[] = [
     detailsPending: true,
   },
   {
-    id: "todo",
-    title: "Aplicación To Do",
-    context: "Proyecto académico de cuarto semestre para gestionar tareas.",
-    description: [
-      "Gestión de tareas desarrollada en paralelo en C# y Java, con una base de datos SQL y relaciones de muchos a muchos.",
-      "Task management developed in parallel in C# and Java, with a SQL database and many-to-many relationships.",
-    ],
-    technologies: ["C#", "Java", "SQL"],
-    mainTechnologies: ["C#", "Java", "SQL"],
-    accent: "blue",
-    detailsPending: true,
-  },
-  {
     id: "aquamarine",
     title: "Aquamarine Resort",
+    caseStudy: {
+      architecture: [
+        ["Ejemplo: páginas HTML y estilos CSS", "Example: HTML pages and CSS styles"],
+        ["Ejemplo: interacciones con JavaScript", "Example: JavaScript interactions"],
+      ],
+      flow: [
+        ["Ejemplo: consulta de habitaciones", "Example: room search"],
+        ["Ejemplo: revisión de disponibilidad", "Example: availability check"],
+        ["Ejemplo: solicitud de reservación", "Example: booking request"],
+      ],
+      result: [
+        "Ejemplo: resultado del proyecto por completar.",
+        "Example: project result to be completed.",
+      ],
+    },
     description: [
       "Concepto web de resort con un flujo de reservación.",
       "Resort website concept with a booking flow.",
@@ -85,18 +132,26 @@ export const projects: Project[] = [
     detailsPending: true,
   },
   {
-    id: "library",
-    title: "Biblioteca Digital CBTis 147",
-    context: "Proyecto académico para CBTis 147.",
-    technologies: ["PHP", "Bootstrap", "MySQL"],
-    mainTechnologies: ["PHP", "MySQL"],
-    image: "/biblio.jpg",
-    accent: "blue",
-    detailsPending: true,
-  },
-  {
     id: "fraud-detection",
     title: "Detección de fraude con aprendizaje automático",
+    featured: true,
+    caseStudy: {
+      architecture: [
+        ["Ejemplo: datos transaccionales", "Example: transactional data"],
+        ["Ejemplo: preparación y balanceo", "Example: preparation and balancing"],
+        ["Ejemplo: modelos supervisados y no supervisados", "Example: supervised and unsupervised models"],
+        ["Ejemplo: línea base de reglas", "Example: rule-based baseline"],
+      ],
+      flow: [
+        ["Ejemplo: carga y limpieza de datos", "Example: data loading and cleaning"],
+        ["Ejemplo: entrenamiento y validación", "Example: training and validation"],
+        ["Ejemplo: evaluación final sobre TEST", "Example: final evaluation on TEST"],
+      ],
+      result: [
+        "Ejemplo: resultado del proyecto por completar.",
+        "Example: project result to be completed.",
+      ],
+    },
     description: [
       "Investigación en equipo sobre modelos predictivos para detectar fraude y phishing.",
       "Team research on predictive models for fraud and phishing detection.",
@@ -131,6 +186,64 @@ export const projects: Project[] = [
     detailsPending: true,
     authors: ["José Antonio Medina Ayala", "Cesar Enrique Díaz Maldonado"],
   },
+  {
+    id: "velto",
+    title: "Velto Store",
+    description: [
+      "Tienda web de sneakers centrada en descubrimiento de productos y carrito.",
+      "Sneaker web store focused on product discovery and the cart.",
+    ],
+    context: "Proyecto académico de comercio electrónico.",
+    role: "Desarrollo web",
+    myContribution: "Desarrollo de la interfaz de catálogo y del carrito.",
+    myContributionEn: "Development of the catalog interface and the cart.",
+    technologies: ["JavaScript", "HTML", "CSS"],
+    mainTechnologies: ["JavaScript", "HTML", "CSS"],
+    image: "/velto.png",
+    accent: "orange",
+    caseStudy: {
+      architecture: [
+        ["Ejemplo: interfaz del catálogo", "Example: catalog interface"],
+        ["Ejemplo: carrito y estado de compra", "Example: cart and purchase state"],
+      ],
+      flow: [
+        ["Ejemplo: descubrimiento de producto", "Example: product discovery"],
+        ["Ejemplo: agregar al carrito", "Example: add to cart"],
+        ["Ejemplo: compra", "Example: checkout"],
+      ],
+      result: ["Ejemplo: resultado del proyecto por completar.", "Example: project result to be completed."],
+    },
+    detailsPending: true,
+  },
+  {
+    id: "library",
+    title: "Biblioteca Digital CBTis 147",
+    description: [
+      "Sistema para gestionar libros y equipo de una biblioteca escolar.",
+      "System to manage books and equipment for a school library.",
+    ],
+    context: "Proyecto académico para CBTis 147.",
+    role: "Backend y datos",
+    myContribution: "Diseño del esquema MySQL y de las operaciones CRUD.",
+    myContributionEn: "MySQL schema design and CRUD operations.",
+    technologies: ["PHP", "Bootstrap", "MySQL"],
+    mainTechnologies: ["PHP", "MySQL"],
+    image: "/biblio.jpg",
+    accent: "blue",
+    caseStudy: {
+      architecture: [
+        ["Ejemplo: interfaz web en PHP", "Example: PHP web interface"],
+        ["Ejemplo: base de datos MySQL", "Example: MySQL database"],
+      ],
+      flow: [
+        ["Ejemplo: registro de libro o equipo", "Example: book or equipment registration"],
+        ["Ejemplo: préstamo", "Example: loan"],
+        ["Ejemplo: devolución", "Example: return"],
+      ],
+      result: ["Ejemplo: resultado del proyecto por completar.", "Example: project result to be completed."],
+    },
+    detailsPending: true,
+  },
 ];
 
 export type Technology = {
@@ -157,19 +270,16 @@ export const technologies: Technology[] = [
     id: "csharp",
     name: "C#",
     category: "backend",
-    application: "Programación de la aplicación To Do en cuarto semestre.",
+    application: "Lenguaje de programación para backend.",
     logo: "/tech/csharp.svg",
     personal: true,
-    projectId: "todo",
   },
   {
     id: "sql",
     name: "SQL",
     category: "data",
-    application:
-      "Modelado relacional con relaciones de muchos a muchos en To Do.",
+    application: "Modelado relacional y consultas SQL.",
     personal: true,
-    projectId: "todo",
   },
   {
     id: "react",
@@ -237,7 +347,6 @@ export const technologies: Technology[] = [
     category: "backend",
     application: "Sistemas web académicos.",
     personal: true,
-    projectId: "library",
   },
   {
     id: "java",
@@ -246,7 +355,6 @@ export const technologies: Technology[] = [
     application: "Programación y fundamentos backend.",
     logo: "/tech/java.png",
     personal: true,
-    projectId: "todo",
   },
   {
     id: "tailwind",

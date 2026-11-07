@@ -9,7 +9,9 @@
 #sobre-mi .about-title-mask > span { display: block; }
 #sobre-mi .about-editorial-copy { min-width: 0; }
 #sobre-mi .about-lead { font-size: clamp(27px, 2.5vw, 34px); line-height: 1.42; font-weight: 400; letter-spacing: -.025em; max-width: 36ch; margin: 0; color: var(--ink); }
-#sobre-mi .about-emphasis { display: inline-block; white-space: nowrap; font-weight: 700; }
+#sobre-mi .about-word { display: inline-block; }
+#sobre-mi .about-emphasis { font-weight: 700; color: var(--accent); background-image: linear-gradient(color-mix(in srgb, var(--accent) 16%, transparent), color-mix(in srgb, var(--accent) 16%, transparent)); background-repeat: no-repeat; background-position: left bottom; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+#sobre-mi .about-lead[data-enhanced="false"] .about-emphasis { background-size: 100% 100% !important; }
 #sobre-mi .about-supporting-copy { font-size: 16px; line-height: 1.7; max-width: 62ch; margin: 24px 0 0; color: var(--muted); }
 #sobre-mi .about-principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 60px); margin-top: 64px; }
 #sobre-mi .about-principle { min-width: 0; }
@@ -31,4 +33,9 @@
 @media (prefers-reduced-motion: reduce) {
   #sobre-mi :is(.about-title-mask > span,.about-emphasis,.about-principle-icon,.about-principle h3,.about-principle p) { transform: none !important; opacity: 1 !important; }
   #sobre-mi .about-lead { color: var(--ink); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #sobre-mi .about-word { opacity: 1 !important; filter: none !important; }
+  #sobre-mi .about-emphasis { background-size: 100% 100% !important; }
 }

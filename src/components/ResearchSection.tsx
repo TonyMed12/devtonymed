@@ -1,6 +1,7 @@
+import { AnimatedContent } from "./AnimatedContent";
 import type { Language } from "../data/i18n";
 import { copy } from "../data/ui";
-import { Reveal } from "./Reveal";
+import { ExperienceCard, ExperienceCardPart } from "./ExperienceCard";
 import { Icon } from "./Icons";
 import type { ResearchId } from "./ResearchDialog";
 
@@ -12,23 +13,23 @@ export function ResearchSection({ language, onOpen }: {
   const t = copy[language];
   return (
     <div id="investigacion" className="research-section">
-      <div className="research-intro">
+      <AnimatedContent className="research-intro" stagger={0.08} distance={24}>
         <h3>{es ? "Investigación." : "Research."}</h3>
         <p>{es ? "Preguntar, contrastar y compartir lo aprendido." : "Ask questions, examine evidence and share what I learn."}</p>
-      </div>
+      </AnimatedContent>
       <div className="research-grid">
-        {(["cloud-security", "fraud"] as const).map(id => {
+        {(["cloud-security", "fraud"] as const).map((id, index) => {
           const cloud = id === "cloud-security";
           const item = cloud ? t.research.cloud : t.research.fraud;
           return (
-            <Reveal key={id} className={`research-card research-${id}`}>
-              <div className="research-identity">
+            <ExperienceCard key={id} index={index} labelledBy={`research-${id}-title`} className={`research-card research-${id}`}>
+              <ExperienceCardPart className="research-identity">
                 <img className="research-institution-logo" src={cloud ? "/institutions/cul.jpg" : "/institutions/itm.png"} alt={item.institution} width={120} height={70} loading="lazy" />
                 <span>{cloud ? "Barranquilla, Colombia · 2025" : es ? "Morelia, México" : "Morelia, Mexico"}</span>
-              </div>
-              <div className="research-body">
+              </ExperienceCardPart>
+              <ExperienceCardPart className="research-body">
                 <p className="date">{item.institution}</p>
-                <h4>{item.title}</h4>
+                <h4 id={`research-${id}-title`}>{item.title}</h4>
                 <p>{item.description}</p>
                 {cloud && <p className="congress-milestone">{es
                   ? "Presentado en el Congreso Internacional del XXX Verano de la Investigación Científica y Tecnológica del Pacífico."
@@ -37,8 +38,8 @@ export function ResearchSection({ language, onOpen }: {
                   <span className="research-status">{item.status}</span>
                   <button className="text-link" type="button" aria-haspopup="dialog" onClick={() => onOpen(id)}>{t.viewResearch} <Icon name="arrow" /></button>
                 </div>
-              </div>
-            </Reveal>
+              </ExperienceCardPart>
+            </ExperienceCard>
           );
         })}
       </div>

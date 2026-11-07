@@ -6,13 +6,16 @@ import { projectStories, read } from "../data/experience";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { usePageVisible } from "../hooks/usePageVisible";
 import { useModalOpen } from "../hooks/useModalOpen";
-import { useAutoAdvance } from "../hooks/useAutoAdvance";
+import { useProjectAutoplay } from "../hooks/useProjectAutoplay";
 import { useMediaQuery } from "../hooks/useMediaQuery";
 import { ProjectCard } from "./ProjectCard";
 import { Icon } from "./Icons";
+import { ProjectCarouselSlot } from "./ProjectCarouselSlot";
+import { ProjectPresentationDecor } from "./ProjectPresentationDecor";
+import { ProjectPresentationName } from "./ProjectPresentationName";
 import "./ProjectCarousel.css";
 
-const items = projects.filter(project => project.id !== "library");
+const items = projects;
 const count = items.length;
 const wrap = (value: number) => ((value % count) + count) % count;
 const spring = { type: "spring" as const, stiffness: 180, damping: 30, mass: 1 };
@@ -28,6 +31,7 @@ export function ProjectCarousel({ language, onLanguageChange }: { language: Lang
   const [dragging, setDragging] = useState(false);
   const [stopped, setStopped] = useState(false);
   const [immediate, setImmediate] = useState(false);
+  const [sceneReady, setSceneReady] = useState(false);
   const [size, setSize] = useState({ width: 620, height: 640 });
   const host = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
@@ -44,14 +48,22 @@ export function ProjectCarousel({ language, onLanguageChange }: { language: Lang
   const id = useId();
   const es = language === "es";
   const active = wrap(position);
+  const suspended = reduced || !inView || !pageVisible || modalOpen;
   const paused = reduced || stopped || hovered || focused || dragging || modalOpen || !inView || !pageVisible;
+  useEffect(() => {
+    setSceneReady(false);
+    if (!entered || suspended) return;
+    const timer = window.setTimeout(() => setSceneReady(true), 1050);
+    return () => window.clearTimeout(timer);
+  }, [entered, position, suspended]);
   const go = useCallback((next: number, manual = true, instantly = false) => {
     positionRef.current = next;
     setImmediate(instantly);
     setPosition(next);
     if (manual) setReset(value => value + 1);
   }, []);
-  useAutoAdvance(() => go(positionRef.current + 1, false), paused, `${position}:${reset}`);
+  const progress = useProjectAutoplay(() => go(positionRef.current + 1, false), paused, `${position}:${reset}`);
+  const countdown = useTransform(progress, value => `scaleX(${1 - value})`);
   const choose = (index: number, instantly = false) => {
     let delta = wrap(index - wrap(positionRef.current));
     if (delta > count / 2) delta -= count;
@@ -138,12 +150,13 @@ export function ProjectCarousel({ language, onLanguageChange }: { language: Lang
       aria-roledescription={es ? "carrusel" : "carousel"}
       aria-label={es ? "Proyectos seleccionados. Usa las flechas para navegar." : "Selected projects. Use arrow keys to navigate."}
       data-autoplay={paused ? "paused" : "running"} data-active-index={active}
-      data-reduced={reduced} data-floating={!paused} onKeyDown={keyboard}
+      data-reduced={reduced} data-floating={!paused && sceneReady} data-ambient={!paused && sceneReady}
+      data-presentation-running={!suspended} data-instant={immediate} data-phase={suspended ? "suspended" : !sceneReady ? "entrance" : paused ? "reading" : "ambient"} onKeyDown={keyboard}
       onPointerEnter={event => { if (event.pointerType === "mouse") setHovered(true); }}
       onPointerLeave={() => setHovered(false)} onFocusCapture={() => setFocused(true)}
       onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false); }}>
       <div className="carousel-toolbar">
-        <p aria-live={paused ? "polite" : "off"} aria-atomic="true">{active + 1} <span>/ {count}</span><span className="carousel-current-name">{read(projectStories[items[active].id].title, language)}</span></p>
+        <p aria-live={paused ? "polite" : "off"} aria-atomic="true"><span key={active} className="carousel-count">{active + 1}</span> <span>/ {count}</span><ProjectPresentationName id={items[active].id} title={read(projectStories[items[active].id].title, language)} instant={reduced || immediate || suspended} /></p>
         <div>
           {!reduced && <button type="button" className="carousel-play" onClick={() => { setStopped(!stopped); setReset(value => value + 1); }} aria-pressed={stopped}
             aria-label={stopped ? (es ? "Activar avance automático" : "Enable autoplay") : (es ? "Pausar avance automático" : "Pause autoplay")}>
@@ -153,6 +166,11 @@ export function ProjectCarousel({ language, onLanguageChange }: { language: Lang
           <button type="button" className="carousel-next" onClick={event => go(positionRef.current + 1, true, event.detail === 0)} aria-label={es ? "Proyecto siguiente" : "Next project"} aria-controls={id}><Icon name="arrow" /></button>
         </div>
       </div>
+      {!reduced && <div className="carousel-countdown" aria-hidden="true" data-paused={paused}>
+        <span>{paused ? (es ? "En pausa" : "Paused") : (es ? "Siguiente proyecto" : "Next project")}</span>
+        <span className="carousel-countdown-track"><motion.span style={{ transform: countdown }} /></span>
+        <span>6 s</span>
+      </div>}
       <div ref={stage} id={id} className="coverflow-stage" style={{ height: size.height + (mobile ? 48 : 72) }} data-dragging={dragging}
         onPointerDown={event => {
           if (!event.isPrimary || event.button !== 0 || gesture.current.down) return;
@@ -180,31 +198,27 @@ export function ProjectCarousel({ language, onLanguageChange }: { language: Lang
           if (event.target === event.currentTarget) release(event.pointerId, event.clientX, true);
         }}
         onClickCapture={event => { if (suppressClick.current) { event.preventDefault(); event.stopPropagation(); suppressClick.current = false; } }}>
+        <ProjectPresentationDecor />
         <motion.div className="coverflow-drag-plane" style={{ transform: dragTransform }}>
-          {[-2, -1, 0, 1, 2].map(offset => {
+          {/* Fewer than five projects would repeat a card at offsets ±2 (duplicate ids); those slots are invisible anyway. */}
+          {(count >= 5 ? [-2, -1, 0, 1, 2] : [-1, 0, 1]).map(offset => {
             const absolute = position + offset;
             const index = wrap(absolute);
             const project = items[index];
             const side = Math.sign(offset);
-            const distance = offset * size.width * (mobile ? .94 : .79);
-            const depth = Math.abs(offset) * (mobile ? -16 : -80);
+            const distance = offset * size.width * (mobile ? .94 : .69);
+            const depth = Math.abs(offset) * (mobile ? -24 : -100);
             const tilt = -side * (mobile ? 4 : 14);
-            const scale = offset === 0 ? 1 : mobile ? .94 : .86;
-            const transform = `translateX(calc(-50% + ${distance}px)) translateZ(${depth}px) rotateY(${tilt}deg) scale(${scale})`;
+            const scale = offset === 0 ? 1 : mobile ? .93 : .82;
+            const transform = `translateX(calc(-50% + ${distance}px)) translateY(${offset === 0 ? 0 : mobile ? 12 : 24}px) translateZ(${depth}px) rotateY(${tilt}deg) rotateZ(${side * (mobile ? .4 : 1.3)}deg) scale(${scale})`;
             const hidden = Math.abs(offset) > 1;
             return (
-              <motion.div key={absolute} className="coverflow-slot" data-offset={offset} data-project={project.id}
-                style={{ zIndex: 3 - Math.abs(offset), pointerEvents: hidden ? "none" : "auto" }}
-                initial={reduced ? false : { opacity: 0, transform: `translateX(calc(-50% + ${distance * 1.1}px)) translateY(24px) translateZ(${depth}px) rotateY(${tilt}deg) scale(${scale})` }}
-                animate={{ transform, opacity: entered ? hidden ? 0 : offset === 0 ? 1 : .78 : 0 }}
-                transition={reduced || immediate ? { duration: 0 } : { ...spring, delay: entered && position === 0 ? Math.abs(offset) * .065 : 0 }}>
-                <div className="coverflow-float" data-secondary={offset !== 0}>
-                  <ProjectCard project={project} language={language} index={index} active={offset === 0} onLanguageChange={onLanguageChange} />
-                </div>
-                {Math.abs(offset) === 1 && <button type="button" className="coverflow-select" tabIndex={-1} aria-hidden="true"
-                  onPointerDown={event => event.preventDefault()} onClick={() => go(absolute)}
-                  aria-label={`${es ? "Centrar" : "Center"} ${read(projectStories[project.id].title, language)}`} />}
-              </motion.div>
+              <ProjectCarouselSlot key={absolute} offset={offset} projectId={project.id} transform={transform}
+                opacity={hidden ? 0 : offset === 0 ? 1 : .78} width={size.width} entered={entered} suspended={suspended}
+                immediate={immediate} reduced={reduced} onSelect={() => go(absolute)}>
+                <ProjectCard project={project} language={language} index={index} active={offset === 0}
+                  motionEnabled={!suspended && !dragging} onLanguageChange={onLanguageChange} />
+              </ProjectCarouselSlot>
             );
           })}
         </motion.div>

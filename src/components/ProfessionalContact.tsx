@@ -1,3 +1,5 @@
+import { AnimatedContent } from "./AnimatedContent";
+import { BlurText } from "../vendor/react-bits/BlurText";
 import { useState } from "react";
 import type { Language } from "../data/i18n";
 import { contactLinks } from "../data/contact";
@@ -28,14 +30,29 @@ function ProfessionalContact({ language }: { language: Language }) {
     >
       <div className="contact-composition">
         <div className="contact-editorial">
-          <KineticInvitation language={language} />
-          <p className="contact-support">
-            {es
+          <AnimatedContent distance={24}><KineticInvitation language={language} /></AnimatedContent>
+          <BlurText
+            as="p"
+            className="contact-support"
+            text={es
               ? "Disponible para trabajar y colaborar en nuevos proyectos. Escríbeme y conversemos."
               : "Available for work and new collaborations. Get in touch."}
-          </p>
-          <div className="contact-address">
-            <a className="contact-email" href={`mailto:${contactLinks.email}`}>
+            animateBy="words"
+            direction="bottom"
+            delay={40}
+            blur={6}
+          />
+          <AnimatedContent className="contact-address" delay={0.12} stagger={0.06} distance={20}>
+            <a
+              className="contact-email"
+              href={`mailto:${contactLinks.email}`}
+              onPointerMove={(event) => {
+                if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+                const rect = event.currentTarget.getBoundingClientRect();
+                event.currentTarget.style.translate = `${((event.clientX - rect.left - rect.width / 2) * 0.12).toFixed(1)}px ${((event.clientY - rect.top - rect.height / 2) * 0.2).toFixed(1)}px`;
+              }}
+              onPointerLeave={(event) => { event.currentTarget.style.translate = ""; }}
+            >
               <Icon name="mail" />
               {contactLinks.email}
               <Icon name="arrow" />
@@ -51,8 +68,8 @@ function ProfessionalContact({ language }: { language: Language }) {
               <Icon name={copyState === "copied" ? "check" : "copy"} />
               {es ? "Copiar correo" : "Copy email"}
             </button>
-          </div>
-          <div className="contact-channels contact-links">
+          </AnimatedContent>
+          <AnimatedContent className="contact-channels contact-links" delay={0.18} stagger={0.06} distance={20}>
             <a
               className="social-link"
               href={contactLinks.github}
@@ -74,7 +91,7 @@ function ProfessionalContact({ language }: { language: Language }) {
               <Icon name="arrow" />
             </a>
             <ResumeLink language={language} className="social-link" />
-          </div>
+          </AnimatedContent>
           <p className="copy-status" role="status" aria-live="polite">
             {copyState === "copied"
               ? es
@@ -87,7 +104,7 @@ function ProfessionalContact({ language }: { language: Language }) {
                 : ""}
           </p>
         </div>
-        <div className="contact-location">
+        <AnimatedContent className="contact-location" delay={0.12}>
           <LocationGlobe />
           <p className="contact-location-note">
             {es
@@ -95,7 +112,7 @@ function ProfessionalContact({ language }: { language: Language }) {
               : "Based in Morelia. Open to new collaborations."}
           </p>
           <span className="contact-location-signature">TM · tonymed.dev</span>
-        </div>
+        </AnimatedContent>
       </div>
     </section>
   );

@@ -21,7 +21,7 @@ function Eye({
     </span>
   );
 }
-export function EyeFollowLink({ language }: { language: Language }) {
+export function EyeFollowLink({ language, className = "button button-secondary eye-follow-link" }: { language: Language; className?: string }) {
   const fine = useMediaQuery("(hover: hover) and (pointer: fine)");
   const reduced = useReducedMotion();
   const lx = useMotionValue(0),
@@ -54,7 +54,7 @@ export function EyeFollowLink({ language }: { language: Language }) {
   }
   return (
     <a
-      className="button button-secondary eye-follow-link"
+      className={className}
       href="#contacto"
       data-eye-follow
       data-tracking={fine && !reduced}

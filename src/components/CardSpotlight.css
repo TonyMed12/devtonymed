@@ -1,0 +1,10 @@
+.card-spotlight-clip { position: absolute; inset: 0; overflow: hidden; border-radius: inherit; pointer-events: none; z-index: 2; }
+.card-spotlight {
+  position: absolute; top: 0; left: 0; width: 360px; height: 360px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%); /* taste-skill-ignore: the requested blue cursor spotlight needs a radial falloff. */
+  opacity: 0; transition: opacity var(--motion-state) ease;
+}
+[data-spotlight="true"] > .card-spotlight-clip > .card-spotlight { opacity: 1; }
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .card-spotlight-clip { display: none; }
+}

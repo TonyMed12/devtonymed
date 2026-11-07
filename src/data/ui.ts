@@ -25,7 +25,6 @@ export const copy = {
     projectsTitle: "Proyectos",
     projectRepo: "Repositorio",
     projectDetails: "Detalles",
-    previousProject: "Proyecto previo: Biblioteca Digital CBTis 147",
     projectsIntro:
       "Proyectos web, académicos y de investigación seleccionados.",
     journeyKicker: "Formación y trayectoria",
@@ -103,7 +102,6 @@ export const copy = {
     projectsTitle: "Projects",
     projectRepo: "Repository",
     projectDetails: "Details",
-    previousProject: "Previous project: CBTis 147 Digital Library",
     projectsIntro: "Selected web, academic, and research projects.",
     journeyKicker: "Education and journey",
     journeyTitle: "A path of",

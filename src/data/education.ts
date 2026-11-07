@@ -9,8 +9,8 @@ export const education = [
     title: localized("Técnico en Programación", "Programming Technician"),
     status: localized("Formación completada", "Completed education"),
     description: localized(
-      "Mi formación técnica me dio una base en programación, desarrollo de aplicaciones y trabajo con datos. Es el punto de partida desde el que continúo construyendo mi perfil en software.",
-      "My technical education gave me a foundation in programming, application development and working with data. It is the starting point from which I continue building my software profile.",
+      "Base en programación, desarrollo de aplicaciones y datos.",
+      "Foundation in programming, application development and data.",
     ),
     current: false,
     future: false,
@@ -26,8 +26,8 @@ export const education = [
     ),
     status: localized("En curso · 9.º semestre", "In progress · 9th semester"),
     description: localized(
-      "Estudio análisis y construcción de software, bases de datos e infraestructura computacional. Aplico esta formación en proyectos de programación, investigación y coordinación de equipos.",
-      "I study software analysis and construction, databases and computing infrastructure. I apply this education in programming, research and team coordination projects.",
+      "Software, bases de datos e infraestructura, aplicados en proyectos y coordinación de equipos.",
+      "Software, databases and infrastructure, applied in projects and team coordination.",
     ),
     current: true,
     specialty: localized(

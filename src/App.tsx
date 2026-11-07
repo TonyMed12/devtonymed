@@ -1,19 +1,25 @@
 import { useReducedMotion } from "./hooks/useReducedMotion";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { LayoutGroup, MotionConfig, motion, useInView } from "motion/react";
+import {LayoutGroup, MotionConfig, motion} from "motion/react";
 import { site } from "./data/site";
 import { motionSystem } from "./data/motion";
 import { profile, read } from "./data/experience";
 import { copy } from "./data/ui";
 import type { Language } from "./data/i18n";
-import { ProjectCarousel } from "./components/ProjectCarousel";
+import { ProjectShowcase } from "./components/ProjectShowcase";
+import { SectionCounter } from "./components/SectionCounter";
+import { ScrollProgress } from "./components/ScrollProgress";
+import "./projects-showcase.css";
+import { ProjectPresentationHeading } from "./components/ProjectPresentationHeading";
 import { DotGridBackdrop } from "./components/DotGridBackdrop";
 import { Welcome } from "./components/Welcome";
-import { Typewriter } from "./components/Typewriter";
+import { HeroTerminal } from "./components/HeroTerminal";
 import { useSmoothScroll } from "./hooks/useSmoothScroll";
-import { ResumeLink } from "./components/ResumeLink";
 import { Languages } from "./components/Languages";
 import { Reveal } from "./components/Reveal";
+import { EntranceReady } from "./hooks/useEntranceReady";
+import { ProjectCard } from "./components/ProjectCard";
+import { projects } from "./data/portfolio";
 import { ResearchDialog, type ResearchId } from "./components/ResearchDialog";
 import { TechnologySection } from "./components/TechnologySection";
 import { HeroPortrait } from "./components/HeroPortrait";
@@ -27,6 +33,8 @@ import { ResearchSection } from "./components/ResearchSection";
 import { contactLinks } from "./data/contact";
 import { Icon } from "./components/Icons";
 import "./portfolio.css";
+import "./hero-life.css";
+import "./motion-sections.css";
 import "./hero-stage-one.css";
 
 type Theme = "light" | "dark";
@@ -46,21 +54,20 @@ function preference(key: string) {
   }
 }
 
-function App() {
+function App({ staticView = false, staticLanguage = "es" }: { staticView?: boolean; staticLanguage?: Language } = {}) {
   const [language, setLanguage] = useState<Language>(() =>
-    preference("portfolio-language") === "en" ? "en" : "es",
+    staticView ? staticLanguage : preference("portfolio-language") === "en" ? "en" : "es",
   );
   const [theme, setTheme] = useState<Theme>(() => {
     const saved = preference("portfolio-theme");
     return saved === "light" || saved === "dark"
       ? saved
-      : matchMedia("(prefers-color-scheme: dark)").matches
+      : typeof window !== "undefined" && matchMedia("(prefers-color-scheme: dark)").matches
         ? "dark"
         : "light";
   });
   const [menuOpen, setMenuOpen] = useState(false);
-  const [introReady, setIntroReady] = useState(false);
-  const [typeReady, setTypeReady] = useState(false);
+  const [introReady, setIntroReady] = useState(staticView);
   const finishWelcome = useCallback(() => setIntroReady(true), []);
   const [active, setActive] = useState("inicio");
   const [researchId, setResearchId] = useState<ResearchId | null>(null);
@@ -68,16 +75,7 @@ function App() {
   useSmoothScroll();
   const [pageVisible, setPageVisible] = useState(true);
   const heroRef = useRef<HTMLElement>(null);
-  const heroInView = useInView(heroRef, { amount: 0.05 });
   const reduced = useReducedMotion();
-  useEffect(() => {
-    if (!introReady) return;
-    const timer = window.setTimeout(
-      () => setTypeReady(true),
-      reduced ? 0 : 700,
-    );
-    return () => window.clearTimeout(timer);
-  }, [introReady, reduced]);
   useEffect(() => {
     const fallback = window.setTimeout(finishWelcome, 1900);
     return () => window.clearTimeout(fallback);
@@ -138,7 +136,6 @@ function App() {
   useEffect(() => {
     document.documentElement.dataset.motion = reduced ? "reduced" : "system";
   }, [reduced]);
-  const running = heroInView && pageVisible && !reduced;
   return (
     <MotionConfig
       reducedMotion={reduced ? "always" : "never"}
@@ -151,7 +148,7 @@ function App() {
           data-active-section={active}
           data-intro={introReady ? "ready" : "waiting"}
         >
-          <Welcome onComplete={finishWelcome} />
+          {!staticView && <Welcome onComplete={finishWelcome} />}
           <ReadingProgress />
           <DotGridBackdrop
             hostRef={rootRef}
@@ -243,7 +240,10 @@ function App() {
               </button>
             </div>
           </header>
+          <EntranceReady value={introReady}>
           <main id="contenido">
+            <ScrollProgress />
+            <SectionCounter language={language} />
             <section ref={heroRef} id="inicio" className="hero hero-stage-one section-wrap">
               <div className="hero-copy">
                 <div>
@@ -266,29 +266,16 @@ function App() {
                     </p>
                   </div>
                 </div>
-                <div
-                  className="intro-block intro-type"
-                  data-ready={typeReady}
-                  data-visible={heroInView}
-                >
-                  <Typewriter
-                    language={language}
-                    running={Boolean(running) && typeReady}
-                  />
+                <div className="intro-block hero-float">
+                  <HeroTerminal language={language} />
                 </div>
-                <p className="hero-description intro-block intro-description">
-                  {es
-                    ? "Desarrollo soluciones web con tecnologías frontend y backend, modelado de datos y planificación clara."
-                    : "I develop web solutions with frontend and backend technologies, data modeling and clear planning."}
-                </p>
                 <div className="intro-block intro-actions">
                   <div className="hero-actions">
-                    <ResumeLink
-                      language={language}
-                      className="button button-primary"
-                    />
-                    <a className="button button-secondary" href="#contacto">
+                    <a className="button button-primary" href="#contacto">
                       {es ? "Hablemos" : "Let’s talk"} <Icon name="arrow" />
+                    </a>
+                    <a className="button button-secondary hero-continue" href="#proyectos">
+                      {es ? "Explorar proyectos" : "Explore projects"} <Icon name="arrow" />
                     </a>
                   </div>
                   <a
@@ -303,52 +290,39 @@ function App() {
                 </div>
                 <div className="hero-meta intro-block intro-actions">
                   <span><Icon name="location" /> {t.location}</span>
-                  <a className="hero-continue" href="#proyectos">{es ? "Explorar proyectos" : "Explore projects"} <Icon name="arrow" /></a>
                 </div>
               </div>
               <div className="hero-side">
+                <span className="hero-orbit" aria-hidden="true" />
                 <HeroPortrait language={language} enabled={introReady} />
               </div>
             </section>
             <About language={language} />
             <section id="proyectos" className="projects-section">
               <div className="section-wrap">
-                <Reveal className="section-heading">
-                  <div>
-                    <h2>{es ? "Proyectos seleccionados." : "Selected projects."}</h2>
-                  </div>
-                  <p>
-                    {es
-                      ? "Desarrollo, coordinación e investigación. Explora el contexto y mi contribución en cada proyecto."
-                      : "Development, coordination and research. Explore the context and my contribution to each project."}
-                  </p>
+                <ProjectPresentationHeading language={language} />
+                <Reveal delay={0.12} distance={32}>
+                  {staticView ? (
+                    <div className="static-projects">
+                      {projects.map((project, index) => (
+                        <ProjectCard key={project.id} project={project} language={language}
+                          index={index} active motionEnabled={false} onLanguageChange={() => {}} />
+                      ))}
+                    </div>
+                  ) : (
+                    <ProjectShowcase language={language} />
+                  )}
                 </Reveal>
-                <ProjectCarousel
-                  language={language}
-                  onLanguageChange={() =>
-                    setLanguage((current) => (current === "es" ? "en" : "es"))
-                  }
-                />
               </div>
             </section>
             <TechnologySection language={language} />
             <section id="formacion" className="journey-section">
               <div className="section-wrap">
-                <Reveal className="section-heading">
-                  <div>
-                    <h2>{es ? "Formación y trayectoria." : "Education & journey."}</h2>
-                  </div>
-                  <p>
-                    {es
-                      ? "De Técnico en Programación a Ingeniería en Sistemas Computacionales. Egreso previsto en 2027."
-                      : "From Programming Technician to Computer Systems Engineering. Expected completion in 2027."}
-                  </p>
-                </Reveal>
                 <Journey language={language} />
                 <ResearchSection language={language} onOpen={setResearchId} />
                 <div className="courses">
                   <Reveal className="subsection-heading">
-                    
+
                     <h3>
                       {es
                         ? "Credenciales e idiomas."
@@ -367,9 +341,10 @@ function App() {
             </section>
             <Contact language={language} />
           </main>
+          </EntranceReady>
           <footer className="site-footer">
             <span>
-              © {new Date().getFullYear()} {site.fullName}
+              {new Date().getFullYear()} {site.fullName}
             </span>
             <span>{site.signature} · Morelia, MX</span>
             <a href="#inicio">{es ? "Volver arriba" : "Back to top"} ↑</a>

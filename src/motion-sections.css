@@ -1,0 +1,138 @@
+/* Section motion. Scroll-driven effects only apply where the browser supports them; elsewhere content stays static. */
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Principles: each icon draws itself as its card scrolls into view. */
+  @supports (animation-timeline: view()) {
+    .about-principle-icon .about-symbol > * {
+      stroke-dasharray: 60;
+      animation: icon-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 40%;
+    }
+  }
+
+  /* Carousel counter: the current number ticks in whenever the project changes. */
+  .carousel-count { display: inline-block; animation: count-tick .45s ease-out both; }
+
+  /* Technology band: icons hop on hover, and a light sheen crosses the band now and then. */
+  .band-item:hover img,
+  .band-item:hover svg { animation: icon-hop .5s ease-out; }
+  .band-viewport { position: relative; }
+  .band-viewport::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(100deg, transparent 40%, rgb(255 255 255 / .35) 50%, transparent 60%);
+    transform: translateX(-100%);
+    animation: band-sheen 8s ease-in-out infinite;
+  }
+
+  /* Education: each card's bottom line grows as it enters the view. */
+  @supports (animation-timeline: view()) {
+    .academic-card { position: relative; }
+    .academic-card::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 2px;
+      background: var(--accent);
+      transform-origin: left;
+      animation: line-grow linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+  }
+  .academic-status > span[aria-hidden="true"] { animation: dot-ping 2.4s ease-out infinite; }
+
+  /* Credentials: the elapsed-period bar fills as it scrolls into view. */
+  @supports (animation-timeline: view()) {
+    .gci-period-bar > span {
+      transform-origin: left;
+      animation: bar-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 40%;
+    }
+  }
+
+  /* Contact email: follows the pointer slightly and eases back on leave. */
+  .contact-email { transition: translate .35s ease-out; }
+
+  /* Project cards: a short light pass when a card becomes the active one. */
+  .projects-section .project-card[data-active="true"] { animation: card-light 1.1s ease-out 1; }
+}
+
+@keyframes icon-draw { from { stroke-dashoffset: 60; } to { stroke-dashoffset: 0; } }
+@keyframes count-tick { from { transform: translateY(45%); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes icon-hop {
+  0% { transform: translateY(0); }
+  35% { transform: translateY(-5px); }
+  70% { transform: translateY(1px); }
+  100% { transform: translateY(0); }
+}
+@keyframes band-sheen {
+  0%, 60% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes line-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes bar-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes dot-ping {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 45%, transparent); }
+  100% { box-shadow: 0 0 0 9px transparent; }
+}
+@keyframes card-light {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 40%, transparent); }
+  100% { box-shadow: 0 0 0 12px transparent; }
+}
+
+/* Languages: circular gauge fills to its level as the card scrolls into view. */
+.language-cards article { position: relative; }
+.level-arc { position: absolute; top: 18px; right: 20px; width: 48px; height: 48px; transform: rotate(-90deg); }
+.level-arc circle { fill: none; stroke-width: 4; }
+.level-arc__track { stroke: var(--line); }
+.level-arc__fill { stroke: var(--accent); stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .level-arc__fill {
+      animation: arc-fill linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 45%;
+    }
+  }
+}
+@keyframes arc-fill { to { stroke-dashoffset: calc(1 - var(--value)); } }
+
+/* Technologies: one conveyor per category. */
+.technology-band { display: grid; gap: 14px; position: relative; }
+.band-pause { position: absolute; top: -48px; right: 0; }
+.band-row { display: grid; grid-template-columns: 112px minmax(0, 1fr); align-items: center; gap: 16px; }
+.band-label { font-size: 12px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.technology-band[data-static="true"] .band-row { grid-template-columns: 1fr; }
+.technology-band[data-static="true"] .band-label { display: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .band-row[data-direction="reverse"] .band-track { animation-direction: reverse; }
+}
+
+
+/* Terminal caret blinks in CSS (the state-driven blink re-rendered every 530 ms). */
+@media (prefers-reduced-motion: no-preference) {
+  .terminal-caret { animation: terminal-caret 1.06s steps(1) infinite; }
+}
+@keyframes terminal-caret { 50% { opacity: 0; } }
+
+/* Detector triage: functional labels at or above the 11px floor; prose kept near 66 characters per line. */
+.line-sidebar__index { font-size: 11px; }
+.about-supporting-copy { max-width: 66ch; }
+
+/* Hero terminal: floats gently over the copy. */
+.hero-float { position: relative; }
+.hero-terminal { max-width: 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-float { animation: hero-float-y 6s ease-in-out infinite; }
+}
+@keyframes hero-float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}

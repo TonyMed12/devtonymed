@@ -7,6 +7,9 @@
 .projects-section .carousel-previous .icon { transform: rotate(-135deg); }
 .projects-section .carousel-next .icon { transform: rotate(45deg); }
 .projects-section .carousel-play .icon { width: 16px; height: 16px; }
+.projects-section .carousel-countdown { display: flex; align-items: center; justify-content: end; gap: 10px; height: 28px; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
+.projects-section .carousel-countdown-track { display: block; width: 100px; height: 3px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.projects-section .carousel-countdown-track > span { display: block; width: 100%; height: 100%; background: var(--accent); transform-origin: left; }
 .projects-section .coverflow-stage {
   position: relative;
   perspective: 1400px;
@@ -26,12 +29,15 @@
   transform-style: preserve-3d;
 }
 .projects-section .coverflow-float { position: relative; }
+.projects-section .coverflow-arrival { transform-style: preserve-3d; }
 .projects-section .coverflow-slot[data-offset="0"] .coverflow-float { transform: none; }
-.projects-section .coverflow-float[data-secondary="true"] { animation: project-secondary-float 8s ease-in-out infinite paused; }
-.projects-section .coverflow-slot[data-offset="-1"] .coverflow-float { animation-delay: -3s; }
-.projects-section .coverflow-carousel[data-floating="true"] .coverflow-float[data-secondary="true"] { animation-play-state: running; }
-@keyframes project-secondary-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+.projects-section .coverflow-float[data-secondary="true"] { animation: project-secondary-float 7.2s cubic-bezier(0.77, 0, 0.175, 1) infinite paused; animation-delay: -2.4s; }
+.projects-section .coverflow-slot[data-offset="-1"] .coverflow-float { animation-duration: 6.4s; animation-delay: -1.1s; }
+.projects-section .coverflow-carousel[data-floating="true"] .coverflow-slot:is([data-offset="-1"], [data-offset="1"]) .coverflow-float { animation-play-state: running; }
+@keyframes project-secondary-float { 0%,100% { transform: translateY(4px); } 50% { transform: translateY(-4px); } }
 .projects-section .coverflow-carousel .project-card {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -48,7 +54,9 @@
   padding: 16px;
   background: var(--paper);
 }
-.projects-section .coverflow-carousel .project-media > img { width: 100%; height: 100%; min-height: 0; max-height: none; object-fit: contain; }
+.projects-section .coverflow-carousel .project-image-tilt { width: 100%; height: 100%; min-height: 0; display: grid; place-items: center; }
+.projects-section .coverflow-carousel .project-media-float { width: 100%; height: 100%; min-height: 0; }
+.projects-section .coverflow-carousel .project-image-tilt > img { width: 100%; height: 100%; min-height: 0; max-height: none; object-fit: contain; }
 .projects-section .coverflow-carousel .project-concept { min-height: 0; width: 100%; height: 100%; padding: 8px; }
 .projects-section .coverflow-carousel .project-concept > span { font-size: 13px; }
 .projects-section .coverflow-carousel .project-wordmark { font-size: clamp(26px, 3vw, 40px); max-width: 16ch; }
@@ -60,6 +68,73 @@
   padding: 22px 24px;
   gap: 10px;
 }
+
+/* Presentation choreography: entrance, a quiet hold, then ambient emphasis.
+   The brief explicitly requests blue geometry and an occasional border light. */
+.projects-section .project-presentation-heading h2 { flex-shrink: 0; }
+.projects-section .project-heading-line { display: block; overflow: hidden; padding-block: .08em; margin-block: -.04em; }
+.projects-section .project-heading-line > span { display: block; }
+.projects-section .coverflow-carousel .carousel-toolbar p { min-width: 0; }
+.projects-section .carousel-current-name { height: 1.55em; line-height: 1.55; overflow: hidden; white-space: nowrap; perspective: 700px; }
+.projects-section .carousel-current-name > span { display: block; }
+.projects-section .project-presentation-decor { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; color: var(--accent); }
+.projects-section .project-orbit-track { fill: none; stroke: currentColor; stroke-width: 1; opacity: .22; vector-effect: non-scaling-stroke; } /* taste-skill-ignore: the brief requests discreet blue lines behind the cards. */
+.projects-section .project-orbit-arc { opacity: .16; }
+.projects-section .project-orbit-dot, .projects-section .project-constellation { fill: currentColor; opacity: .65; }
+.projects-section .project-orbit-dot-small { opacity: .4; }
+.projects-section .project-orbit-clock { animation: project-orbit-turn 18s linear infinite paused; }
+.projects-section .project-constellation { animation: project-secondary-float 8.8s cubic-bezier(0.77, 0, 0.175, 1) infinite paused; }
+@keyframes project-orbit-turn { to { transform: rotate(360deg); } }
+.projects-section .coverflow-drag-plane { z-index: 1; }
+.projects-section .project-presentation-frame { position: absolute; inset: -8px; border: 1px solid color-mix(in srgb, var(--accent) 15%, transparent); border-radius: 21px; pointer-events: none; z-index: 0; } /* taste-skill-ignore: animated card frames are explicitly requested. */
+.projects-section .project-presentation-frame[data-active="true"] { border-color: color-mix(in srgb, var(--accent) 36%, transparent); animation: project-secondary-float 8.6s cubic-bezier(0.77, 0, 0.175, 1) infinite paused; }
+.projects-section .project-presentation-frame > svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+.projects-section .project-presentation-frame rect { fill: none; stroke: var(--accent); stroke-width: 2; vector-effect: non-scaling-stroke; stroke-dasharray: .12 .88; opacity: 0; animation: project-edge-sweep 10s linear infinite paused; }
+@keyframes project-edge-sweep {
+  0%,20% { opacity: 0; stroke-dashoffset: 0; }
+  27% { opacity: .75; }
+  43% { opacity: .75; }
+  48%,100% { opacity: 0; stroke-dashoffset: -1; }
+}
+.projects-section .project-card[data-active="true"] .project-media-float { animation: project-secondary-float 7.8s cubic-bezier(0.77, 0, 0.175, 1) infinite paused; animation-delay: -1.8s; }
+.projects-section .coverflow-carousel[data-ambient="true"] :is(.project-orbit-clock,.project-constellation,.project-presentation-frame[data-active="true"],.project-presentation-frame rect,.project-card[data-active="true"] .project-media-float) { animation-play-state: running; }
+.projects-section .project-card[data-active="true"] .project-media { animation: project-content-arrive .5s var(--motion-ease) .18s both paused; }
+.projects-section .project-card[data-active="true"] .project-body > :not(.project-context) { animation: project-content-arrive .42s var(--motion-ease) both paused; }
+.projects-section .project-card[data-active="true"] .project-body > h3 { animation-delay: .28s; }
+.projects-section .project-card[data-active="true"] .project-description { animation-delay: .34s; }
+.projects-section .project-card[data-active="true"] .role-badge { animation-delay: .4s; }
+.projects-section .project-card[data-active="true"] :is(.tags,.project-tech-pending) { animation-delay: .46s; }
+.projects-section .project-card[data-active="true"] .project-actions { animation-delay: .5s; }
+.projects-section .coverflow-carousel[data-presentation-running="true"] .project-card[data-active="true"] :is(.project-media,.project-body > :not(.project-context)) { animation-play-state: running; }
+.projects-section .coverflow-carousel[data-instant="true"] .project-card[data-active="true"] :is(.project-media,.project-body > *) { animation: none; }
+@keyframes project-content-arrive { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.projects-section .project-card .card-spotlight { background: radial-gradient(circle, color-mix(in srgb, var(--accent) 17%, transparent), transparent 70%); } /* taste-skill-ignore: the brief explicitly requests a localized blue spotlight. */
+.projects-section .coverflow-carousel :is(.carousel-toolbar button,.project-actions button,.project-actions a) .icon { transition: transform var(--motion-fast) var(--motion-ease), translate var(--motion-fast) var(--motion-ease); }
+.projects-section .coverflow-carousel .carousel-dots button[aria-pressed="true"] > span { transform: scaleX(2.3); }
+.projects-section .coverflow-carousel .carousel-dots button > span { transition: transform var(--motion-state) var(--motion-ease), background-color var(--motion-fast) ease; }
+.projects-section .coverflow-carousel .carousel-toolbar button:active { transform: scale(.92); }
+.projects-section .coverflow-carousel .project-actions :is(button,a):active { transform: translateY(1px) scale(.97); }
+.projects-section .coverflow-carousel .project-actions :is(button,a):focus-visible .icon { transform: translate(2px,-2px) rotate(8deg); }
+@media (hover: hover) and (pointer: fine) {
+  .projects-section .carousel-next:is(:hover,:focus-visible) .icon { translate: 3px 0; }
+  .projects-section .carousel-previous:is(:hover,:focus-visible) .icon { translate: -3px 0; }
+  .projects-section .coverflow-carousel .project-actions :is(button,a):hover .icon { transform: translate(2px,-2px) rotate(8deg); }
+}
+@media (max-width: 760px) {
+  .projects-section .project-presentation-frame { inset: -5px; border-radius: 18px; }
+  .projects-section .project-constellation { opacity: .4; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .projects-section .project-presentation-heading :is(.project-heading-line > span,p),
+  .projects-section .project-card[data-active="true"] :is(.project-media,.project-body > *),
+  .projects-section .project-media-float, .projects-section .project-presentation-frame,
+  .projects-section .project-presentation-frame rect { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .projects-section .project-presentation-decor, .projects-section .project-presentation-frame { display: none; }
+  .projects-section .coverflow-carousel :is(.carousel-toolbar button,.project-actions button,.project-actions a):is(:active,:focus-visible,:hover),
+  .projects-section .coverflow-carousel :is(.carousel-toolbar button,.project-actions button,.project-actions a):is(:active,:focus-visible,:hover) .icon { transform: none; translate: none; }
+  .projects-section .carousel-previous .icon { transform: rotate(-135deg) !important; }
+  .projects-section .carousel-next .icon { transform: rotate(45deg) !important; }
+}
 .projects-section .coverflow-carousel .project-body h3 { order: 0; font-size: 26px; line-height: 1.15; min-height: 2.3em; max-width: none; margin: 0; }
 .projects-section .coverflow-carousel .project-description {
   order: 1;
@@ -67,10 +142,7 @@
   font-size: 15px;
   line-height: 1.5;
   min-height: 3em;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  overflow: hidden;
+  display: block;
 }
 .projects-section .coverflow-carousel .role-badge { order: 2; font-size: 13px; margin: 0; min-height: 22px; }
 .projects-section .coverflow-carousel .tags { order: 3; margin: 0; min-height: 24px; gap: 6px 12px; }
@@ -95,5 +167,7 @@
   .projects-section .coverflow-carousel .project-concept > span { font-size: 11px; }
 }
 @media (prefers-reduced-motion: reduce) {
+  .projects-section .coverflow-arrival { opacity: 1 !important; transform: none !important; }
+  .projects-section .project-image-tilt { transform: none !important; }
   .projects-section .coverflow-float[data-secondary="true"] { animation: none; transform: none; }
 }
