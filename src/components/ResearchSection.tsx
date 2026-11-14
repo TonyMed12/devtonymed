@@ -32,11 +32,16 @@ export function ResearchSection({ language, onOpen }: {
                 <h4 id={`research-${id}-title`}>{item.title}</h4>
                 <p>{item.description}</p>
                 {cloud && <p className="congress-milestone">{es
-                  ? "Presentado en el Congreso Internacional del XXX Verano de la Investigación Científica y Tecnológica del Pacífico."
-                  : "Presented at the International Congress of the 30th Pacific Summer of Scientific and Technological Research."}</p>}
+                  ? "Presentado como ponente en el Congreso Internacional Virtual del 30.º Verano de la Investigación Científica y Tecnológica del Pacífico, 24–26 de septiembre de 2025."
+                  : "Presented as a speaker at the Virtual International Congress of the 30th Pacific Summer of Scientific and Technological Research, September 24–26, 2025."}</p>}
                 <div className="research-actions">
                   <span className="research-status">{item.status}</span>
                   <button className="text-link" type="button" aria-haspopup="dialog" onClick={() => onOpen(id)}>{t.viewResearch} <Icon name="arrow" /></button>
+                  {cloud && (
+                    <a className="text-link" href="/credentials/delfin-ponente-2025.pdf" target="_blank" rel="noreferrer">
+                      {es ? "Reconocimiento como ponente (PDF)" : "Speaker recognition (PDF)"} <Icon name="arrow" />
+                    </a>
+                  )}
                 </div>
               </ExperienceCardPart>
             </ExperienceCard>

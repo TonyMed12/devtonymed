@@ -1,14 +1,6 @@
+.showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 20px; }
 /* Project showcase: a grid where each project's information sits below its image. */
 
-/* Desktop: one wide horizontal card per project, image left and information right. */
-.showcase-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 28px;
-}
-@media (min-width: 761px) and (max-width: 1099px) {
-  .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 .showcase-card {
   display: flex;
   flex-direction: column;
@@ -41,49 +33,11 @@
 .showcase-tech li { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; }
 .showcase-tech li svg, .showcase-tech li img { width: 14px; height: 14px; }
 
-.showcase-tabs {
-  position: relative;
-  display: flex;
-  gap: 4px;
-  margin-top: 6px;
-  padding: 4px;
-  border-radius: 10px;
-  background: var(--surface-alt);
-  align-self: flex-start;
-}
-.showcase-tabs button {
-  position: relative;
-  min-height: 36px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--muted);
-}
-.showcase-tabs button[aria-pressed="true"] { color: var(--ink); }
-.showcase-tabs button > span:last-child { position: relative; }
-.showcase-tab-marker {
-  position: absolute;
-  inset: 0;
-  border-radius: 8px;
-  background: var(--surface);
-  box-shadow: 0 2px 8px -4px rgb(15 23 42 / .4);
-}
-
-
-
-
-
-
-
-
 @media (max-width: 760px) {
-  .showcase-grid { grid-template-columns: 1fr; gap: 20px; }
   .showcase-body { padding: 18px 18px 20px; }
 }
 
 /* Group headings */
-.showcase-group + .showcase-group { margin-top: 64px; }
 .showcase-group-title {
   display: flex;
   align-items: center;
@@ -97,29 +51,6 @@
 }
 .showcase-group-title::after { content: ""; flex: 1; height: 1px; background: var(--line); }
 .showcase-body h4 { font-size: clamp(20px, 2vw, 24px); line-height: 1.2; font-weight: 700; }
-
-/* Detail panel: a framed surface so the content reads as one unit. */
-.showcase-panel {
-  min-height: 176px;
-  margin-top: 6px;
-  padding: 18px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--surface-alt);
-  font-size: 14px;
-  line-height: 1.6;
-}
-.showcase-panel p { margin: 0; }
-.showcase-summary { display: grid; gap: 14px; }
-.showcase-result {
-  display: grid;
-  gap: 4px;
-  padding: 12px 14px;
-  border-left: 3px solid var(--accent);
-  border-radius: 0 8px 8px 0;
-  background: var(--surface);
-}
-.showcase-result span { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
 
 /* Architecture: numbered nodes joined by a vertical line that draws in. */
 .showcase-nodes { position: relative; display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; counter-reset: node; }
@@ -156,43 +87,10 @@
   font: 700 9px/1 "Cascadia Code", Consolas, monospace;
 }
 
-/* Flow: numbered steps with arrows between them. */
-.showcase-steps { display: flex; flex-wrap: wrap; gap: 10px 6px; margin: 0; padding: 0; list-style: none; align-items: stretch; }
-.showcase-steps li {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 14px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--surface);
-  font-weight: 700;
-}
-.showcase-steps li > span {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  flex: none;
-  border-radius: 50%;
-  background: var(--accent);
-  color: #fff;
-  font: 700 11px/1 "Cascadia Code", Consolas, monospace;
-}
-.showcase-steps li:not(:last-child)::after { content: "→"; margin-left: 10px; color: var(--muted); }
-
 @media (prefers-reduced-motion: no-preference) {
-  .showcase-nodes li,
-  .showcase-steps li { animation: step-in .45s ease-out both; animation-delay: calc(var(--i) * 90ms); }
+  .showcase-nodes li { animation: step-in .45s ease-out both; animation-delay: calc(var(--i) * 90ms); }
 }
 @keyframes step-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
-
-/* Desktop: horizontal cards (image left, information right); declared last so it overrides the base card. */
-@media (min-width: 1100px) {
-  .showcase-card .showcase-face--front { flex-direction: row; }
-  .showcase-media { flex: 0 0 42%; aspect-ratio: auto; min-height: 0; }
-  .showcase-body { padding: 28px 32px; }
-}
 
 /* Projects motion: parallax on the capture, card lift with an accent shadow, tech badges lit in their own colour. */
 .showcase-tech li { transition: border-color .25s ease, color .25s ease, box-shadow .25s ease; }
@@ -221,27 +119,23 @@
   to { translate: 0 6%; }
 }
 
-/* Layout: one spotlight project takes the full width; the rest of the featured group sits in two columns;
-   the other projects are compact vertical cards in three columns. */
-.showcase-group-featured .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.showcase-group-featured .showcase-card--spotlight { grid-column: 1 / -1; }
-.showcase-group-others .showcase-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.showcase-group-others .showcase-card .showcase-face--front { flex-direction: column; }
-.showcase-group-others .showcase-media { flex: none; aspect-ratio: 16 / 10; min-height: 0; }
-@media (max-width: 1100px) {
-  .showcase-group-others .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
-@media (max-width: 760px) {
-  .showcase-group-featured .showcase-grid, .showcase-group-others .showcase-grid { grid-template-columns: 1fr; }
-}
-
-/* Featured cards in the two-column row are vertical; only the spotlight keeps the horizontal layout. */
-.showcase-group-featured .showcase-card:not(.showcase-card--spotlight) .showcase-face--front { flex-direction: column; }
-.showcase-group-featured .showcase-card:not(.showcase-card--spotlight) .showcase-media { flex: none; aspect-ratio: 16 / 10; min-height: 0; }
-
-/* Detector triage: flatten the result note (no card inside a card) and keep the placeholder number legible. */
-.showcase-result { background: transparent; }
+/* Compact layout: featured projects are image cards in a row; the other projects are thumbnail rows. */
+.showcase-group + .showcase-group { margin-top: 40px; }
+.showcase-media { aspect-ratio: 16 / 9; }
+.showcase-description { font-size: 14px; line-height: 1.55; }
 .showcase-placeholder { color: color-mix(in srgb, var(--accent) 60%, transparent); }
+.showcase-contribution { display: grid; gap: 4px; padding-top: 10px; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.55; }
+.showcase-contribution span { font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.showcase-contribution p { margin: 0; }
+.showcase-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; margin-top: auto; padding-top: 8px; font-size: 14px; font-weight: 600; }
+.showcase-actions:empty { display: none; }
+.showcase-actions > * { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; color: var(--accent); }
+.showcase-actions .icon { width: 16px; height: 16px; }
+.showcase-group-others .showcase-face--front { flex-direction: row; }
+.showcase-group-others .showcase-media { flex: 0 0 112px; aspect-ratio: auto; }
+.showcase-group-others .showcase-body { gap: 6px; padding: 14px 16px; }
+.showcase-group-others .showcase-body h4 { font-size: 17px; }
+.showcase-group-others .showcase-placeholder { font-size: 32px; }
 
 /* Featured flip: 3D rotation of the inner stack; reduced motion swaps faces with a crossfade. */
 .showcase-card { perspective: 1600px; }
@@ -254,7 +148,8 @@
 .showcase-metrics li { display: grid; gap: 2px; min-width: 96px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; }
 .showcase-metrics strong { font-size: 18px; font-weight: 700; color: var(--accent); }
 .showcase-metrics span { font-size: 12px; color: var(--muted); }
-.showcase-flip-toggle { margin-top: 16px; display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--accent); }
+/* margin set in the compact layout block */
+.showcase-flip-toggle { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--accent); }
 .showcase-flip-toggle .icon { width: 16px; height: 16px; }
 .showcase-back-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .showcase-back-head h4 { font-size: 20px; font-weight: 700; }

@@ -196,6 +196,9 @@ export type Credential = {
   credits?: string;
   credentialId?: string;
   url?: string;
+  // PDF en /public/credentials.
+  document?: string;
+  training?: { title: Localized; detail: Localized; document: string; provider: string; logo: string }[];
 };
 export const credentialGallery: Credential[] = [
   {
@@ -225,7 +228,7 @@ export const credentialGallery: Credential[] = [
     logo: "/institutions/upv.svg",
     mark: "UPV",
     format: localized("Microcredencial", "Microcredential"),
-    credits: "3 ECTS",
+    credits: "3 ECTS · 30 h",
     title: localized(
       "Desarrollo de Software Seguro",
       "Secure Software Development",
@@ -244,6 +247,7 @@ export const credentialGallery: Credential[] = [
       "Secure software development course.",
     ),
     credentialId: "FCPU03M13IV",
+    document: "/credentials/upv-desarrollo-software-seguro.pdf",
   },
   {
     id: "gci",
@@ -275,13 +279,13 @@ export const credentialGallery: Credential[] = [
     logo: "/institutions/aws.svg",
     mark: "AWS",
     title: localized(
-      "Preparación para AWS CloudOps Engineer – Associate",
-      "AWS CloudOps Engineer – Associate preparation",
+      "Preparación para AWS CloudOps Engineer - Associate",
+      "AWS CloudOps Engineer - Associate preparation",
     ),
     status: localized("Preparación en curso", "Preparation in progress"),
     description: localized(
-      "Estoy profundizando en servicios de nube y operación de software mediante mi preparación para AWS CloudOps Engineer – Associate.",
-      "I am deepening my understanding of cloud services and software operations through my preparation for AWS CloudOps Engineer – Associate.",
+      "Estoy profundizando en servicios de nube y operación de software mediante mi preparación para AWS CloudOps Engineer - Associate.",
+      "I am deepening my understanding of cloud services and software operations through my preparation for AWS CloudOps Engineer - Associate.",
     ),
     relation: localized(
       "Busco ampliar mi perspectiva del desarrollo hacia la operación de las aplicaciones.",
@@ -291,5 +295,24 @@ export const credentialGallery: Credential[] = [
       "Preparación para certificación.",
       "Certification preparation.",
     ),
+    training: [
+      {
+        title: localized("Cloud Operations on AWS", "Cloud Operations on AWS"),
+        detail: localized("Netec · 25 horas · 4-8 de mayo de 2026", "Netec · 25 hours · May 4-8, 2026"),
+        document: "/credentials/aws-cloud-operations.pdf",
+        provider: "Netec",
+        logo: "/institutions/netec.png",
+      },
+      {
+        title: localized("Tecnología de Nube e Inteligencia Artificial", "Cloud Technology and Artificial Intelligence"),
+        detail: localized(
+          "Centro Público de Formación en Inteligencia Artificial · 83 horas · enero-julio de 2026",
+          "Centro Público de Formación en Inteligencia Artificial · 83 hours · January-July 2026",
+        ),
+        document: "/credentials/nube-inteligencia-artificial.pdf",
+        provider: "INFOTEC",
+        logo: "/institutions/infotec.png",
+      },
+    ],
   },
 ];

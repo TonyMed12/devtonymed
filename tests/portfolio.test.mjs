@@ -214,7 +214,7 @@ test("professional positioning, developer.json and metadata translate without re
   assert.equal(localStorage.getItem("portfolio-language"), "en");
 });
 
-test("project showcase shows each project's information below its image and switches detail tabs without a dialog", async () => {
+test("project showcase is compact: six cards in two groups, no tabs, case study on the back face", async () => {
   await language("es");
   await changePreferences({ reduced: true });
   const card = query("#projexus");
@@ -222,14 +222,14 @@ test("project showcase shows each project's information below its image and swit
   assert.equal(document.querySelectorAll(".showcase-card").length, 6);
   assert.equal(document.querySelectorAll(".showcase-group").length, 2);
   assert.equal(document.querySelector("dialog"), null);
-  assert.match(card.querySelector(".showcase-panel").textContent, /Ejemplo|Resultado/);
-  await click([...card.querySelectorAll(".showcase-tabs button")].find((b) => b.textContent.includes("Arquitectura")));
-  assert.equal(card.querySelector(".showcase-tabs button[aria-pressed='true']").textContent.includes("Arquitectura"), true);
-  await new Promise((resolve) => setTimeout(resolve, 400));
-  assert.ok(card.querySelectorAll(".showcase-panel li").length > 0);
-  await click([...card.querySelectorAll(".showcase-tabs button")].find((b) => b.textContent.includes("Flujo")));
-  await new Promise((resolve) => setTimeout(resolve, 400));
-  assert.ok(card.querySelector(".showcase-steps"));
+  assert.equal(document.querySelector(".showcase-tabs"), null);
+  assert.ok(card.querySelector(".showcase-description").textContent.length > 0);
+  assert.match(card.querySelector(".showcase-contribution").textContent, /Scrum Master/);
+  assert.ok(query("#fraud-detection .showcase-actions a[href*='github.com']"));
+  await click(card.querySelector(".showcase-flip-toggle"));
+  assert.ok(card.querySelector(".showcase-flip.is-flipped"));
+  await click(card.querySelector(".showcase-back-close"));
+  assert.equal(card.querySelector(".showcase-flip.is-flipped"), null);
 });
 
 
@@ -451,7 +451,7 @@ test("public copy, reported languages and temporary resume links remain accurate
     null,
   );
   // The band's visible pause is required (WCAG 2.2.2) and must be labelled in the active language.
-  assert.ok(query(".tech-bento"));
+  assert.ok(query(".tech-stack"));
   assert.match(query(".language-cards").textContent, /EspañolNativo/);
   assert.match(
     query(".language-cards").textContent,
@@ -602,24 +602,29 @@ test("principles keep their names visible and translate their descriptions", asy
   assert.equal(document.querySelector(".cursor-trail"), null);
 });
 
-test("technology bento: four cards, complementary subgroups as marquees that pause on hover", async () => {
-  assert.equal(document.querySelectorAll(".bento-card").length, 4);
-  assert.equal(document.querySelectorAll(".tech-subgroup").length, 4);
-  assert.equal(document.querySelectorAll(".tech-marquee").length, 4);
-  assert.ok(document.querySelectorAll(".tech-chip").length >= 20);
-  assert.ok(document.querySelector(".tech-subgroup .tech-chip"));
-  for (const name of ["Next.js", "Spring Boot", "Java", "C#", "SQL"])
-    assert.ok([...document.querySelectorAll(".tech-chip")].some((chip) => chip.textContent.includes(name)), name);
+test("credential and research documents are linked as local PDFs that exist", async () => {
+  await language("es");
+  await click(".credential-aws");
+  const courses = [...document.querySelectorAll(".credential-training a")].map((a) => a.getAttribute("href"));
+  assert.equal(courses.length, 2);
+  await click(".dialog-close");
+  const speaker = query('.research-cloud-security a[href$=".pdf"]').getAttribute("href");
+  for (const href of [...courses, speaker, "/credentials/upv-desarrollo-software-seguro.pdf"])
+    await access(join("public", href));
 });
 
-test("technology bento chips keep keyboard focus and stay static under reduced motion", async () => {
-  await changePreferences({ reduced: false });
-  const chip = query(".tech-chip");
-  chip.focus();
-  assert.equal(document.activeElement, chip);
-  await changePreferences({ reduced: true });
-  assert.ok(document.querySelector(".tech-marquee-track.is-static"));
-  await changePreferences({ reduced: false });
+test("technology stack: six static categories, levels marked, nothing focusable or animated", async () => {
+  await language("es");
+  const stack = query(".tech-stack");
+  assert.equal(stack.querySelectorAll("dt, h3").length, 6);
+  for (const name of ["Java", "TypeScript", "React", "Next.js", "Spring Boot", "Python", "Django", "AWS", "Docker", "Git"])
+    assert.ok([...stack.querySelectorAll(".tech-item")].some((item) => item.textContent.includes(name)), name);
+  assert.ok(stack.querySelector('.tech-item[data-level="core"]'));
+  assert.match(stack.querySelector('.tech-item[data-level="learning"]').textContent, /aprendiendo/i);
+  assert.equal(stack.querySelector("[tabindex]"), null);
+  await language("en");
+  assert.match(query(".tech-stack").textContent, /Languages.*Cloud and DevOps.*learning/is);
+  await language("es");
 });
 
 
@@ -804,19 +809,20 @@ test("work leads the evidence and About owns the extended profile and principles
   await language("es");
   const hero = query("#inicio"),
     about = query("#sobre-mi");
-  assert.equal(hero.nextElementSibling, about);
-  assert.equal(about.nextElementSibling.id, "proyectos");
+  assert.equal(hero.nextElementSibling.id, "tecnologias");
+  assert.equal(query("#tecnologias").nextElementSibling.id, "proyectos");
   assert.equal(query("#proyectos").nextElementSibling.id, "por-que-trabajar");
-  assert.equal(query("#por-que-trabajar").nextElementSibling.id, "tecnologias");
-  assert.equal(query("#tecnologias").nextElementSibling.id, "formacion");
-  assert.match(about.querySelector("h2").textContent, /Sobre mí/);
+  assert.equal(query("#por-que-trabajar").nextElementSibling.id, "formacion");
+  assert.equal(query("#formacion").nextElementSibling, about);
+  assert.equal(about.nextElementSibling.id, "contacto");
+  assert.match(about.querySelector("h2").textContent, /Más sobre mí/);
   assert.equal(hero.querySelector(".hero-facts"), null);
   assert.equal(hero.querySelector(".scroll-reveal-text"), null);
   assert.ok(about.querySelector(".about-principles"));
   assert.equal(document.querySelectorAll(".scroll-reveal-text").length, 1);
-  assert.equal(query('nav a[href="#sobre-mi"]').textContent, "Sobre mí");
+  assert.equal(query('nav a[href="#sobre-mi"]').textContent, "Más sobre mí");
   await language("en");
-  assert.match(about.querySelector("h2").textContent, /About me/);
+  assert.match(about.querySelector("h2").textContent, /More about me/);
 });
 
 test("contact flip exposes one face, moves focus, preserves usable links and returns with Escape", async () => {

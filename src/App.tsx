@@ -41,10 +41,10 @@ import "./hero-stage-one.css";
 type Theme = "light" | "dark";
 const sections = [
   "inicio",
-  "sobre-mi",
-  "proyectos",
   "tecnologias",
+  "proyectos",
   "formacion",
+  "sobre-mi",
   "contacto",
 ];
 function preference(key: string) {
@@ -127,13 +127,13 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
   const nav = es
     ? [
         "Inicio",
-        "Sobre mí",
-        "Proyectos",
         "Tecnologías",
+        "Proyectos",
         "Formación",
+        "Más sobre mí",
         "Contacto",
       ]
-    : ["Home", "About me", "Projects", "Technologies", "Education", "Contact"];
+    : ["Home", "Technologies", "Projects", "Education", "More about me", "Contact"];
   useEffect(() => {
     document.documentElement.dataset.motion = reduced ? "reduced" : "system";
   }, [reduced]);
@@ -303,7 +303,7 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
                 </div>
               </div>
             </section>
-            <About language={language} />
+            <TechnologySection language={language} />
             <section id="proyectos" className="projects-section">
               <div className="section-wrap">
                 <ProjectPresentationHeading language={language} />
@@ -322,7 +322,6 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
               </div>
             </section>
             <WhyWorkWithMe language={language} />
-            <TechnologySection language={language} />
             <section id="formacion" className="journey-section">
               <div className="section-wrap">
                 <Journey language={language} />
@@ -346,6 +345,7 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
                 </div>
               </div>
             </section>
+            <About language={language} />
             <Contact language={language} />
           </main>
           </EntranceReady>

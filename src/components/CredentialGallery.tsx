@@ -79,6 +79,11 @@ export function CredentialGallery({
               {item.credits && (
                 <motion.span className="credential-credits">{item.credits}</motion.span>
               )}
+              {item.training && (
+                <motion.span className="credential-credits">
+                  {item.training.length} {es ? "cursos completados" : "courses completed"}
+                </motion.span>
+              )}
               {item.id === "gci" && (
                 <motion.span className="gci-period-preview">
                   <span className="gci-period-dates">
@@ -142,6 +147,28 @@ export function CredentialGallery({
           )}
           {selected.id === "gci" && (
             <GciCalendar language={language} now={now} />
+          )}
+          {selected.training && (
+            <>
+              <h3>{es ? "Cursos completados" : "Completed courses"}</h3>
+              <ul className="credential-training">
+                {selected.training.map((course) => (
+                  <li key={course.document}>
+                    <img src={course.logo} alt={course.provider} loading="lazy" />
+                    <strong>{read(course.title, language)}</strong>
+                    <span>{read(course.detail, language)}</span>
+                    <a className="text-link" href={course.document} target="_blank" rel="noreferrer">
+                      {es ? "Ver constancia (PDF)" : "View certificate (PDF)"} ↗
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+          {selected.document && (
+            <a className="text-link credential-source" href={selected.document} target="_blank" rel="noreferrer">
+              {es ? "Ver certificado (PDF)" : "View certificate (PDF)"} ↗
+            </a>
           )}
           {selected.credentialId && (
             <p className="credential-evidence">

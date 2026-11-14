@@ -50,3 +50,8 @@ Compatibilidad, cambios, rendimiento y límites de prueba visual: `docs/LANYARD-
 ## Ilustraciones genéricas de proyectos
 
 - `projects/caam.svg` y `projects/fraud.svg`: composiciones abstractas originales del proyecto, sin texto, logos ni referencias a una institución o a datos reales. Se usan en los proyectos que no tenían imagen.
+
+## Íconos de la sección de tecnologías
+
+- `tech/docker.svg`, `tech/django.svg`, `tech/mysql.svg`, `tech/aws.svg` y `tech/git.svg`: copiados de Tabler Icons (MIT, `tech/TABLER-ICONS-LICENSE.txt`), con el trazo fijado a `#172c49`.
+- `tech/vitest.svg` y `tech/pytest.svg`: Simple Icons 15.0.0 (CC0, `tech/SIMPLE-ICONS-LICENSE.txt`), con el relleno fijado al color de cada marca.

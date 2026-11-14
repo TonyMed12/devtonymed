@@ -292,6 +292,17 @@ summary::marker { color: var(--accent); }
 .research-body h4 { font-size: 24px; margin-bottom: 12px; letter-spacing: -.02em; }
 .research-body > p:not(.date) { font-size: 16px; line-height: 1.6; }
 .research-body .congress-milestone { margin-top: 12px; font-size: 14px !important; color: var(--muted); }
+/* Completed courses: side by side on desktop so the dialog does not scroll; stacked on phones. */
+.credential-dialog .credential-training { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 12px; margin: 8px 0 0; padding: 0; list-style: none; }
+.credential-training li { display: flex; flex-direction: column; gap: 4px; margin: 0; padding: 12px; border: 1px solid var(--line); border-radius: 12px; font-size: 14px; line-height: 1.5; }
+.credential-training li::before, .credential-training li::marker { content: none; }
+.credential-training img { align-self: flex-start; height: 34px; width: auto; margin-bottom: 6px; padding: 6px 8px; border-radius: 6px; background: #fff; }
+.credential-training a { margin-top: auto; padding-top: 6px; }
+@media (min-width: 761px) {
+  .detail-dialog.credential-dialog .secure-topics { grid-template-columns: 1fr 1fr; margin: 16px 0; }
+  .credential-training li { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto 1fr; column-gap: 14px; align-items: start; }
+  .credential-training img { grid-row: 1 / span 3; margin: 0; }
+}
 .research-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; margin-top: 12px; }
 .research-status { font-size: 13px; color: var(--muted); }
 .courses { margin-top: 72px; }
@@ -372,7 +383,7 @@ summary::marker { color: var(--accent); }
 .detail-dialog dd { font-size: 16px; margin: 4px 0 0; }
 .dialog-project-preview { aspect-ratio: 16 / 9; margin-top: 24px; background: var(--surface-alt); padding: 12px; }
 .dialog-project-preview img { width: 100%; height: 100%; object-fit: contain; }
-.credential-dialog { width: min(620px, calc(100% - 32px)); }
+.credential-dialog { width: min(860px, calc(100% - 32px)); }
 .credential-dialog-logo,.research-dialog-logo { width: 160px; height: 80px; object-fit: contain; padding: 12px; background: #ffffff; border-radius: 6px; margin-bottom: 20px; }
 .credential-dialog-meta { display: flex; flex-wrap: wrap; gap: 12px; font-size: 14px; color: var(--accent); margin-top: 16px; }
 .secure-topics { margin: 24px 0; padding: 0; list-style: none; display: grid; gap: 12px; font-size: 15px; }
