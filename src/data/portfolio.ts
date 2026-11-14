@@ -19,6 +19,7 @@ export type Project = {
   documentedStatus?: { es: string; en: string };
   caseStudy?: CaseStudy;
   featured?: boolean;
+  metrics?: { value: string; label: [string, string] }[];
 };
 
 // Texto de ejemplo: se reemplazará por el contenido real del caso de estudio.
@@ -187,6 +188,12 @@ export const projects: Project[] = [
     },
     detailsPending: true,
     authors: ["José Antonio Medina Ayala", "Cesar Enrique Díaz Maldonado"],
+    metrics: [
+      { value: "6.36M", label: ["registros en el pipeline", "records in the pipeline"] },
+      { value: "0.9976", label: ["F1", "F1"] },
+      { value: "1.0000", label: ["AUC-ROC", "AUC-ROC"] },
+      { value: "0.9995", label: ["AUC-PR", "AUC-PR"] },
+    ],
   },
   {
     id: "velto",

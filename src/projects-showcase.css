@@ -189,7 +189,7 @@
 
 /* Desktop: horizontal cards (image left, information right); declared last so it overrides the base card. */
 @media (min-width: 1100px) {
-  .showcase-card { flex-direction: row; }
+  .showcase-card .showcase-face--front { flex-direction: row; }
   .showcase-media { flex: 0 0 42%; aspect-ratio: auto; min-height: 0; }
   .showcase-body { padding: 28px 32px; }
 }
@@ -226,7 +226,7 @@
 .showcase-group-featured .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .showcase-group-featured .showcase-card--spotlight { grid-column: 1 / -1; }
 .showcase-group-others .showcase-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.showcase-group-others .showcase-card { flex-direction: column; }
+.showcase-group-others .showcase-card .showcase-face--front { flex-direction: column; }
 .showcase-group-others .showcase-media { flex: none; aspect-ratio: 16 / 10; min-height: 0; }
 @media (max-width: 1100px) {
   .showcase-group-others .showcase-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -236,9 +236,40 @@
 }
 
 /* Featured cards in the two-column row are vertical; only the spotlight keeps the horizontal layout. */
-.showcase-group-featured .showcase-card:not(.showcase-card--spotlight) { flex-direction: column; }
+.showcase-group-featured .showcase-card:not(.showcase-card--spotlight) .showcase-face--front { flex-direction: column; }
 .showcase-group-featured .showcase-card:not(.showcase-card--spotlight) .showcase-media { flex: none; aspect-ratio: 16 / 10; min-height: 0; }
 
 /* Detector triage: flatten the result note (no card inside a card) and keep the placeholder number legible. */
 .showcase-result { background: transparent; }
 .showcase-placeholder { color: color-mix(in srgb, var(--accent) 60%, transparent); }
+
+/* Featured flip: 3D rotation of the inner stack; reduced motion swaps faces with a crossfade. */
+.showcase-card { perspective: 1600px; }
+.showcase-flip { display: grid; flex: 1; min-width: 0; transform-style: preserve-3d; transition: transform .7s cubic-bezier(.2, .8, .2, 1); }
+.showcase-flip.is-flipped { transform: rotateY(180deg); }
+.showcase-face { grid-area: 1 / 1; display: flex; flex-direction: column; min-width: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.showcase-face--front { flex: 1; }
+.showcase-face--back { transform: rotateY(180deg); padding: 24px; gap: 16px; background: var(--surface); }
+.showcase-metrics { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 12px 0 0; padding: 0; }
+.showcase-metrics li { display: grid; gap: 2px; min-width: 96px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 10px; }
+.showcase-metrics strong { font-size: 18px; font-weight: 700; color: var(--accent); }
+.showcase-metrics span { font-size: 12px; color: var(--muted); }
+.showcase-flip-toggle { margin-top: 16px; display: inline-flex; align-items: center; gap: 6px; font-weight: 600; color: var(--accent); }
+.showcase-flip-toggle .icon { width: 16px; height: 16px; }
+.showcase-back-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.showcase-back-head h4 { font-size: 20px; font-weight: 700; }
+.showcase-back-close { padding: 6px 12px; border: 1px solid var(--line); border-radius: 999px; font-size: 13px; font-weight: 600; }
+.showcase-back-sections { display: grid; gap: 12px; margin: 0; }
+.showcase-back-sections dt { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.showcase-back-sections dd { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: var(--ink); }
+.showcase-back-flow { margin: 0; }
+.showcase-back-links { display: flex; flex-wrap: wrap; gap: 14px; font-size: 14px; font-weight: 600; }
+.showcase-back-links a { display: inline-flex; align-items: center; gap: 6px; color: var(--accent); }
+.showcase-back-links .icon { width: 14px; height: 14px; }
+@media (prefers-reduced-motion: reduce) {
+  .showcase-flip, .showcase-flip.is-flipped { transform: none; transition: none; }
+  .showcase-face { backface-visibility: visible; -webkit-backface-visibility: visible; transition: opacity .4s ease; }
+  .showcase-face--back { transform: none; opacity: 0; pointer-events: none; }
+  .showcase-flip.is-flipped .showcase-face--back { opacity: 1; pointer-events: auto; }
+  .showcase-flip.is-flipped .showcase-face--front { opacity: 0; pointer-events: none; }
+}

@@ -11,10 +11,15 @@ export function HeroTerminal({ language }: { language: Language }) {
     <div className="hero-terminal">
       <Terminal
         username="tonymed"
-        commands={es ? ["whoami", "cat perfil.txt"] : ["whoami", "cat profile.txt"]}
+        commands={["whoami", "cat stack.txt", es ? "cat busco.txt" : "cat seeking.txt"]}
         outputs={{
           0: [read(profile.role, language)],
-          1: [read(profile.degree, language), read(profile.availability, language), names.join(" · ")],
+          1: ["React · TypeScript · Node.js · PostgreSQL"],
+          2: [
+            read(profile.availability, language),
+            "Morelia · Querétaro · León · Acámbaro",
+            names.join(" · "),
+          ],
         }}
         typingSpeed={40}
         delayBetweenCommands={700}

@@ -1,5 +1,5 @@
 // Adaptation of 3D Flip Card by Can Girgin, Framer Limited license.
-// Source: FlipCard-5rQ9.js@Bfm4iXxehEahJxoOelkH. See docs/ITERATION-08.md.
+// Source: FlipCard-5rQ9.js@Bfm4iXxehEahJxoOelkH.
 import { useId, useLayoutEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 import type { Language } from "../data/i18n";

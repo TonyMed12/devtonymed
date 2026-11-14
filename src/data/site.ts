@@ -1,14 +1,14 @@
 export const site = {
   url: "https://tonymed.dev",
   signature: "tonymed.dev",
-  title: "TonyMed — Desarrollador Full-Stack",
+  title: "TonyMed - Desarrollador Full-Stack",
   description: {
-    es: "José Antonio Medina Ayala — Desarrollador Full-Stack Junior y estudiante de Ingeniería en Sistemas Computacionales. Disponible para proyectos y oportunidades profesionales.",
-    en: "José Antonio Medina Ayala — Junior Full-Stack Developer and Computer Systems Engineering student. Available for projects and professional opportunities.",
+    es: "José Antonio Medina Ayala - Desarrollador Full-Stack Junior y estudiante de Ingeniería en Sistemas Computacionales. Disponible para proyectos y oportunidades profesionales.",
+    en: "José Antonio Medina Ayala - Junior Full-Stack Developer and Computer Systems Engineering student. Available for projects and professional opportunities.",
   },
   fullName: "José Antonio Medina Ayala",
-  // Empty until a real résumé file exists; ResumeLink hides itself while empty.
-  resumeHref: "",
+  // Public résumé (no phone number). ResumeLink hides itself if this is empty.
+  resumeHref: "/CV_Medina_Ayala_Jose_Antonio.pdf",
   licenseNumber: "15938245",
   licenseSearchUrl: "https://www.gob.mx/cedulaprofesional",
   degreeUrl: "https://dsc.morelia.tecnm.mx/oferta_educativa.php",

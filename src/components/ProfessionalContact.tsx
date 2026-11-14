@@ -7,9 +7,29 @@ import { KineticInvitation } from "./KineticInvitation";
 import { LocationGlobe } from "./LocationGlobe";
 import { Icon } from "./Icons";
 import { ResumeLink } from "./ResumeLink";
+import { useReducedMotion } from "../hooks/useReducedMotion";
+import type { PointerEvent as ReactPointerEvent } from "react";
+
+// Mouse-only magnetic pull: the link drifts toward the pointer by a fraction of the distance.
+function magnetic(reduced: boolean) {
+  if (reduced) return {};
+  return {
+    onPointerMove: (event: ReactPointerEvent<HTMLElement>) => {
+      if (event.pointerType !== "mouse") return;
+      const rect = event.currentTarget.getBoundingClientRect();
+      const x = (event.clientX - rect.left - rect.width / 2) * 0.18;
+      const y = (event.clientY - rect.top - rect.height / 2) * 0.18;
+      event.currentTarget.style.translate = `${x.toFixed(1)}px ${y.toFixed(1)}px`;
+    },
+    onPointerLeave: (event: ReactPointerEvent<HTMLElement>) => {
+      event.currentTarget.style.translate = "";
+    },
+  };
+}
 
 function ProfessionalContact({ language }: { language: Language }) {
   const es = language === "es";
+  const pull = magnetic(useReducedMotion());
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">(
     "idle",
   );
@@ -58,7 +78,7 @@ function ProfessionalContact({ language }: { language: Language }) {
               <Icon name="arrow" />
             </a>
             <button
-              className="copy-email"
+              className="copy-email" {...pull}
               type="button"
               onClick={copyEmail}
               aria-label={
@@ -71,7 +91,7 @@ function ProfessionalContact({ language }: { language: Language }) {
           </AnimatedContent>
           <AnimatedContent className="contact-channels contact-links" delay={0.18} stagger={0.06} distance={20}>
             <a
-              className="social-link"
+              className="social-link" {...pull}
               href={contactLinks.github}
               target="_blank"
               rel="noreferrer"
@@ -81,7 +101,7 @@ function ProfessionalContact({ language }: { language: Language }) {
               <Icon name="arrow" />
             </a>
             <a
-              className="social-link"
+              className="social-link" {...pull}
               href={contactLinks.linkedin}
               target="_blank"
               rel="noreferrer"

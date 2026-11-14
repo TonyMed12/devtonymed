@@ -2,12 +2,26 @@ import { useLayoutEffect, useState } from "react";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { site } from "../data/site";
 
-// Full page mounts replay the welcome; locale and navigation never remount it.
+const seenKey = "tonymed-welcome-shown";
+const wasSeen = () => {
+  try {
+    return sessionStorage.getItem(seenKey) === "1";
+  } catch {
+    return false;
+  }
+};
+
+// The welcome plays once per browser session; locale and navigation never remount it.
 export function Welcome({ onComplete }: { onComplete?: () => void }) {
   const reduced = useReducedMotion();
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(() => !wasSeen());
   useLayoutEffect(() => {
     if (!visible) return;
+    try {
+      sessionStorage.setItem(seenKey, "1");
+    } catch {
+      /* private mode: the welcome simply replays next visit */
+    }
     const html = document.documentElement;
     const overflow = html.style.overflow;
     html.dataset.welcome = "true";

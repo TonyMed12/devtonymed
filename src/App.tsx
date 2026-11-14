@@ -12,7 +12,9 @@ import "./projects-showcase.css";
 import { ProjectPresentationHeading } from "./components/ProjectPresentationHeading";
 import { DotGridBackdrop } from "./components/DotGridBackdrop";
 import { Welcome } from "./components/Welcome";
+import { ResumeLink } from "./components/ResumeLink";
 import { HeroTerminal } from "./components/HeroTerminal";
+import { WhyWorkWithMe } from "./components/WhyWorkWithMe";
 import { useSmoothScroll } from "./hooks/useSmoothScroll";
 import { Languages } from "./components/Languages";
 import { Reveal } from "./components/Reveal";
@@ -246,7 +248,6 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
             <section ref={heroRef} id="inicio" className="hero hero-stage-one section-wrap">
               <div className="hero-copy">
                 <div>
-                  <a className="hero-domain" href={site.url} target="_blank" rel="noreferrer">{site.signature} <Icon name="arrow" /></a>
                   <h1 className="hero-name" aria-label={site.fullName}>
                     <LineReveal ready={introReady} lines={[
                       site.fullName.split(" ").slice(0, 2).join(" "),
@@ -274,6 +275,7 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
                     <a className="button button-secondary hero-continue" href="#proyectos">
                       {es ? "Explorar proyectos" : "Explore projects"} <Icon name="arrow" />
                     </a>
+                    <ResumeLink language={language} />
                   </div>
                   <a
                     className="hero-github text-link"
@@ -283,6 +285,10 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
                   >
                     <Icon name="github" />
                     GitHub <Icon name="arrow" />
+                  </a>
+                  <a className="hero-github hero-download text-link" href={site.resumeHref} download>
+                    <Icon name="document" />
+                    {es ? "Descargar CV" : "Download résumé"}
                   </a>
                 </div>
                 <div className="hero-meta intro-block intro-actions">
@@ -315,6 +321,7 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
                 </Reveal>
               </div>
             </section>
+            <WhyWorkWithMe language={language} />
             <TechnologySection language={language} />
             <section id="formacion" className="journey-section">
               <div className="section-wrap">

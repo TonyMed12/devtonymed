@@ -222,3 +222,30 @@
 .hero-under-photo { margin-top: 20px; }
 .hero-domain { display: inline-flex; align-items: center; gap: 6px; margin-bottom: 14px; font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
 .hero-domain .icon { width: 13px; height: 13px; transform: rotate(135deg); }
+
+/* Why work with me: hover-fill rows, identity colours only. */
+.why-section { padding-block: 6rem; }
+.why-eyebrow { font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+.why-heading h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 600; letter-spacing: -.02em; margin: 12px 0 40px; }
+.why-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.why-row { position: relative; isolation: isolate; }
+.why-row-inner { display: grid; grid-template-columns: 56px minmax(0, 1fr) minmax(0, 1.4fr); gap: 8px 24px; align-items: start; padding: 28px 20px; border-bottom: 1px solid var(--line); }
+.why-row::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--surface); transform: scaleX(0); transform-origin: left; transition: transform .45s cubic-bezier(.2, .8, .2, 1); }
+.why-row:hover::before, .why-row:focus-within::before { transform: scaleX(1); }
+.why-index { font-size: 14px; font-weight: 600; color: var(--muted); padding-top: 6px; }
+.why-row h3 { font-size: 1.5rem; font-weight: 600; letter-spacing: -.01em; }
+.why-row p { color: var(--muted); line-height: 1.6; }
+.why-row-inner > p { grid-column: 3; }
+.why-tags { grid-column: 2 / 4; display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.why-tags li { border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; font-size: 13px; color: var(--ink); }
+.why-cta { margin-top: 40px; }
+@media (max-width: 760px) {
+  .why-row-inner { grid-template-columns: 40px minmax(0, 1fr); }
+  .why-row-inner > p, .why-tags { grid-column: 2; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .why-row::before { transition: none; }
+}
+
+/* Contact pull: follows the pointer by translate, springs back on leave. */
+.professional-contact :is(.social-link, .copy-email) { transition: translate .35s cubic-bezier(.2, .8, .2, 1), color .25s ease, border-color .25s ease; }

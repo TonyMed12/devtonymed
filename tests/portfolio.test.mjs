@@ -202,10 +202,10 @@ test("professional positioning, developer.json and metadata translate without re
   assert.match(query(".hero-terminal").textContent, /tonymed/);
   assert.doesNotMatch(
     document.body.textContent,
-    /residencia|portafolio estudiantil|CAAM Morelia/i,
+    /portafolio estudiantil|CAAM Morelia/i,
   );
   await language("en");
-  assert.equal(document.title, "TonyMed — Desarrollador Full-Stack");
+  assert.equal(document.title, "TonyMed - Desarrollador Full-Stack");
   assert.match(query(".hero-terminal").textContent, /tonymed/);
   assert.match(
     query('meta[name="description"]').content,
@@ -461,8 +461,8 @@ test("public copy, reported languages and temporary resume links remain accurate
     document.body.textContent,
     /Soy Tony|datos por verificar|fechas documentadas|pendientes de añadir|por confirmar|pendiente de agregar|Voxy/i,
   );
-  // No résumé file exists yet, so no link may claim one.
-  assert.equal(document.querySelectorAll(".resume-link").length, 0);
+  assert.equal(query(".hero-actions .resume-link").getAttribute("href"), "/CV_Medina_Ayala_Jose_Antonio.pdf");
+  assert.ok(query('.hero-download[download]'));
   assert.match(
     query(".research-cloud-security .date").textContent,
     /Corporación Universitaria Latinoamericana/,
@@ -476,7 +476,7 @@ test("public copy, reported languages and temporary resume links remain accurate
     query(".language-cards").textContent,
     /B2ENReported levelCertification pending/,
   );
-  assert.equal(document.querySelector(".resume-link"), null);
+  assert.match(query(".hero-actions .resume-link").textContent, /View résumé/);
   await changePreferences({ reduced: true });
 });
 
@@ -760,12 +760,12 @@ async function withComponentClock(run) {
   }
 }
 
-test("welcome repeats on complete mounts, ignores legacy storage, and restores scroll styling", async () => {
+test("welcome plays once per session and restores scroll styling", async () => {
   const { Welcome } = await server.ssrLoadModule("/src/components/Welcome.tsx");
   const container = document.createElement("div");
   document.body.append(container);
   const welcomeRoot = createRoot(container);
-  sessionStorage.setItem("tonymed-welcome-seen", "1");
+  sessionStorage.clear();
   const overflow = document.documentElement.style.overflow;
   try {
     await withComponentClock(async (advance) => {
@@ -790,9 +790,7 @@ test("welcome repeats on complete mounts, ignores legacy storage, and restores s
       for (let reload = 0; reload < 3; reload++) {
         await act(async () => welcomeRoot.render(null));
         await act(async () => welcomeRoot.render(createElement(Welcome)));
-        assert.match(container.textContent, /Bienvenido\s*\/\s*Welcome/);
-        await advance(1450);
-        assert.equal(container.children.length, 0);
+        assert.equal(container.children.length, 0, "Seen this session: no replay");
         assert.equal(document.documentElement.style.overflow, overflow);
       }
     });
@@ -808,7 +806,8 @@ test("work leads the evidence and About owns the extended profile and principles
     about = query("#sobre-mi");
   assert.equal(hero.nextElementSibling, about);
   assert.equal(about.nextElementSibling.id, "proyectos");
-  assert.equal(query("#proyectos").nextElementSibling.id, "tecnologias");
+  assert.equal(query("#proyectos").nextElementSibling.id, "por-que-trabajar");
+  assert.equal(query("#por-que-trabajar").nextElementSibling.id, "tecnologias");
   assert.equal(query("#tecnologias").nextElementSibling.id, "formacion");
   assert.match(about.querySelector("h2").textContent, /Sobre mí/);
   assert.equal(hero.querySelector(".hero-facts"), null);
@@ -853,7 +852,7 @@ test("contact flip exposes one face, moves focus, preserves usable links and ret
       "true",
       "Copy does not flip the card",
     );
-    assert.equal(back.querySelectorAll("a[target='_blank']").length, 2);
+    assert.equal(back.querySelectorAll("a[target='_blank']").length, 3);
     await act(async () =>
       back.dispatchEvent(
         new window.KeyboardEvent("keydown", {
@@ -1048,9 +1047,9 @@ test("professional contact keeps every channel directly available across input m
     await act(async () => link.focus());
     assert.equal(document.activeElement, link);
   }
-  assert.equal(panel.querySelectorAll("a[target='_blank']").length, 2);
+  assert.equal(panel.querySelectorAll("a[target='_blank']").length, 3);
   await changePreferences({ fine: false, reduced: true });
-  assert.equal(panel.querySelectorAll("a").length, 3);
+  assert.equal(panel.querySelectorAll("a").length, 4);
   await language("en");
   assert.match(query(".contact-invitation").textContent, /Have an idea\?Let’s bring it to life\./);
   assert.ok(query(".contact-support").textContent.includes("Available for work and new collaborations. Get in touch."));

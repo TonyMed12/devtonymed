@@ -107,6 +107,7 @@ em { font-style: normal; color: inherit; }
 .typing-cursor { display: inline-block; height: .8em; width: 2px; background: currentColor; margin-left: 4px; }
 .hero-degree { font-size: 16px; line-height: 1.6; max-width: 45ch; }
 .hero-degree > span { display: block; font-size: 14px; color: var(--muted); margin-top: 3px; }
+.hero-download { margin-left: 18px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 12px 20px; border-radius: 6px; font-size: 15px; font-weight: 700; }
 .button-primary { color: #ffffff; background: #2563eb; }
@@ -444,8 +445,7 @@ summary::marker { color: var(--accent); }
   .hero-greeting { font-size: 19px; }
   .hero-typewriter { font-size: 23px; margin-block: 20px 16px; }
   .hero-degree { font-size: 15px; }
-  .hero-degree > span { font-size: 13px; }
-  .hero-actions { margin-top: 22px; }
+  .hero-degree > span { font-size: 13px; }  .hero-actions { margin-top: 22px; }
   .hero-actions .button { flex: 1 1 auto; padding-inline: 16px; }
   .hero-github { margin-top: 14px; }
   .hero-meta { margin-top: 18px; }

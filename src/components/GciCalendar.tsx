@@ -41,7 +41,7 @@ export function GciCalendar({
         <span style={{ width: `${percent}%` }} />
       </div>
       <p>
-        {es ? "Agosto — 31 de diciembre de 2026" : "August — December 31, 2026"}
+        {es ? "Agosto - 31 de diciembre de 2026" : "August - December 31, 2026"}
       </p>
       <p className="calendar-today">
         {es ? "Fecha actual (UTC): " : "Current date (UTC): "}

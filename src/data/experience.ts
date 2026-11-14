@@ -9,7 +9,10 @@ export const profile = {
     "Desarrollador Full-Stack Junior",
     "Junior Full-Stack Developer",
   ),
-  availability: localized("Disponible", "Available"),
+  availability: localized(
+    "Busco residencia profesional o prácticas",
+    "Seeking a professional residency or internship",
+  ),
   heading: localized("De la idea", "From idea"),
   headingAccent: localized("al código.", "to code."),
   intro: localized(

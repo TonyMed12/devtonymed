@@ -1,5 +1,5 @@
 // Portfolio adaptation of Eye Follow Button / FollowEyes by Aathif Thajudeen.
-// Framer Limited license; source versions and changes: docs/ITERATION-07.md.
+// Framer Limited license.
 import { motion, useMotionValue, useSpring } from "motion/react";
 import type { PointerEvent } from "react";
 import type { Language } from "../data/i18n";

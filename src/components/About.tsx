@@ -12,8 +12,7 @@ export function About({ language }: { language: Language }) {
     <section id="sobre-mi" className="section-wrap about-section about-editorial" aria-labelledby="about-title">
       <div className="about-intro-grid">
         <AnimatedContent className="about-heading" stagger={0.06} distance={24}>
-          <p className="about-section-label"><span className="about-badge" aria-hidden="true">tm.</span><AboutIcon name="section" />{es ? "Detrás del código" : "Behind the code"}</p> {/* taste-skill-ignore: preserve the existing section label requested by the user. */}
-          <BlurText as="h2" id="about-title" className="about-title-mask" text={es ? "Sobre mí" : "About me"} animateBy="words" direction="bottom" delay={50} blur={8} />
+          <p className="about-section-label"><span className="about-badge" aria-hidden="true">tm.</span><AboutIcon name="section" />{es ? "Detrás del código" : "Behind the code"}</p>          <BlurText as="h2" id="about-title" className="about-title-mask" text={es ? "Sobre mí" : "About me"} animateBy="words" direction="bottom" delay={50} blur={8} />
         </AnimatedContent>
         <div className="about-editorial-copy">
           <ScrollRevealText key={language}

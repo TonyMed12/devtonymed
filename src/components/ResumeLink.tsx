@@ -10,9 +10,9 @@ export function ResumeLink({
 }) {
   if (!site.resumeHref) return null;
   return (
-    <a className={`${className} resume-link`} href={site.resumeHref}>
+    <a className={`${className} resume-link`} href={site.resumeHref} target="_blank" rel="noreferrer">
       <Icon name="document" />
-      {language === "es" ? "Ver currículum" : "View résumé"}
+      {language === "es" ? "Ver CV" : "View résumé"}
     </a>
   );
 }
