@@ -1,0 +1,29 @@
+/* Contact: the invitation lives in a highlighted card, separated from the previous section by two crossing ribbons. */
+#contacto.professional-contact { padding-block: 24px 72px; }
+
+.contact-ribbons { --rb-ink: #ffffff; position: relative; height: 150px; margin-bottom: 12px; overflow: hidden; pointer-events: none; user-select: none; }
+:root[data-theme="dark"] .contact-ribbons { --rb-ink: #0b1120; }
+.contact-band { position: absolute; left: -10%; width: 120%; display: flex; overflow: hidden; white-space: nowrap; text-transform: uppercase; }
+.contact-band--front { top: 46px; z-index: 2; height: 56px; transform: rotate(-2deg); background: var(--accent); color: var(--rb-ink); font-size: 18px; font-weight: 700; line-height: 56px; letter-spacing: .14em; box-shadow: 0 18px 40px -22px color-mix(in srgb, var(--accent) 70%, transparent); }
+.contact-band--back { top: 52px; z-index: 1; height: 44px; transform: rotate(1.8deg); border-block: 1px solid color-mix(in srgb, var(--accent) 55%, transparent); background: color-mix(in srgb, var(--accent) 9%, transparent); color: var(--accent); font-size: 14px; font-weight: 600; line-height: 42px; letter-spacing: .18em; }
+.contact-band-track { display: flex; width: max-content; will-change: transform; }
+.contact-band-unit { display: flex; flex: none; }
+.contact-band-unit span { display: inline-flex; align-items: center; gap: 28px; padding-right: 28px; }
+.contact-band-unit i { font-style: normal; font-size: .8em; opacity: .8; }
+
+@property --ct-angle { syntax: "<angle>"; initial-value: 0deg; inherits: false; }
+.professional-contact .contact-composition { position: relative; isolation: isolate; padding: clamp(28px, 4.5vw, 56px); border: 1px solid color-mix(in srgb, var(--accent) 62%, var(--line)); border-radius: 28px; background: radial-gradient(60% 80% at 100% 0%, color-mix(in srgb, var(--accent) 24%, transparent), transparent 70%), linear-gradient(145deg, color-mix(in srgb, var(--accent) 22%, var(--surface)) 0%, color-mix(in srgb, var(--accent) 8%, var(--surface)) 55%, var(--surface) 100%); box-shadow: 0 50px 100px -48px color-mix(in srgb, var(--accent) 75%, transparent), 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent), inset 0 1px 0 color-mix(in srgb, var(--accent) 30%, transparent); }
+/* A streak of light travels along the card's border. */
+@media (prefers-reduced-motion: no-preference) {
+  .professional-contact .contact-composition::before { content: ""; position: absolute; inset: -1px; z-index: 1; padding: 2px; border-radius: inherit; pointer-events: none; background: conic-gradient(from var(--ct-angle), transparent 0 68%, var(--accent) 88%, color-mix(in srgb, var(--accent) 55%, #ffffff) 94%, transparent 100%); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; animation: contact-orbit 7s linear infinite; }
+}
+@keyframes contact-orbit { to { --ct-angle: 360deg; } }
+
+@media (max-width: 760px) {
+  #contacto.professional-contact { padding-block: 16px 48px; }
+  .contact-ribbons { height: 112px; }
+  .contact-band--front { top: 30px; height: 44px; font-size: 14px; line-height: 44px; }
+  .contact-band--back { top: 36px; height: 36px; font-size: 12px; line-height: 34px; }
+  .contact-band-unit span { gap: 20px; padding-right: 20px; }
+  .professional-contact .contact-composition { padding: 24px 20px; border-radius: 22px; }
+}

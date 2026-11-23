@@ -219,7 +219,7 @@ test("project showcase is compact: six cards in two groups, no tabs, case study 
   await changePreferences({ reduced: true });
   const card = query("#projexus");
   assert.equal(card.tagName, "ARTICLE");
-  assert.equal(document.querySelectorAll(".showcase-card").length, 6);
+  assert.equal(document.querySelectorAll(".showcase-card").length, 8);
   assert.equal(document.querySelectorAll(".showcase-group").length, 2);
   assert.equal(document.querySelector("dialog"), null);
   assert.equal(document.querySelector(".showcase-tabs"), null);
@@ -611,6 +611,27 @@ test("credential and research documents are linked as local PDFs that exist", as
   const speaker = query('.research-cloud-security a[href$=".pdf"]').getAttribute("href");
   for (const href of [...courses, speaker, "/credentials/upv-desarrollo-software-seguro.pdf"])
     await access(join("public", href));
+});
+
+test("hackathon and client projects lead the featured group with live links and no private repository", async () => {
+  await language("es");
+  const featured = [...document.querySelectorAll(".showcase-group-featured .showcase-card")].map((card) => card.id);
+  assert.deepEqual(featured.slice(0, 2), ["rutasegura", "alvare-ditana"]);
+  const demo = (id) => [...document.querySelectorAll(`#${id} .showcase-actions a`)].find((link) => link.textContent.includes("Demo")).getAttribute("href");
+  assert.equal(demo("rutasegura"), "https://movilidadurbanaitm.vercel.app/morelia");
+  assert.equal(demo("alvare-ditana"), "https://alvareditana.com");
+  assert.equal(query("#alvare-ditana").querySelector('.showcase-actions a[href*="github.com"]'), null);
+  assert.ok(query("#rutasegura .showcase-evidence").getAttribute("src").endsWith(".webp"));
+  await access(join("public", "projects", "hackapony-equipo.webp"));
+});
+
+test("About shows the four-step continuous improvement cycle in both languages", async () => {
+  await language("es");
+  const steps = [...document.querySelectorAll("#sobre-mi .about-kaizen li strong")].map((el) => el.textContent);
+  assert.deepEqual(steps, ["Planear", "Hacer", "Verificar", "Ajustar"]);
+  await language("en");
+  assert.deepEqual([...document.querySelectorAll("#sobre-mi .about-kaizen li strong")].map((el) => el.textContent), ["Plan", "Do", "Check", "Adjust"]);
+  await language("es");
 });
 
 test("technology stack: six static categories, levels marked, nothing focusable or animated", async () => {

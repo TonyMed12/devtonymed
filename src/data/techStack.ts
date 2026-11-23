@@ -15,16 +15,17 @@ export const techCategories: TechCategory[] = ["languages", "frontend", "backend
 
 export const techStack: TechItem[] = [
   { name: "Java", category: "languages", level: "core", note: ["Fundamentos y backend", "Fundamentals and backend"] },
-  { name: "TypeScript", category: "languages", level: "core", note: ["ProjeXus y este portafolio", "ProjeXus and this portfolio"] },
+  { name: "TypeScript", category: "languages", level: "core", note: ["RutaSegura, Alvare Ditana y ProjeXus", "RutaSegura, Alvare Ditana and ProjeXus"] },
   { name: "JavaScript", category: "languages", level: "core", note: ["Aquamarine y Velto Store", "Aquamarine and Velto Store"] },
   { name: "Python", category: "languages", level: "used", note: ["Detección de fraude", "Fraud detection"] },
   { name: "SQL", category: "languages", level: "used", note: ["Modelado y consultas", "Modeling and queries"] },
 
   { name: "React", category: "frontend", level: "core", note: ["Este portafolio", "This portfolio"] },
-  { name: "Next.js", category: "frontend", level: "core", note: ["ProjeXus", "ProjeXus"] },
-  { name: "Tailwind CSS", category: "frontend", level: "used", note: ["ProjeXus", "ProjeXus"] },
+  { name: "Next.js", category: "frontend", level: "core", note: ["RutaSegura, Alvare Ditana y ProjeXus", "RutaSegura, Alvare Ditana and ProjeXus"] },
+  { name: "Tailwind CSS", category: "frontend", level: "used", note: ["RutaSegura y Alvare Ditana", "RutaSegura and Alvare Ditana"] },
 
   { name: "Spring Boot", category: "backend", level: "used", note: ["ProjeXus (equipo)", "ProjeXus (team)"] },
+  { name: "Supabase", icon: "/tech/supabase.svg", category: "backend", level: "used", note: ["RutaSegura: tiempo real y RLS", "RutaSegura: realtime and RLS"] },
   { name: "Django", icon: "/tech/django.svg", category: "backend", level: "used" },
 
   { name: "PostgreSQL", category: "data", level: "used", note: ["ProjeXus", "ProjeXus"] },
@@ -33,6 +34,7 @@ export const techStack: TechItem[] = [
   { name: "Pandas", category: "data", level: "used", note: ["Detección de fraude", "Fraud detection"] },
 
   { name: "Docker", icon: "/tech/docker.svg", category: "cloud", level: "used" },
+  { name: "Vercel", icon: "/tech/vercel.svg", category: "cloud", level: "used", note: ["RutaSegura y Alvare Ditana", "RutaSegura and Alvare Ditana"] },
   { name: "AWS", icon: "/tech/aws.svg", category: "cloud", level: "learning", note: ["Curso Cloud Operations on AWS · 25 h", "Cloud Operations on AWS course · 25 h"] },
 
   { name: "Git", icon: "/tech/git.svg", category: "tools", level: "core", note: ["Todos los proyectos", "Every project"] },

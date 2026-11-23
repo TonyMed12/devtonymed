@@ -63,6 +63,86 @@ const coordinationWork = [
   ),
 ];
 export const projectStories: Record<string, ProjectStory> = {
+  rutasegura: {
+    title: localized("RutaSegura ITM", "RutaSegura ITM"),
+    context: localized(
+      "Hackatón HackaPony 2026 · Instituto Tecnológico de Morelia",
+      "HackaPony 2026 hackathon · Instituto Tecnológico de Morelia",
+    ),
+    kind: "implementation",
+    contribution: localized(
+      "Líder de un equipo de cuatro personas y responsable del mapa.",
+      "Leader of a four-person team and owner of the map.",
+    ),
+    work: [
+      localized(
+        "Reparto de roles y ramas, y base del repositorio con el contrato de tipos, constantes y estado compartido.",
+        "Role and branch split, and the repository base with the contract of types, constants and shared state.",
+      ),
+      localized(
+        "Mapa interactivo con Mapbox: capas por tipo de dato, íconos, modo oscuro, ubicación y pines de reporte.",
+        "Interactive Mapbox map: layers per data type, icons, dark mode, location and report pins.",
+      ),
+      localized(
+        "Planeación de viaje: ruta más cercana con caminata, dónde subir y bajar, y tiempo de espera.",
+        "Trip planner: nearest route with walking, where to board and get off, and waiting time.",
+      ),
+      localized(
+        "Panel del operador con contraseña, incidencias resueltas y simulador configurable.",
+        "Password-protected operator panel, resolved incidents and a configurable simulator.",
+      ),
+      localized(
+        "Integración de las ramas de todo el equipo.",
+        "Integration of the whole team's branches.",
+      ),
+    ],
+    scope: localized(
+      "Reto 02 del hackatón: transporte público con menos incertidumbre. Cuatro personas, un día de desarrollo y evaluación ante jurado al día siguiente.",
+      "Hackathon challenge 02: public transport with less uncertainty. Four people, one day of development and a jury evaluation the next day.",
+    ),
+    learning: localized(
+      "Aprendí a dividir un producto en módulos con contratos claros para trabajar en paralelo, y a priorizar un flujo principal estable bajo un límite de tiempo.",
+      "I learned to split a product into modules with clear contracts to work in parallel, and to prioritize a stable main flow under a time limit.",
+    ),
+  },
+  "alvare-ditana": {
+    title: localized("Alvare Ditana", "Alvare Ditana"),
+    context: localized(
+      "Proyecto para un negocio real · cafetería en Acámbaro, Guanajuato",
+      "Project for a real business · café in Acámbaro, Guanajuato",
+    ),
+    kind: "implementation",
+    contribution: localized(
+      "Diseño y desarrollo del sitio, en colaboración con Aaron Alessandro Medina Ayala.",
+      "Design and development of the site, in collaboration with Aaron Alessandro Medina Ayala.",
+    ),
+    work: [
+      localized(
+        "Propuesta de sitio con alcance, secciones y características para revisión de la cafetería.",
+        "Site proposal with scope, sections and features for the café's review.",
+      ),
+      localized(
+        "Diseño a partir del brandbook y la identidad visual ya existentes.",
+        "Design based on the existing brandbook and visual identity.",
+      ),
+      localized(
+        "Menú digital con filtrado por categorías, ubicación con Google Maps, reseñas y horario con estado abierto en vivo.",
+        "Digital menu with category filtering, Google Maps location, reviews and hours with a live open status.",
+      ),
+      localized(
+        "Metadatos únicos por página, datos estructurados, sitemap, páginas legales y páginas de error.",
+        "Unique metadata per page, structured data, sitemap, legal pages and error pages.",
+      ),
+    ],
+    scope: localized(
+      "Colaboración sin cobro de honorarios, planteada como propuesta a la cafetería para documentar el trabajo en el portafolio.",
+      "Collaboration without fees, proposed to the café as a way to document the work in the portfolio.",
+    ),
+    learning: localized(
+      "Aprendí a trabajar con una identidad de marca existente y con datos reales de un negocio: menú, horarios, ubicación, formas de pago y avisos legales.",
+      "I learned to work with an existing brand identity and a business's real data: menu, hours, location, payment methods and legal notices.",
+    ),
+  },
   projexus: {
     title: localized("ProjeXus", "ProjeXus"),
     context: localized(

@@ -127,6 +127,9 @@ function ShowcaseCard({ project, language, index }: { project: Project; language
               ))}
             </ol>
           )}
+          {project.evidence && (
+            <img className="showcase-evidence" src={project.evidence.image} alt={project.evidence.alt[es ? 0 : 1]} loading="lazy" draggable={false} />
+          )}
           <div className="showcase-back-links">
             {project.repository && (
               <a href={project.repository} target="_blank" rel="noreferrer">

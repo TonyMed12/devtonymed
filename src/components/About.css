@@ -1,6 +1,6 @@
 /* Editorial About only. No sticky panels, reserved scroll space or global tokens. */
 #sobre-mi.about-editorial { padding-block: 88px; }
-#sobre-mi .about-intro-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.55fr); gap: clamp(40px, 6vw, 88px); align-items: start; }
+#sobre-mi .about-intro-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(40px, 5vw, 72px); align-items: start; }
 #sobre-mi .about-heading { margin: 0; }
 #sobre-mi .about-section-label { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; font-size: 14px; color: var(--accent); }
 #sobre-mi .about-section-label .about-symbol { width: 20px; height: 20px; }
@@ -12,7 +12,37 @@
 #sobre-mi .about-word { display: inline-block; }
 #sobre-mi .about-emphasis { font-weight: 700; color: var(--accent); background-image: linear-gradient(color-mix(in srgb, var(--accent) 16%, transparent), color-mix(in srgb, var(--accent) 16%, transparent)); background-repeat: no-repeat; background-position: left bottom; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
 #sobre-mi .about-lead[data-enhanced="false"] .about-emphasis { background-size: 100% 100% !important; }
-#sobre-mi .about-supporting-copy { font-size: 16px; line-height: 1.7; max-width: 62ch; margin: 24px 0 0; color: var(--muted); }
+#sobre-mi .about-supporting-copy { font-size: 17px; line-height: 1.7; max-width: 62ch; margin: 28px 0 0; color: var(--muted); }
+#sobre-mi .about-left { min-width: 0; }
+/* Featured card: follows the active theme (page tokens) and stands out with an accent border, a soft accent wash and a glow. */
+#sobre-mi .about-kaizen { position: relative; isolation: isolate; margin-top: 28px; padding: 18px 24px 20px; border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line)); border-radius: 20px; background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 11%, var(--surface)), var(--surface) 70%); color: var(--muted); box-shadow: 0 28px 56px -34px color-mix(in srgb, var(--accent) 55%, transparent); }
+#sobre-mi .about-kaizen-head { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
+#sobre-mi .about-kaizen-mark { display: grid; place-items: center; flex: none; width: 40px; height: 40px; border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); border-radius: 12px; background: color-mix(in srgb, var(--accent) 10%, transparent); color: var(--accent); }
+#sobre-mi .about-kaizen-mark svg { width: 24px; height: 24px; }
+#sobre-mi .about-kaizen-label { display: grid; gap: 2px; margin: 0; }
+#sobre-mi .about-kaizen-title { font-size: 16px; font-weight: 700; color: var(--ink); }
+#sobre-mi .about-kaizen-sub { font-size: 12px; letter-spacing: .04em; color: var(--accent); }
+#sobre-mi .about-kaizen-steps { display: grid; gap: 14px; margin: 0; padding: 0; list-style: none; }
+#sobre-mi .about-kaizen-steps li { position: relative; display: grid; grid-template-columns: 24px minmax(0, 1fr); column-gap: 14px; align-items: start; font-size: 14px; line-height: 1.45; color: var(--muted); }
+#sobre-mi .about-kaizen-steps li:not(:last-child)::before { content: ""; position: absolute; left: 11px; top: 26px; bottom: -14px; width: 2px; background: var(--line); transform-origin: top; }
+#sobre-mi .about-kaizen-steps li::after { content: ""; position: absolute; inset: -8px -10px; z-index: -1; border-radius: 12px; background: color-mix(in srgb, var(--accent) 12%, transparent); opacity: 0; }
+#sobre-mi .about-kaizen-n { grid-row: 1 / span 2; position: relative; z-index: 1; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--accent); color: var(--surface); font: 700 12px/1 "Cascadia Code", Consolas, monospace; }
+#sobre-mi .about-kaizen-steps strong { font-size: 15px; color: var(--ink); }
+#sobre-mi .about-kaizen-loop { margin: 10px 0 0 38px; font-size: 13px; color: var(--accent); }
+#sobre-mi .about-kaizen-spin { display: inline-block; }
+#sobre-mi .about-kaizen[data-phase="armed"] li, #sobre-mi .about-kaizen[data-phase="armed"] .about-kaizen-loop { opacity: 0; }
+/* Calm motion: rows enter one by one, then a soft highlight walks through the four steps and the loop arrow turns when the cycle closes. */
+@media (prefers-reduced-motion: no-preference) {
+  #sobre-mi .about-kaizen[data-phase="live"] li { animation: kaizen-in .6s cubic-bezier(.2, .8, .2, 1) both; animation-delay: calc(var(--i) * .35s); }
+  #sobre-mi .about-kaizen[data-phase="live"] li:not(:last-child)::before { animation: kaizen-line .45s ease-out both; animation-delay: calc(var(--i) * .35s + .3s); }
+  #sobre-mi .about-kaizen[data-phase="live"] li::after { animation: kaizen-active 6s ease-in-out infinite; animation-delay: calc(2.2s + var(--i) * 1.5s); }
+  #sobre-mi .about-kaizen[data-phase="live"] .about-kaizen-loop { animation: kaizen-in .6s ease-out 1.5s both; }
+  #sobre-mi .about-kaizen[data-phase="live"] .about-kaizen-spin { animation: kaizen-spin 6s ease-in-out 2.2s infinite; }
+}
+@keyframes kaizen-in { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+@keyframes kaizen-line { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@keyframes kaizen-active { 0%, 100% { opacity: 0; } 6%, 22% { opacity: 1; } 28% { opacity: 0; } }
+@keyframes kaizen-spin { 0%, 75% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
 #sobre-mi .about-principles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 60px); margin-top: 64px; }
 #sobre-mi .about-principle { min-width: 0; }
 #sobre-mi .about-principle-icon { margin-bottom: 20px; width: fit-content; }
@@ -25,6 +55,8 @@
   #sobre-mi .about-title-mask { font-size: 42px; }
   #sobre-mi .about-lead { font-size: clamp(25px, 6.7vw, 30px); line-height: 1.45; }
   #sobre-mi .about-supporting-copy { margin-top: 20px; font-size: 15px; }
+  #sobre-mi .about-left { display: contents; }
+  #sobre-mi .about-kaizen { order: 3; margin-top: 4px; max-width: none; }
   #sobre-mi .about-principles { grid-template-columns: minmax(0, 1fr); gap: 34px; margin-top: 44px; }
   #sobre-mi .about-principle-icon { margin-bottom: 14px; }
   #sobre-mi .about-principle h3 { font-size: 23px; margin-bottom: 10px; }

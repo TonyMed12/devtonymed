@@ -20,6 +20,8 @@ export type Project = {
   caseStudy?: CaseStudy;
   featured?: boolean;
   metrics?: { value: string; label: [string, string] }[];
+  // Foto de respaldo que se muestra en el reverso de la tarjeta.
+  evidence?: { image: string; alt: [string, string] };
 };
 
 // Texto de ejemplo: se reemplazará por el contenido real del caso de estudio.
@@ -30,6 +32,96 @@ export type CaseStudy = {
 };
 
 export const projects: Project[] = [
+  {
+    id: "rutasegura",
+    title: "RutaSegura ITM",
+    featured: true,
+    image: "/projects/rutasegura.webp",
+    demo: "https://movilidadurbanaitm.vercel.app/morelia",
+    repository: "https://github.com/EnrMar17/Hackapony",
+    description: [
+      "Mapa en vivo del transporte público de Morelia: planeación de viaje y reportes en un toque (unidad llena, unidad pasando, incidencia o accesibilidad).",
+      "Live map of Morelia's public transport: trip planning and one-tap reports (full vehicle, vehicle passing, incident or accessibility).",
+    ],
+    context: "Hackatón HackaPony 2026 · Instituto Tecnológico de Morelia",
+    role: "Líder de equipo y mapa",
+    myContribution:
+      "Lideré un equipo de cuatro: preparé la base del repositorio y el contrato entre módulos, desarrollé el mapa interactivo con Mapbox, la planeación de viaje y el panel del operador, e integré las ramas del equipo.",
+    myContributionEn:
+      "I led a four-person team: set up the repository base and the contract between modules, built the interactive Mapbox map, the trip planner and the operator panel, and merged the team's branches.",
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Supabase", "Vercel"],
+    mainTechnologies: ["Next.js", "TypeScript", "Supabase"],
+    metrics: [
+      { value: "4", label: ["integrantes", "team members"] },
+      { value: "1 día", label: ["de desarrollo", "of development"] },
+      { value: "10", label: ["equipos participantes", "competing teams"] },
+    ],
+    caseStudy: {
+      architecture: [
+        ["Cliente web móvil con Next.js 16 y Tailwind", "Mobile web client with Next.js 16 and Tailwind"],
+        ["Mapa con Mapbox GL y cálculos geográficos con Turf.js", "Mapbox GL map with Turf.js geographic calculations"],
+        ["Supabase: Postgres con RLS, tiempo real y autenticación anónima", "Supabase: Postgres with RLS, realtime and anonymous auth"],
+        ["Panel del operador con acceso protegido y simulador de unidades", "Operator panel with protected access and a vehicle simulator"],
+      ],
+      flow: [
+        ["Se elige una ruta o se busca un destino", "A route is chosen or a destination is searched"],
+        ["La app indica dónde subir, dónde bajar y el tiempo de espera", "The app shows where to board, where to get off and the waiting time"],
+        ["Se reporta en un toque y los demás lo ven en vivo", "A report takes one tap and everyone else sees it live"],
+        ["El aviso se confirma entre personas y caduca solo", "The notice is confirmed by other people and expires on its own"],
+      ],
+      result: [
+        "Prototipo funcional publicado y presentado ante el jurado; el equipo recibió medalla y reconocimiento. Los reportes en vivo son reales; la posición de las unidades es simulada.",
+        "Working prototype published and presented to the jury; the team received a medal and recognition. Live reports are real; vehicle positions are simulated.",
+      ],
+    },
+    evidence: {
+      image: "/projects/hackapony-equipo.webp",
+      alt: [
+        "El equipo con las medallas y los reconocimientos de HackaPony 2026",
+        "The team with the HackaPony 2026 medals and certificates",
+      ],
+    },
+    accent: "blue",
+  },
+  {
+    id: "alvare-ditana",
+    title: "Alvare Ditana",
+    featured: true,
+    image: "/projects/alvare-ditana.webp",
+    demo: "https://alvareditana.com",
+    description: [
+      "Sitio de la cafetería Alvare Ditana en Acámbaro, Gto.: menú digital por categorías, historia, ubicación, horario con estado abierto en vivo y reseñas.",
+      "Website for Alvare Ditana café in Acámbaro, Gto.: digital menu by category, story, location, hours with a live open status and reviews.",
+    ],
+    context: "Proyecto para un negocio real · cafetería en Acámbaro, Guanajuato",
+    role: "Diseño y desarrollo web",
+    myContribution:
+      "Diseño y desarrollo del sitio en colaboración con Aaron Alessandro Medina Ayala, desde la propuesta de alcance hasta el sitio publicado, con SEO, páginas legales y accesibilidad básica.",
+    myContributionEn:
+      "Design and development of the site in collaboration with Aaron Alessandro Medina Ayala, from the scope proposal to the published site, with SEO, legal pages and basic accessibility.",
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Vercel"],
+    mainTechnologies: ["Next.js", "TypeScript", "Tailwind CSS"],
+    authors: ["José Antonio Medina Ayala", "Aaron Alessandro Medina Ayala"],
+    caseStudy: {
+      architecture: [
+        ["Next.js 16 (App Router) con TypeScript y Tailwind 4", "Next.js 16 (App Router) with TypeScript and Tailwind 4"],
+        ["Datos del negocio en un solo archivo que alimenta el sitio y los datos estructurados", "Business data in a single file that feeds the site and the structured data"],
+        ["Menú y contenido en archivos del proyecto, sin panel de administración en la primera versión", "Menu and content in project files, with no admin panel in the first version"],
+        ["Publicado en Vercel con dominio propio", "Deployed on Vercel with its own domain"],
+      ],
+      flow: [
+        ["La persona conoce la cafetería y su historia", "The visitor learns about the café and its story"],
+        ["Consulta el menú por categorías", "Browses the menu by category"],
+        ["Ve el horario y si está abierto en ese momento", "Checks the hours and whether it is open right now"],
+        ["Llega con Google Maps o deja una reseña", "Gets there with Google Maps or leaves a review"],
+      ],
+      result: [
+        "Sitio publicado en alvareditana.com, adaptable a celular, con metadatos y datos estructurados para buscadores, páginas de privacidad y cookies, y páginas de error personalizadas.",
+        "Site published at alvareditana.com, mobile-friendly, with search metadata and structured data, privacy and cookies pages, and custom error pages.",
+      ],
+    },
+    accent: "teal",
+  },
   {
     id: "projexus",
     title: "ProjeXus",

@@ -2,39 +2,55 @@ import type { Language } from "../data/i18n";
 import { AnimatedContent } from "./AnimatedContent";
 import { Icon } from "./Icons";
 
-// Strengths drawn from the existing profile, projects and technology list; no metrics or testimonials.
+// Each row pairs a soft skill with the technical work that proves it; claims come from the projects, courses and talks in this portfolio.
 const ROWS: { title: [string, string]; text: [string, string]; tags: string[] }[] = [
   {
-    title: ["Coordinación de equipos", "Team coordination"],
+    title: ["Liderazgo y coordinación", "Leadership and coordination"],
     text: [
-      "Scrum Master de un equipo de cinco personas: planificación, seguimiento y comunicación entre roles.",
-      "Scrum Master for a five-person team: planning, follow-up and communication across roles.",
+      "He dirigido equipos de entre 3 y 13 personas como Scrum Master y Project Manager, además de programar: lógica de negocio, reparto de roles, contratos claros entre módulos e integración del trabajo de todos en Git.",
+      "I have led teams of 3 to 13 people as Scrum Master and Project Manager, on top of programming: business logic, role split, clear contracts between modules and integrating everyone's work in Git.",
     ],
-    tags: ["Scrum", "Planificación", "Comunicación"],
+    tags: ["Scrum", "Project Management", "Git"],
   },
   {
-    title: ["Desarrollo full-stack", "Full-stack development"],
+    title: ["Comunicación clara", "Clear communication"],
     text: [
-      "Interfaces en React y Next.js conectadas a APIs con Spring Boot y bases de datos relacionales.",
-      "React and Next.js interfaces connected to APIs built with Spring Boot and relational databases.",
+      "Traduzco necesidades en requisitos (ERS y BPMN) y las explico con claridad. Un ejemplo: la presentación de prototipos ante jurados (RutaSegura ITM en HackaPony) y mi investigación como ponente en el Congreso Internacional del Verano de la Investigación Científica y Tecnológica del Pacífico.",
+      "I turn needs into requirements (SRS and BPMN) and explain them clearly. An example: presenting prototypes to juries (RutaSegura ITM at HackaPony) and my research as a speaker at the International Congress of the Pacific Summer of Scientific and Technological Research.",
     ],
-    tags: ["Next.js", "Spring Boot", "PostgreSQL"],
+    tags: ["Requisitos", "BPMN", "Presentaciones"],
   },
   {
-    title: ["Datos y aprendizaje automático", "Data and machine learning"],
+    title: ["Pienso en quién lo usa", "I think about who uses it"],
     text: [
-      "Modelos predictivos para detectar fraude, con evaluación cuidadosa en datos desbalanceados.",
-      "Predictive models for fraud detection, carefully evaluated on imbalanced data.",
+      "Me pongo en el lugar de quien lo usa. En RutaSegura, reportes de accesibilidad que cualquier persona entiende en un toque; en Alvare Ditana, no solo un proyecto sino un negocio real, que cuido con SEO para que más personas lo encuentren. Más allá de las necesidades, los detalles cuentan siempre.",
+      "I put myself in the user's place. In RutaSegura, accessibility reports anyone can understand in one tap; in Alvare Ditana, not just a project but a real business, which I look after with SEO so more people can find it. Beyond needs, details always count.",
     ],
-    tags: ["scikit-learn", "XGBoost", "Pandas"],
+    tags: ["Accesibilidad", "SEO", "Next.js"],
   },
   {
-    title: ["Calidad y entrega", "Quality and delivery"],
+    title: ["Aprendo lo que el proyecto pide", "I learn what the project needs"],
     text: [
-      "Pruebas automatizadas con Vitest y Pytest, y validación de datos con Zod.",
-      "Automated tests with Vitest and Pytest, and data validation with Zod.",
+      "Un proyecto no es superficial: si se necesita aprender algo, lo voy a hacer. Por eso, además de construir, sigo preparándome en mi día a día, integrando lo técnico con las habilidades blandas.",
+      "A project is never superficial: if something needs to be learned, I will learn it. That is why, besides building, I keep preparing myself day by day, integrating technical skills with soft skills.",
     ],
-    tags: ["Vitest", "Pytest", "Zod"],
+    tags: ["AWS", "Seguridad", "Ciencia de datos"],
+  },
+  {
+    title: ["IA con criterio", "AI with judgment"],
+    text: [
+      "Integro la inteligencia artificial en mi flujo de desarrollo para producir más, sin soltar el criterio: doy contexto claro y reviso todo lo que genera. En el hackatón, por ejemplo, el equipo trabajó con reglas para sus asistentes de IA: carpetas por persona y contratos entre módulos.",
+      "I integrate artificial intelligence into my development workflow to be more productive without letting go of judgment: I give clear context and review everything it generates. At the hackathon, for example, the team worked with rules for its AI assistants: folders per person and contracts between modules.",
+    ],
+    tags: ["IA generativa", "Claude Code", "Revisión de código"],
+  },
+  {
+    title: ["Rigor y atención al detalle", "Rigor and attention to detail"],
+    text: [
+      "Reviso lo que construyo, porque cada error tiene una consecuencia. En la detección de fraude, por ejemplo, un falso negativo es dinero perdido.",
+      "I check what I build, because every mistake has a consequence. In fraud detection, for example, a false negative is lost money.",
+    ],
+    tags: ["Vitest", "Pytest", "Zod", "scikit-learn"],
   },
 ];
 
@@ -43,7 +59,7 @@ export function WhyWorkWithMe({ language }: { language: Language }) {
   return (
     <section id="por-que-trabajar" className="section-wrap why-section" aria-labelledby="why-title">
       <AnimatedContent className="why-heading" distance={24}>
-        <p className="why-eyebrow">{es ? "Lo que hago bien" : "What I do well"}</p>
+        <p className="why-eyebrow">{es ? "Habilidades blandas y técnicas" : "Soft and technical skills"}</p>
         <h2 id="why-title">{es ? "Por qué trabajar conmigo" : "Why work with me"}</h2>
       </AnimatedContent>
       <ol className="why-list">

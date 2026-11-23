@@ -7,6 +7,8 @@ import { KineticInvitation } from "./KineticInvitation";
 import { LocationGlobe } from "./LocationGlobe";
 import { Icon } from "./Icons";
 import { ResumeLink } from "./ResumeLink";
+import { ContactRibbons } from "./ContactRibbons";
+import "./ContactPanel.css";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import type { PointerEvent as ReactPointerEvent } from "react";
 
@@ -44,11 +46,13 @@ function ProfessionalContact({ language }: { language: Language }) {
   return (
     <section
       id="contacto"
-      className="section-wrap professional-contact"
+      className="professional-contact"
       data-contact="professional"
       aria-label={es ? "Hablemos" : "Let’s talk"}
     >
-      <div className="contact-composition">
+      <ContactRibbons language={language} />
+      <div className="section-wrap contact-inner">
+      <AnimatedContent className="contact-composition" distance={40}>
         <div className="contact-editorial">
           <AnimatedContent distance={24}><KineticInvitation language={language} /></AnimatedContent>
           <BlurText
@@ -133,6 +137,7 @@ function ProfessionalContact({ language }: { language: Language }) {
           </p>
           <span className="contact-location-signature">TM · tonymed.dev</span>
         </AnimatedContent>
+      </AnimatedContent>
       </div>
     </section>
   );
