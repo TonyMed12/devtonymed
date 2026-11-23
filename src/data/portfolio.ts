@@ -22,6 +22,8 @@ export type Project = {
   metrics?: { value: string; label: [string, string] }[];
   // Foto de respaldo que se muestra en el reverso de la tarjeta.
   evidence?: { image: string; alt: [string, string] };
+  // Reconocimiento que se muestra como insignia sobre la imagen.
+  award?: [string, string];
 };
 
 // Texto de ejemplo: se reemplazará por el contenido real del caso de estudio.
@@ -45,6 +47,7 @@ export const projects: Project[] = [
     ],
     context: "Hackatón HackaPony 2026 · Instituto Tecnológico de Morelia",
     role: "Líder de equipo y mapa",
+    award: ["Ganadores de HackaPony 2026", "HackaPony 2026 winners"],
     myContribution:
       "Lideré un equipo de cuatro: preparé la base del repositorio y el contrato entre módulos, desarrollé el mapa interactivo con Mapbox, la planeación de viaje y el panel del operador, e integré las ramas del equipo.",
     myContributionEn:
@@ -70,15 +73,15 @@ export const projects: Project[] = [
         ["El aviso se confirma entre personas y caduca solo", "The notice is confirmed by other people and expires on its own"],
       ],
       result: [
-        "Prototipo funcional publicado y presentado ante el jurado; el equipo recibió medalla y reconocimiento. Los reportes en vivo son reales; la posición de las unidades es simulada.",
-        "Working prototype published and presented to the jury; the team received a medal and recognition. Live reports are real; vehicle positions are simulated.",
+        "Prototipo funcional publicado y presentado ante el jurado; el equipo ganó HackaPony 2026 y recibió medalla y reconocimiento. Los reportes en vivo son reales; la posición de las unidades es simulada.",
+        "Working prototype published and presented to the jury; the team won HackaPony 2026 and received a medal and recognition. Live reports are real; vehicle positions are simulated.",
       ],
     },
     evidence: {
       image: "/projects/hackapony-equipo.webp",
       alt: [
-        "El equipo con las medallas y los reconocimientos de HackaPony 2026",
-        "The team with the HackaPony 2026 medals and certificates",
+        "El equipo ganador con las medallas y los reconocimientos de HackaPony 2026",
+        "The winning team with the HackaPony 2026 medals and certificates",
       ],
     },
     accent: "blue",

@@ -97,8 +97,8 @@ export const projectStories: Record<string, ProjectStory> = {
       ),
     ],
     scope: localized(
-      "Reto 02 del hackatón: transporte público con menos incertidumbre. Cuatro personas, un día de desarrollo y evaluación ante jurado al día siguiente.",
-      "Hackathon challenge 02: public transport with less uncertainty. Four people, one day of development and a jury evaluation the next day.",
+      "Reto 02 del hackatón: transporte público con menos incertidumbre. Cuatro personas, un día de desarrollo y evaluación ante jurado al día siguiente. El equipo ganó el hackatón.",
+      "Hackathon challenge 02: public transport with less uncertainty. Four people, one day of development and a jury evaluation the next day. The team won the hackathon.",
     ),
     learning: localized(
       "Aprendí a dividir un producto en módulos con contratos claros para trabajar en paralelo, y a priorizar un flujo principal estable bajo un límite de tiempo.",

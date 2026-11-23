@@ -15,8 +15,8 @@ const ROWS: { title: [string, string]; text: [string, string]; tags: string[] }[
   {
     title: ["Comunicación clara", "Clear communication"],
     text: [
-      "Traduzco necesidades en requisitos (ERS y BPMN) y las explico con claridad. Un ejemplo: la presentación de prototipos ante jurados (RutaSegura ITM en HackaPony) y mi investigación como ponente en el Congreso Internacional del Verano de la Investigación Científica y Tecnológica del Pacífico.",
-      "I turn needs into requirements (SRS and BPMN) and explain them clearly. An example: presenting prototypes to juries (RutaSegura ITM at HackaPony) and my research as a speaker at the International Congress of the Pacific Summer of Scientific and Technological Research.",
+      "Traduzco necesidades en requisitos (ERS y BPMN) y las explico con claridad. Un ejemplo: la presentación de prototipos ante jurados (RutaSegura ITM, ganador de HackaPony) y mi investigación como ponente en el Congreso Internacional del Verano de la Investigación Científica y Tecnológica del Pacífico.",
+      "I turn needs into requirements (SRS and BPMN) and explain them clearly. An example: presenting prototypes to juries (RutaSegura ITM, HackaPony winner) and my research as a speaker at the International Congress of the Pacific Summer of Scientific and Technological Research.",
     ],
     tags: ["Requisitos", "BPMN", "Presentaciones"],
   },

@@ -622,6 +622,7 @@ test("hackathon and client projects lead the featured group with live links and 
   assert.equal(demo("alvare-ditana"), "https://alvareditana.com");
   assert.equal(query("#alvare-ditana").querySelector('.showcase-actions a[href*="github.com"]'), null);
   assert.ok(query("#rutasegura .showcase-evidence").getAttribute("src").endsWith(".webp"));
+  assert.match(query("#rutasegura .showcase-award").textContent, /Ganadores de HackaPony 2026/);
   await access(join("public", "projects", "hackapony-equipo.webp"));
 });
 
