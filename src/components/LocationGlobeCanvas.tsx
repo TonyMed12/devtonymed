@@ -58,8 +58,10 @@ export default function LocationGlobeCanvas() {
     const state = { lng: location.longitude, lat: location.latitude, drag: false, lastX: 0, lastY: 0, time: 0 };
     const paint = (progress: number) => {
       const dark = document.documentElement.dataset.theme === "dark";
-      const ink = dark ? "#60a5fa" : "#1d4ed8";
-      const grid = dark ? "#334766" : "#cbd5e1";
+      const css = getComputedStyle(document.documentElement);
+      const pick = (name: string, fallback: string) => css.getPropertyValue(name).trim() || fallback;
+      const ink = pick("--globe-ink", dark ? "#60a5fa" : "#1d4ed8");
+      const grid = pick("--globe-grid", dark ? "#334766" : "#cbd5e1");
       const k = camera(
         state.lng + (1 - progress) * 14,
         state.lat - (1 - progress) * 5,
@@ -71,7 +73,7 @@ export default function LocationGlobeCanvas() {
         return { x: center + p[0] * r, y: center - p[1] * r, z: p[2] };
       };
       ctx.clearRect(0, 0, size, size);
-      ctx.fillStyle = dark ? "#101c31" : "#eff6ff";
+      ctx.fillStyle = pick("--globe-fill", dark ? "#101c31" : "#eff6ff");
       ctx.beginPath();
       ctx.arc(center, center, r, 0, Math.PI * 2);
       ctx.fill();

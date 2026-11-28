@@ -1,0 +1,73 @@
+/* Cantera style (test): ink blue and burnt orange palette, hairline panels, numbered sections, and monospaced labels.
+   Everything is scoped to <html data-style="cantera">. Add ?estilo=azul to the URL to see the previous look, or delete
+   the data-style line in index.html and the two imports in main.tsx to remove it. */
+
+
+/* 1. Palette A: ink blue and burnt orange (light = cool paper, dark = deep ink). */
+:root[data-style="cantera"] { --mono: ui-monospace, "Cascadia Code", Consolas, monospace; --radius: 4px; }
+:root[data-style="cantera"]:not([data-theme="dark"]) {
+  --paper: #f6f7fa; --surface: #ffffff; --surface-alt: #ebeef4; --ink: #14213a; --muted: #55627a; --accent: #b9420e; --blue: #b9420e; --lime: #e8742f; --line: #d6dbe5;
+  --choice-bg: #ebeef4; --band-surface: #ffffff; --principle-surface: #ebeef4; --spotlight: #b9420e; --dark: #0f1724; --dark-text: #eef2f8; --dark-muted: #aab6c8;
+  --ribbon-accent: #b9420e; --ribbon-dot: #b9420e; --trail-color: #b9420e;
+}
+:root[data-style="cantera"][data-theme="dark"] {
+  --paper: #0f1724; --surface: #172236; --surface-alt: #1e2b44; --ink: #eef2f8; --muted: #aab6c8; --accent: #ff8a4c; --blue: #ff8a4c; --lime: #ff8a4c; --line: #2a3850;
+  --choice-bg: #1e2b44; --band-surface: #172236; --principle-surface: #1e2b44; --spotlight: #ff8a4c; --dark: #0a101b; --dark-text: #eef2f8; --dark-muted: #aab6c8;
+  --ribbon-accent: #ff8a4c; --ribbon-dot: #ff8a4c; --trail-color: #ff8a4c;
+}
+:root[data-style="cantera"] .button-primary { background: var(--accent); border-color: var(--accent); color: #ffffff; }
+:root[data-style="cantera"] .button-primary:hover { background: color-mix(in srgb, var(--accent) 86%, #000); border-color: color-mix(in srgb, var(--accent) 86%, #000); }
+:root[data-style="cantera"][data-theme="dark"] .button-primary { color: #0f1724; }
+:root[data-style="cantera"] ::selection { background: color-mix(in srgb, var(--accent) 38%, transparent); color: var(--ink); }
+:root[data-style="cantera"][data-theme="dark"] .contact-ribbons { --rb-ink: #0f1724; }
+:root[data-style="cantera"][data-theme="dark"] .showcase-award { --aw-ink: #0f1724; }
+:root[data-style="cantera"][data-theme="dark"] .hero-news-title b { color: #0f1724; }
+
+/* 2. Flat background: no grain, no dot grid, no orbit ring, no cursor spotlights, flat panels. */
+:root[data-style="cantera"] .dot-grid-backdrop, :root[data-style="cantera"] .hero-orbit, :root[data-style="cantera"] .hero-ambient, :root[data-style="cantera"] .card-spotlight-clip { display: none; }
+:root[data-style="cantera"] .portrait-stage { background: none; }
+:root[data-style="cantera"] :is(.about-kaizen, .contact-composition) { background: var(--surface); box-shadow: none; border-color: var(--line); }
+:root[data-style="cantera"] .contact-composition { border-color: var(--accent); }
+:root[data-style="cantera"] .hero-news { background: var(--surface); border-color: var(--line); }
+:root[data-style="cantera"] .hero-news-icon { background: var(--surface-alt); }
+
+/* 3. Hero background: contour lines of the Morelia valley (default) or its transport routes (?fondo=rutas). */
+.route-backdrop { display: none; }
+:root[data-style="cantera"] #inicio { position: relative; }
+:root[data-style="cantera"][data-bg="rutas"] .route-backdrop { display: block; position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; fill: none; stroke: var(--accent); stroke-width: .9; stroke-opacity: .22; stroke-linecap: round; stroke-linejoin: round; -webkit-mask-image: radial-gradient(ellipse 52% 72% at 80% 46%, #000 20%, transparent 90%); mask-image: radial-gradient(ellipse 52% 72% at 80% 46%, #000 20%, transparent 90%); }
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-style="cantera"][data-bg="rutas"] .route-backdrop path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: route-draw 2.8s cubic-bezier(.4, 0, .2, 1) forwards; animation-delay: calc(var(--i) * .16s + .5s); }
+}
+@keyframes route-draw { to { stroke-dashoffset: 0; } }
+.contour-backdrop { display: none; }
+:root[data-style="cantera"]:not([data-bg="rutas"]) .contour-backdrop { display: block; position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; fill: none; stroke: var(--accent); stroke-linecap: round; stroke-linejoin: round; -webkit-mask-image: radial-gradient(ellipse 72% 88% at 70% 48%, #000 28%, transparent 96%); mask-image: radial-gradient(ellipse 72% 88% at 70% 48%, #000 28%, transparent 96%); }
+:root[data-style="cantera"] .contour-minor path { stroke-width: .7; stroke-opacity: .16; }
+:root[data-style="cantera"] .contour-major path { stroke-width: 1.1; stroke-opacity: .36; }
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-style="cantera"] .contour-backdrop { animation: contour-in 2.4s ease-out both; }
+  :root[data-style="cantera"] .contour-major path { stroke-dasharray: 1; stroke-dashoffset: 1; animation: route-draw 3s cubic-bezier(.4, 0, .2, 1) forwards; animation-delay: calc(var(--i) * .08s + .4s); }
+}
+@keyframes contour-in { from { opacity: 0; } to { opacity: 1; } }
+
+/* 4. Monospaced labels and numbered sections with a hairline. */
+:root[data-style="cantera"] :is(.why-eyebrow, .about-section-label, .showcase-group-title, .showcase-role, .about-kaizen-label, .about-kaizen-sub, .hero-news-date, .hero-news-title b, .contact-band, .tech-stack dt, .tech-stack h3, .research-status, .course-status) { font-family: var(--mono); }
+:root[data-style="cantera"] main { counter-reset: sec; }
+:root[data-style="cantera"] :is(#tecnologias, #proyectos > .section-wrap, #por-que-trabajar, #formacion > .section-wrap, #sobre-mi)::before {
+  counter-increment: sec; content: counter(sec, decimal-leading-zero); display: block; margin-bottom: 30px; padding-bottom: 0; font: 600 12px/1 var(--mono); letter-spacing: .16em; color: var(--accent);
+  background: repeating-linear-gradient(90deg, var(--accent) 0 6px, transparent 6px 11px) 100% 55% / calc(100% - 34px) 1.5px no-repeat;
+}
+
+/* Globe colors (read by LocationGlobeCanvas). */
+:root[data-style="cantera"] { --globe-grid: #2a3850; --globe-fill: #0b1220; --globe-ink: #ff8a4c; }
+:root[data-style="cantera"]:not([data-theme="dark"]) { --globe-grid: #d6dbe5; --globe-fill: #ebeef4; --globe-ink: #b9420e; }
+
+/* Map note: a figure caption under the hero map that says what the lines are. */
+.map-note { display: none; }
+:root[data-style="cantera"] .map-note { display: grid; gap: 3px; grid-column: 1 / -1; justify-self: end; max-width: 540px; margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--line); text-align: right; font: 11px/1.55 var(--mono); color: var(--muted); }
+:root[data-style="cantera"] .map-note p { margin: 0; }
+:root[data-style="cantera"] .map-note-title { color: var(--accent); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+:root[data-style="cantera"] .map-note-meaning { color: var(--ink); }
+@media (min-width: 761px) { :root[data-style="cantera"] .map-note-meaning { white-space: nowrap; } }
+:root[data-style="cantera"]:not([data-bg="rutas"]) .map-note-routes, :root[data-style="cantera"][data-bg="rutas"] .map-note-contours { display: none; }
+@media (max-width: 760px) { :root[data-style="cantera"] .map-note { order: 10; justify-self: start; text-align: left; max-width: none; } }
+

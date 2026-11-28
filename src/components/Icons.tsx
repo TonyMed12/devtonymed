@@ -17,10 +17,12 @@ export function Icon({
     | "document"
     | "location"
     | "moon"
-    | "sun";
+    | "sun"
+    | "trophy";
   className?: string;
 }) {
   const paths = {
+    trophy: "M8 21h8M12 17v4M7 4h10M17 4v8a5 5 0 0 1-10 0V4M5 9a2 2 0 1 1 0-4M19 9a2 2 0 1 0 0-4",
     moon: "M20.6 13A8.7 8.7 0 0 1 11 3.4 8.7 8.7 0 1 0 20.6 13Z",
     sun: "M12 8a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5",
     location:

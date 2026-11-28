@@ -129,28 +129,9 @@
 /* Hero facts: 2x2 grid under the portrait, aligned to its width. */
 
 /* Page-wide ambient background: two soft colour fields drifting slowly behind the content. */
-.ambient-bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.ambient-bg::before,
-.ambient-bg::after {
-  content: "";
-  position: absolute;
-  width: 62vmax;
-  height: 62vmax;
-  border-radius: 50%;
-  opacity: .16;
-  filter: blur(40px);
-}
-.ambient-bg::before { top: -18vmax; left: -14vmax; background: radial-gradient(circle, var(--accent), transparent 68%); }
-.ambient-bg::after { bottom: -20vmax; right: -16vmax; background: radial-gradient(circle, #0ea5e9, transparent 68%); }
-@media (prefers-reduced-motion: no-preference) {
-  .ambient-bg::before { animation: ambient-drift-a 26s ease-in-out infinite alternate; }
-  .ambient-bg::after { animation: ambient-drift-b 32s ease-in-out infinite alternate; }
-}
-@keyframes ambient-drift-a { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(14vw, 10vh, 0) scale(1.15); } }
-@keyframes ambient-drift-b { from { transform: translate3d(0, 0, 0) scale(1); } to { transform: translate3d(-12vw, -8vh, 0) scale(1.1); } }
 
 /* Hero terminal: compact, so it sits level with the copy and never crowds the buttons. */
-.hero-terminal .h-80 { height: 12.5rem; }
+.hero-terminal .h-80 { height: 15.5rem; }
 .hero-terminal > div { margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; }
 
 /* Technologies bento: four cards of different sizes; the complementary block is a dotted frame with marquees. */

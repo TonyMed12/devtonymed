@@ -10,8 +10,8 @@ export const profile = {
     "Junior Full-Stack Developer",
   ),
   availability: localized(
-    "Busco residencia profesional o prácticas",
-    "Seeking a professional residency or internship",
+    "Disponible para residencia o prácticas profesionales",
+    "Available for a professional residency or internship",
   ),
   heading: localized("De la idea", "From idea"),
   headingAccent: localized("al código.", "to code."),
@@ -97,8 +97,8 @@ export const projectStories: Record<string, ProjectStory> = {
       ),
     ],
     scope: localized(
-      "Reto 02 del hackatón: transporte público con menos incertidumbre. Cuatro personas, un día de desarrollo y evaluación ante jurado al día siguiente. El equipo ganó el hackatón.",
-      "Hackathon challenge 02: public transport with less uncertainty. Four people, one day of development and a jury evaluation the next day. The team won the hackathon.",
+      "Reto 02 del hackatón: transporte público con menos incertidumbre. Cuatro personas, un día de desarrollo y evaluación ante jurado al día siguiente. El equipo obtuvo el 1.er lugar.",
+      "Hackathon challenge 02: public transport with less uncertainty. Four people, one day of development and a jury evaluation the next day. The team took 1st place.",
     ),
     learning: localized(
       "Aprendí a dividir un producto en módulos con contratos claros para trabajar en paralelo, y a priorizar un flujo principal estable bajo un límite de tiempo.",
@@ -108,8 +108,8 @@ export const projectStories: Record<string, ProjectStory> = {
   "alvare-ditana": {
     title: localized("Alvare Ditana", "Alvare Ditana"),
     context: localized(
-      "Proyecto para un negocio real · cafetería en Acámbaro, Guanajuato",
-      "Project for a real business · café in Acámbaro, Guanajuato",
+      "Proyecto digital para cafetería en Acámbaro, Guanajuato",
+      "Digital project for a café in Acámbaro, Guanajuato",
     ),
     kind: "implementation",
     contribution: localized(

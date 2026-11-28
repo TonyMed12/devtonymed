@@ -9,8 +9,8 @@ export function TechnologySection({ language }: { language: Language }) {
   return (
     <section id="tecnologias" className="section-wrap tech-section">
       <Reveal className="section-heading" stagger={0.08} distance={24}>
-        <SplitText tag="h2" text={t.title} splitType="words" textAlign="left" delay={60} />
-        <BlurText text={t.lead} animateBy="words" direction="bottom" delay={60} blur={8} />
+        <SplitText tag="h2" text={t.title} splitType="words" textAlign="left" delay={60} rootMargin="0px" />
+        <BlurText text={t.lead} animateBy="words" direction="bottom" delay={60} blur={8} rootMargin="-40px" />
       </Reveal>
       <Reveal distance={20} delay={0.12}>
         {/* Cambia a variant="chips" para la propuesta compacta. */}

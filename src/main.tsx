@@ -2,6 +2,8 @@ import { Component, StrictMode, type ReactNode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import './styles/cantera.css'
+import './styles/cantera-shapes.css'
 
 const root = document.getElementById('root')!
 const staticContent = root.innerHTML

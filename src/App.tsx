@@ -24,6 +24,9 @@ import { projects } from "./data/portfolio";
 import { ResearchDialog, type ResearchId } from "./components/ResearchDialog";
 import { TechnologySection } from "./components/TechnologySection";
 import { HeroPortrait } from "./components/HeroPortrait";
+import { RouteBackdrop } from "./components/RouteBackdrop";
+import { ContourBackdrop } from "./components/ContourBackdrop";
+import { MapNote } from "./components/MapNote";
 import { LineReveal } from "./components/LineReveal";
 import { About } from "./components/About";
 import { ReadingProgress } from "./components/ReadingProgress";
@@ -89,6 +92,7 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
   }, [menuOpen]);
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    delete document.documentElement.dataset.boot;
     document.documentElement.lang = language;
     document.title = site.title;
     document
@@ -243,9 +247,10 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
           </header>
           <EntranceReady value={introReady}>
           <main id="contenido">
-            <div className="ambient-bg" aria-hidden="true" />
             <ScrollProgress />
             <section ref={heroRef} id="inicio" className="hero hero-stage-one section-wrap">
+              <RouteBackdrop />
+              <ContourBackdrop />
               <div className="hero-copy">
                 <div>
                   <h1 className="hero-name" aria-label={site.fullName}>
@@ -265,6 +270,22 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
                     <p className="hero-degree">
                       {read(profile.degree, language)} <span>{t.school}</span>
                     </p>
+                    <a className="hero-news" href="#rutasegura">
+                      <span className="hero-news-icon"><Icon name="trophy" /></span>
+                      <span className="hero-news-body">
+                        <span className="hero-news-title">
+                          <b>{es ? "Nuevo" : "New"}</b>
+                          {es ? "1.er lugar en HackaPony 2026" : "1st place at HackaPony 2026"}
+                        </span>
+                        <span className="hero-news-text">
+                          {es
+                            ? "Líder del equipo ganador del hackatón “HackaPony 2026” del Instituto Tecnológico de Morelia."
+                            : "Leader of the winning team at the “HackaPony 2026” hackathon of the Instituto Tecnológico de Morelia."}
+                        </span>
+                        <span className="hero-news-date">{es ? "19 y 20 de noviembre de 2026" : "November 19–20, 2026"}</span>
+                      </span>
+                      <Icon name="arrow" />
+                    </a>
                   </div>
                 </div>
                 <div className="intro-block intro-actions">
@@ -302,6 +323,7 @@ function App({ staticView = false, staticLanguage = "es" }: { staticView?: boole
                   <HeroTerminal language={language} />
                 </div>
               </div>
+              <MapNote language={language} />
             </section>
             <TechnologySection language={language} />
             <section id="proyectos" className="projects-section">

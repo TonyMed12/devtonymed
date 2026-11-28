@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link id="favicon" rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="%SITE_DESCRIPTION%" />
     <link rel="canonical" href="%SITE_URL%" />
@@ -13,6 +13,30 @@
     <meta property="og:image" content="%SITE_URL%/profesionaltony.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
     <title>%SITE_TITLE%</title>
+    <script>
+      // Same rule as App: saved theme, else the system one. Set before the first paint so nothing flashes light.
+      (function () {
+        var html = document.documentElement, theme;
+        try { theme = localStorage.getItem("portfolio-theme"); } catch (e) {}
+        if (theme !== "light" && theme !== "dark") theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        html.dataset.theme = theme;
+        // Visual style under test: "cantera" by default; ?estilo=azul brings the previous look back (and remembers it).
+        var style = "cantera", bg = "curvas";
+        try {
+          var query = new URLSearchParams(location.search);
+          if (query.get("estilo")) localStorage.setItem("portfolio-style", query.get("estilo") === "azul" ? "azul" : "cantera");
+          if (query.get("fondo")) localStorage.setItem("portfolio-bg", query.get("fondo") === "rutas" ? "rutas" : "curvas");
+          style = localStorage.getItem("portfolio-style") || "cantera";
+          bg = localStorage.getItem("portfolio-bg") || "curvas";
+        } catch (e) {}
+        if (style === "cantera") html.dataset.style = "cantera";
+        html.dataset.bg = bg;
+        if (style === "cantera") document.getElementById("favicon").href = "/favicon-tinta.svg";
+        // Hides the static snapshot while the app boots; App clears it, and this timer does if the bundle never mounts.
+        html.dataset.boot = "";
+        setTimeout(function () { delete html.dataset.boot; }, 5000);
+      })();
+    </script>
   </head>
 
   <body>

@@ -55,3 +55,8 @@ Compatibilidad, cambios, rendimiento y límites de prueba visual: `docs/LANYARD-
 
 - `tech/docker.svg`, `tech/django.svg`, `tech/mysql.svg`, `tech/aws.svg` y `tech/git.svg`: copiados de Tabler Icons (MIT, `tech/TABLER-ICONS-LICENSE.txt`), con el trazo fijado a `#172c49`.
 - `tech/vitest.svg` y `tech/pytest.svg`: Simple Icons 15.0.0 (CC0, `tech/SIMPLE-ICONS-LICENSE.txt`), con el relleno fijado al color de cada marca.
+
+## Estilo "cantera" (prueba)
+
+- Rutas del fondo del inicio: trazos simplificados de las rutas de transporte público de Morelia de RutaSegura ITM, calculadas con OSRM sobre datos de OpenStreetMap (© colaboradores de OpenStreetMap, ODbL). Datos en `src/data/moreliaRoutes.ts`.
+- Curvas de nivel del fondo del inicio: calculadas con elevaciones de Copernicus DEM GLO-90 (© Unión Europea / ESA, licencia CC BY 4.0) obtenidas vía la API de Open-Meteo. Datos en `src/data/moreliaContours.ts`.
